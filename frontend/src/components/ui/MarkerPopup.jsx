@@ -1,8 +1,8 @@
 import React from 'react';
-import StarsRaiting from './StarsRaiting';
 import { FaYoutube } from 'react-icons/fa';
 import { BiSolidNavigation } from 'react-icons/bi';
 import { Popup } from 'react-map-gl';
+import Rating from './Rating';
 
 function MarkerPopup({ popupInfo, setPopupInfo }) {
   return (
@@ -36,7 +36,7 @@ function MarkerPopup({ popupInfo, setPopupInfo }) {
 
         <div className="flex justify-between items-center gap-5 pt-1">
           <span className="pb-1">
-            <StarsRaiting rating={popupInfo.rating} />
+            <Rating rating={popupInfo.rating} />
           </span>
           <div className="flex items-center gap-3">
             <button className="flex justify-center items-center border border-red-500  p-2 text-xl text-red-500  rounded-full transition-all hover:scale-105 ">
