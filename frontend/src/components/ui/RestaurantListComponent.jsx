@@ -1,13 +1,21 @@
 import React from 'react';
 import img from '../../assets/logo.png';
 import Rating from './Rating';
+import { useMap } from 'react-map-gl';
 
-function RestaurantListComponent({ restaurant }) {
-  const { _id, name, address, type, rating } = restaurant;
+function RestaurantListComponent({ restaurant, setPopupInfo }) {
+  const { name, address, type, rating, latlng } = restaurant;
+  const { mapMain } = useMap();
+
+  const handleClick = () => {
+    mapMain.flyTo({ center: [latlng.lng, latlng.lat], zoom: 13 });
+    setPopupInfo(restaurant);
+  };
+
   return (
     <div
-      key={_id}
-      className="container mx-auto px-4 py-4 flex gap-2 items-center hover:bg-gray-200 transition-colors rounded-lg"
+      className="container mx-auto px-4 py-4 flex gap-2 items-center hover:bg-gray-200 transition-colors rounded-lg cursor-pointer"
+      onClick={handleClick}
     >
       <img
         src={img}
