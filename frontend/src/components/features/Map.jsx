@@ -8,6 +8,7 @@ import MapMarker from '../ui/MapMarker';
 function Map({ data }) {
   return (
     <MapGL
+      id="mapMain"
       mapboxAccessToken={import.meta.env.VITE_MAP_TOKEN}
       initialViewState={{
         longitude: 21.017532,
