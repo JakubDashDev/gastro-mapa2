@@ -1,5 +1,6 @@
 import React from 'react';
 import RestaurantListComponent from '../ui/RestaurantListComponent';
+import Search from './Search';
 
 function SideNav({ data }) {
   return (
@@ -8,8 +9,8 @@ function SideNav({ data }) {
         Gastro Mapa
       </h1>
 
-      <div className="my-6">
-        <span>Search</span>
+      <div className="container mx-auto px-4 my-6">
+        <Search />
       </div>
       <div className="my-6">
         <span>Sort</span>
@@ -17,7 +18,7 @@ function SideNav({ data }) {
 
       <div>
         {data.map((restaurant) => {
-          return <RestaurantListComponent restaurant={restaurant} />;
+          return <RestaurantListComponent key={restaurant._id} restaurant={restaurant} />;
         })}
       </div>
     </div>
