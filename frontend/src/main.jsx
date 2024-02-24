@@ -4,11 +4,14 @@ import App from './App.jsx';
 import './index.css';
 import { Provider } from 'react-redux';
 import store from './redux/store.js';
+import { MapProvider } from 'react-map-gl';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <MapProvider>
+        <App />
+      </MapProvider>
     </Provider>
   </React.StrictMode>
 );
