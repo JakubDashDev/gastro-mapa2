@@ -23,7 +23,7 @@ const getAllRestaurants = asnycHandler(async (req, res) => {
         ],
       }
     : {};
-  const restaurants = await Restaurant.find(find);
+  const restaurants = await Restaurant.find(find).sort({ name: 1 });
 
   res.json(restaurants);
 });
