@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Map from './components/features/Map';
 import { useGetRestaurantsQuery } from './services/restaurantsApi';
 import Loader from './components/ui/Loader';
-import SideNav from './components/features/SideNav';
+import SideNav from './components/ui/SideNav';
 import { useDispatch, useSelector } from 'react-redux';
 import { setRestaurants } from './redux/restaurantsSlice';
 import useGetRestaurants from './hooks/useGetRestaurants';

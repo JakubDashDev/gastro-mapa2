@@ -1,6 +1,7 @@
 import React from 'react';
-import RestaurantListComponent from '../ui/RestaurantListComponent';
-import Search from './Search';
+import RestaurantListComponent from './RestaurantListComponent';
+import Search from '../features/Search';
+import SortDropdown from '../features/SortDropdown';
 
 function SideNav({ data }) {
   return (
@@ -12,13 +13,18 @@ function SideNav({ data }) {
       <div className="container mx-auto px-4 my-6">
         <Search />
       </div>
-      <div className="my-6">
-        <span>Sort</span>
+      <div className="container mx-auto px-4 my-6">
+        <SortDropdown />
       </div>
 
       <div>
         {data.map((restaurant) => {
-          return <RestaurantListComponent key={restaurant._id} restaurant={restaurant} />;
+          return (
+            <RestaurantListComponent
+              key={restaurant._id}
+              restaurant={restaurant}
+            />
+          );
         })}
       </div>
     </div>
