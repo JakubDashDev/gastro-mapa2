@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef } from 'react';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl';
-import { Map as MapGL, Marker, Popup } from 'react-map-gl';
+import { GeolocateControl, Map as MapGL, Marker, Popup } from 'react-map-gl';
 import MapMarker from '../ui/MapMarker';
 // mapboxgl.accessToken = import.meta.env.VITE_MAP_TOKEN;
 
@@ -24,6 +24,11 @@ function Map({ data }) {
       }}
     >
       <MapMarker data={data} />
+      <GeolocateControl
+        positionOptions={{ enableHighAccuracy: true }}
+        trackUserLocation={true}
+        showUserHeading={true}
+      />
     </MapGL>
   );
 }
