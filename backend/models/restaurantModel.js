@@ -24,7 +24,7 @@ const restaurantSchema = new mongoose.Schema({
   address: addressSchema,
   type: [String],
   latlng: latLngSchema,
-  rating: { type: Schema.Types.Mixed, required: true },
+  rating: { type: Number, required: true },
   youtubeRef: youtubeRefSchema,
 });
 
