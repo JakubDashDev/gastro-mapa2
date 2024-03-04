@@ -36,7 +36,9 @@ function Search() {
       <MdOutlineSearch className="absolute top-[50%] left-2 translate-y-[-50%] text-xl text-gray-400" />
       <input
         className={`w-full bg-gray-200 py-2 px-8 rounded-lg outline-none ${
-          isCustomText ? 'text-primary-500 font-loader pt-3' : 'text-black font-sans'
+          isCustomText
+            ? 'text-primary-500 font-loader pt-3'
+            : 'text-black font-sans'
         }`}
         placeholder="Wyszukaj..."
         value={inputState}
