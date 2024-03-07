@@ -2,7 +2,7 @@ import React from 'react';
 import RestaurantListComponent from './RestaurantListComponent';
 import Search from '../features/Search';
 import SortDropdown from '../features/SortDropdown';
-import Filter from '../features/Filter';
+import FilterButton from '../features/FilterButton';
 
 function SideNav({ data }) {
   return (
@@ -16,7 +16,7 @@ function SideNav({ data }) {
       </div>
       <div className="container mx-auto px-4 my-6 flex justify-between items-center">
         <SortDropdown />
-        <Filter />
+        <FilterButton />
       </div>
 
       <div>

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FaFilter } from 'react-icons/fa';
 import FilterSideNav from '../ui/FilterSideNav';
 
-function Filter() {
+function FilterButton() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -17,4 +17,4 @@ function Filter() {
   );
 }
 
-export default Filter;
+export default FilterButton;
