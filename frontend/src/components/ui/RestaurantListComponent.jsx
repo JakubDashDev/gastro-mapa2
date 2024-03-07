@@ -30,7 +30,7 @@ function RestaurantListComponent({ restaurant, setPopupInfo }) {
 
         <div className="flex items-center gap-2">
           <span className="text-gray-400 capitalize ">{type[0]}</span>
-          <Rating rating={rating} />
+          <Rating rating={rating} isText />
         </div>
       </div>
     </div>
