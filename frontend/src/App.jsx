@@ -31,7 +31,7 @@ function useGetData() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getRestaurants({ keyword: undefined });
+    getRestaurants({ keyword: undefined, filter: undefined });
   }, []);
 
   useEffect(() => {

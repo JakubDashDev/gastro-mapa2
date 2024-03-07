@@ -24,7 +24,7 @@ function Search() {
 
   const handleSearch = (event) => {
     event.preventDefault();
-    getRestaurants({ keyword: inputState });
+    getRestaurants({ keyword: inputState, filter: undefined });
   };
 
   const handleClearInput = () => {
