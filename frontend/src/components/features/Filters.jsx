@@ -1,15 +1,15 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { RATING_ARRAY, CATEGORY_ARRAY } from '../../../constatns';
-import { FaStar } from 'react-icons/fa';
 import Rating from '../ui/Rating';
 import { useDispatch, useSelector } from 'react-redux';
-import { current } from '@reduxjs/toolkit';
 import { useLazyGetRestaurantsQuery } from '../../services/restaurantsApi';
 import { setRestaurants } from '../../redux/restaurantsSlice';
+import { FilterContext } from './FilterButton';
 
-function Filters({ setIsOpen }) {
+function Filters() {
+  const { setIsOpen, ratingQuery, setRatingQuery } = useContext(FilterContext);
+
   const dispatch = useDispatch();
-  const [ratingQuery, setRatingQuery] = useState([]);
   const [getRestaurants, { isLoading, error }] = useLazyGetRestaurantsQuery();
 
   const handleSubmit = (event) => {
@@ -19,6 +19,7 @@ function Filters({ setIsOpen }) {
       filters: JSON.stringify(ratingQuery),
     })
       .then((res) => dispatch(setRestaurants(res.data)))
+      .then(() => setIsOpen((current) => !current))
       .catch((err) => alert(err.message));
   };
 
@@ -84,25 +85,48 @@ function Filters({ setIsOpen }) {
 export default Filters;
 
 function FilterButton({ value, ratingQuery, setRatingQuery, disabled }) {
+  const condition = ratingQuery.some(
+    (item) => item.value.$gte === value || item.value === value
+  );
+
+  const [checked, setChecked] = useState(condition);
+
+  //NOTE: this is for handleClear func in parent and for handlig checked state
+  useEffect(() => {
+    setChecked(condition);
+  }, [ratingQuery]);
+
   const handleClick = () => {
-    if (typeof value === 'number') {
-      ratingQuery.some((item) => item.value.$gte === value)
-        ? setRatingQuery((current) =>
-            current.filter((item) => item.value.$gte !== value)
-          )
-        : setRatingQuery((current) => [
-            ...current,
-            { type: 'rating', value: { $gte: value, $lte: value + 0.9 } },
-          ]);
-    } else {
-      ratingQuery.some((item) => item.value === value)
-        ? setRatingQuery((current) =>
-            current.filter((item) => item.value !== value)
-          )
-        : setRatingQuery((current) => [
-            ...current,
-            { type: 'category', value },
-          ]);
+    //prettier-ignore
+    if(typeof value === "number" && !condition){
+      setRatingQuery((current) => [
+        ...current,
+        { type: 'rating', value: { $gte: value, $lte: value + 0.9 } },
+      ]);
+    }
+
+    //prettier-ignore
+    if (typeof value === 'number' && condition)
+     {
+      setRatingQuery((current) =>
+        current.filter((item) => item.value.$gte !== value)
+      );
+    }
+
+    //prettier-ignore
+    if(typeof value === 'string' && !condition){
+      setRatingQuery((current) => [
+        ...current,
+        { type: 'category', value },
+      ]);
+    }
+
+    //prettier-ignore
+    if(typeof value === 'string' && condition){
+      setRatingQuery((current) =>
+        current.filter((item) => item.value !== value)
+    );
+
     }
   };
 
@@ -117,8 +141,9 @@ function FilterButton({ value, ratingQuery, setRatingQuery, disabled }) {
         id={value}
         value={value}
         className="scale-125"
-        onClick={handleClick}
+        onChange={handleClick}
         disabled={disabled}
+        checked={checked}
       />
       {typeof value === 'number' ? (
         <Rating rating={value} color="text-gray-600" />
