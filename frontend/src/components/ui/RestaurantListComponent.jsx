@@ -9,7 +9,7 @@ function RestaurantListComponent({ restaurant, setPopupInfo }) {
 
   const handleClick = () => {
     mapMain.flyTo({ center: [latlng.lng, latlng.lat], zoom: 13 });
-    setPopupInfo(restaurant);
+    // setPopupInfo(restaurant);
   };
 
   return (
