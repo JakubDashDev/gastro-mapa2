@@ -1,33 +1,37 @@
-import React, { Fragment, useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { RATING_ARRAY, CATEGORY_ARRAY } from '../../../constatns';
 import Rating from '../ui/Rating';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLazyGetRestaurantsQuery } from '../../services/restaurantsApi';
-import { setRestaurants } from '../../redux/restaurantsSlice';
-import { FilterContext } from './FilterButton';
-
-function Filters() {
-  const { setIsOpen, ratingQuery, setRatingQuery } = useContext(FilterContext);
+import {
+  clearFilterQuery,
+  setRestaurants,
+  updateFilterQuery,
+} from '../../redux/restaurantsSlice';
+import useGetRestaurants from '../../hooks/useGetRestaurants';
+function Filters({ setIsOpen }) {
+  const { filterQuery } = useSelector((state) => state.restaurants);
+  const { getRestaurants, isLoading, error } = useGetRestaurants();
 
   const dispatch = useDispatch();
-  const [getRestaurants, { isLoading, error }] = useLazyGetRestaurantsQuery();
 
   const handleSubmit = (event) => {
     event.preventDefault();
     getRestaurants({
       keyword: undefined,
-      filters: JSON.stringify(ratingQuery),
-    })
-      .then((res) => dispatch(setRestaurants(res.data)))
-      .then(() => setIsOpen((current) => !current))
-      .catch((err) => alert(err.message));
+      filters: JSON.stringify(filterQuery),
+    });
+
+    setIsOpen((current) => !current);
   };
 
   const handleClear = () => {
-    document
-      .querySelectorAll('input[type=checkbox]')
-      .forEach((el) => (el.checked = false));
-    setRatingQuery([]);
+    dispatch(clearFilterQuery());
+    getRestaurants({
+      keyword: undefined,
+      filters: undefined,
+    });
+    setIsOpen((current) => !current);
   };
 
   return (
@@ -47,9 +51,8 @@ function Filters() {
           <FilterButton
             key={rating}
             value={rating}
-            setRatingQuery={setRatingQuery}
-            ratingQuery={ratingQuery}
             disabled={isLoading}
+            handleClear={handleClear}
           />
         ))}
       </section>
@@ -57,13 +60,7 @@ function Filters() {
       <section className="flex flex-col gap-2 mt-5">
         <span className="w-full border-b text-lg">Kategoria</span>
         {CATEGORY_ARRAY.sort((a, b) => a.localeCompare(b)).map((type) => (
-          <FilterButton
-            key={type}
-            value={type}
-            setRatingQuery={setRatingQuery}
-            ratingQuery={ratingQuery}
-            disabled={isLoading}
-          />
+          <FilterButton key={type} value={type} disabled={isLoading} />
         ))}
       </section>
 
@@ -84,51 +81,23 @@ function Filters() {
 
 export default Filters;
 
-function FilterButton({ value, ratingQuery, setRatingQuery, disabled }) {
-  const condition = ratingQuery.some(
-    (item) => item.value.$gte === value || item.value === value
-  );
+function FilterButton({ value, disabled }) {
+  const dispatch = useDispatch();
+  const { filterQuery } = useSelector((state) => state.restaurants);
 
-  const [checked, setChecked] = useState(condition);
-
-  //NOTE: this is for handleClear func in parent and for handlig checked state
-  useEffect(() => {
-    setChecked(condition);
-  }, [ratingQuery]);
+  const [checked, setChecked] = useState(false);
 
   const handleClick = () => {
-    //prettier-ignore
-    if(typeof value === "number" && !condition){
-      setRatingQuery((current) => [
-        ...current,
-        { type: 'rating', value: { $gte: value, $lte: value + 0.9 } },
-      ]);
-    }
+    dispatch(updateFilterQuery(value));
+  };
 
-    //prettier-ignore
-    if (typeof value === 'number' && condition)
-     {
-      setRatingQuery((current) =>
-        current.filter((item) => item.value.$gte !== value)
-      );
-    }
-
-    //prettier-ignore
-    if(typeof value === 'string' && !condition){
-      setRatingQuery((current) => [
-        ...current,
-        { type: 'category', value },
-      ]);
-    }
-
-    //prettier-ignore
-    if(typeof value === 'string' && condition){
-      setRatingQuery((current) =>
-        current.filter((item) => item.value !== value)
+  useEffect(() => {
+    const condition = filterQuery.some(
+      (item) => item.$gte === value || item.category === value
     );
 
-    }
-  };
+    setChecked(condition);
+  }, [filterQuery]);
 
   return (
     <label
