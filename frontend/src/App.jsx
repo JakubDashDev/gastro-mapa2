@@ -16,7 +16,7 @@ function App() {
   return (
     <main className="flex font-sans">
       <SideNav data={restaurants} />
-      <div className="w-4/5 h-screen border-y-4 border-e-4 border-white">
+      <div className="flex-1 h-screen border-none xl:border-y-4 xl:border-x-4 border-white">
         <Map data={restaurants} />
       </div>
     </main>

@@ -7,7 +7,6 @@ import Rating from './Rating';
 function MarkerPopup({ popupInfo, setPopupInfo }) {
   return (
     <Popup
-      anchor="left"
       offset={25}
       longitude={Number(popupInfo.latlng.lng)}
       latitude={Number(popupInfo.latlng.lat)}
