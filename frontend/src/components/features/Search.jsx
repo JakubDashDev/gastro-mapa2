@@ -6,31 +6,28 @@ import { setRestaurants } from '../../redux/restaurantsSlice';
 import useGetRestaurants from '../../hooks/useGetRestaurants';
 
 function Search() {
-  const dispatch = useDispatch();
-  const [inputState, setInputState] = useState('');
-  const [isCustomText, setIsCustomText] = useState(false);
+  //prettier-ignore
+  const [inputState, setInputState] = useState(localStorage.getItem('searchInput') ? localStorage.getItem('searchInput') : '');
 
-  useEffect(() => {
-    if (inputState.toLowerCase() === 'muala') {
-      setIsCustomText(true);
-    } else {
-      setIsCustomText(false);
-    }
-  }, [inputState]);
-
-  // const [getRestaurants, { isLoading, error }] = useLazyGetRestaurantsQuery();
-
+  const { isCustomText } = useCustomText(inputState);
   const { getRestaurants, isLoading, error } = useGetRestaurants();
 
   const handleSearch = (event) => {
     event.preventDefault();
-    getRestaurants({ keyword: inputState, filter: undefined });
+    getRestaurants({ keyword: inputState, filters: undefined });
   };
 
   const handleClearInput = () => {
     setInputState('');
-    getRestaurants({ keyword: undefined });
+    getRestaurants({ keyword: undefined, filters: undefined });
+    localStorage.removeItem('searchInput');
   };
+
+  const handleInput = (event) => {
+    setInputState(event.target.value);
+    localStorage.setItem('searchInput', inputState);
+  };
+
   return (
     <form className="relative py-1" onSubmit={handleSearch}>
       <MdOutlineSearch className="absolute top-[50%] left-2 translate-y-[-50%] text-xl text-gray-400" />
@@ -42,7 +39,7 @@ function Search() {
         }`}
         placeholder="Wyszukaj..."
         value={inputState}
-        onChange={(e) => setInputState(e.target.value)}
+        onChange={handleInput}
       />
       {inputState.length > 0 && (
         <button
@@ -58,3 +55,17 @@ function Search() {
 }
 
 export default Search;
+
+const useCustomText = (inputState) => {
+  const [isCustomText, setIsCustomText] = useState(false);
+
+  useEffect(() => {
+    if (inputState.toLowerCase() === 'muala') {
+      setIsCustomText(true);
+    } else {
+      setIsCustomText(false);
+    }
+  }, [inputState]);
+
+  return { isCustomText };
+};
