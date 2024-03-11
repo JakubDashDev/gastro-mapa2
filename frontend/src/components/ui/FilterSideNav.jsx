@@ -5,22 +5,22 @@ import { useLazyGetRestaurantsQuery } from '../../services/restaurantsApi';
 import Filters from '../features/Filters';
 import { FilterContext } from '../features/FilterButton';
 
-function FilterSideNav() {
-  const { setIsOpen } = useContext(FilterContext);
-
+function FilterSideNav({ setIsOpen }) {
   return (
-    <div className="container mx-auto px-4 absolute top-0 left-0 min-w-[350px] w-1/5 bg-white h-screen">
-      <section className="flex items-center justify-center text-gray-600">
+    <div className="container mx-auto px-4 pb-4 absolute top-0 left-0 w-screen sm:w-[390px] bg-white h-screen overflow-y-auto">
+      <section className="grid items-center grid-rows-1 grid-cols-4 text-gray-600">
         <button
-          className="absolute left-10 text-lg"
+          className="text-lg"
           onClick={() => setIsOpen((current) => !current)}
         >
           <FaArrowLeft />
         </button>
-        <h2 className="text-center text-lg font-extrabold my-5">Filtry</h2>
+        <h2 className="text-center text-lg font-extrabold my-5 col-span-2">
+          Filtry
+        </h2>
       </section>
 
-      <Filters />
+      <Filters setIsOpen={setIsOpen} />
     </div>
   );
 }
