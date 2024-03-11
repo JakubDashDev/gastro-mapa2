@@ -1,11 +1,19 @@
 import React, { useEffect, useMemo, useRef } from 'react';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl';
-import { GeolocateControl, Map as MapGL, Marker, Popup } from 'react-map-gl';
+import {
+  GeolocateControl,
+  Map as MapGL,
+  Marker,
+  NavigationControl,
+  Popup,
+} from 'react-map-gl';
 import MapMarker from '../ui/MapMarker';
+import useWindowDimensions from '../../hooks/useWindoDimensions';
 // mapboxgl.accessToken = import.meta.env.VITE_MAP_TOKEN;
 
 function Map({ data }) {
+  const { width } = useWindowDimensions();
   return (
     <MapGL
       id="mapMain"
@@ -19,8 +27,8 @@ function Map({ data }) {
       style={{
         width: '100%',
         height: '100%',
-        border: '2px solid #d3d3d3',
-        borderRadius: '0.5rem',
+        border: width >= 1280 && '2px solid #d3d3d3',
+        borderRadius: width >= 1280 && '0.5rem',
       }}
     >
       <MapMarker data={data} />
@@ -29,6 +37,7 @@ function Map({ data }) {
         trackUserLocation={true}
         showUserHeading={true}
       />
+      <NavigationControl />
     </MapGL>
   );
 }
