@@ -6,8 +6,8 @@ function useGetRestaurants() {
   const dispatch = useDispatch();
   const [trigger, { isLoading, error }] = useLazyGetRestaurantsQuery();
 
-  const getRestaurants = ({ keyword }) => {
-    trigger({ keyword }).then((res) => dispatch(setRestaurants(res.data)));
+  const getRestaurants = (credentials) => {
+    trigger(credentials).then((res) => dispatch(setRestaurants(res.data)));
   };
 
   return { getRestaurants, isLoading, error };
