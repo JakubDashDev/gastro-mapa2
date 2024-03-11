@@ -2,9 +2,13 @@ import React, { useMemo, useState } from 'react';
 import { Marker } from 'react-map-gl';
 import img from '../../assets/logo.png';
 import MarkerPopup from './MarkerPopup';
+import useWindowDimensions from '../../hooks/useWindoDimensions';
+import MobileMarkerPopup from './MobileMarkerPopup';
 
 function MapMarker({ data }) {
   const [popupInfo, setPopupInfo] = useState(null);
+  const { width } = useWindowDimensions();
+
   const markers = data.map((restaurant, index) => (
     <Marker
       key={index}
@@ -30,8 +34,11 @@ function MapMarker({ data }) {
   return (
     <>
       {markers}
-      {popupInfo && (
+      {popupInfo && width >= 768 && (
         <MarkerPopup popupInfo={popupInfo} setPopupInfo={setPopupInfo} />
+      )}
+      {popupInfo && width < 768 && (
+        <MobileMarkerPopup popupInfo={popupInfo} setPopupInfo={setPopupInfo} />
       )}
     </>
   );
