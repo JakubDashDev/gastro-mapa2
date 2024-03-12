@@ -1,9 +1,6 @@
-import React, { Children, useContext, useEffect, useState } from 'react';
-import { FaArrowLeft, FaStar } from 'react-icons/fa';
-import { useSelector } from 'react-redux';
-import { useLazyGetRestaurantsQuery } from '../../services/restaurantsApi';
+import React from 'react';
+import { FaArrowLeft } from 'react-icons/fa';
 import Filters from '../features/Filters';
-import { FilterContext } from '../features/FilterButton';
 
 function FilterSideNav({ setIsOpen }) {
   return (
