@@ -27,11 +27,6 @@ function Filters({ setIsOpen }) {
 
   const handleClear = () => {
     dispatch(clearFilterQuery());
-    getRestaurants({
-      keyword: undefined,
-      filters: undefined,
-    });
-    setIsOpen((current) => !current);
   };
 
   return (
@@ -42,7 +37,8 @@ function Filters({ setIsOpen }) {
           <button
             type="button"
             onClick={handleClear}
-            className="text-sm text-blue-700 underline"
+            className="text-sm text-blue-700 underline disabled:text-gray-300"
+            disabled={filterQuery.length === 0}
           >
             Wyczyść wszystko
           </button>
