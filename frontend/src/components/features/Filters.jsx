@@ -2,18 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { RATING_ARRAY, CATEGORY_ARRAY } from '../../../constatns';
 import Rating from '../ui/Rating';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLazyGetRestaurantsQuery } from '../../services/restaurantsApi';
 import {
   clearFilterQuery,
-  setRestaurants,
+  setIsActive,
   updateFilterQuery,
-} from '../../redux/restaurantsSlice';
+} from '../../redux/filtersSlice';
 import useGetRestaurants from '../../hooks/useGetRestaurants';
 function Filters({ setIsOpen }) {
-  const { filterQuery } = useSelector((state) => state.restaurants);
-  const { getRestaurants, isLoading, error } = useGetRestaurants();
-
   const dispatch = useDispatch();
+  const { filterQuery } = useSelector((state) => state.filters);
+  const { getRestaurants, isLoading, error } = useGetRestaurants();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -22,50 +20,47 @@ function Filters({ setIsOpen }) {
       filters: JSON.stringify(filterQuery),
     });
 
+    filterQuery.length > 0
+      ? dispatch(setIsActive(true))
+      : dispatch(setIsActive(false));
     setIsOpen((current) => !current);
   };
 
   const handleClear = () => {
     dispatch(clearFilterQuery());
+    getRestaurants({
+      keyword: undefined,
+      filters: undefined,
+    });
+
+    dispatch(setIsActive(false));
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <section className="flex flex-col gap-2 ">
-        <div className="flex justify-between items-center w-full border-b text-lg">
-          <span>Ocena</span>
-          <button
-            type="button"
-            onClick={handleClear}
-            className="text-sm text-blue-700 dark:text-blue-400 underline disabled:text-gray-300 dark:disabled:text-gray-700"
-            disabled={filterQuery.length === 0}
-          >
-            Wyczyść wszystko
-          </button>
-        </div>
-        {RATING_ARRAY.map((rating) => (
-          <FilterButton
-            key={rating}
-            value={rating}
-            disabled={isLoading}
-            handleClear={handleClear}
-          />
-        ))}
-      </section>
+      <RatingFilterSection
+        isLoading={isLoading}
+        getRestaurants={getRestaurants}
+      />
 
-      <section className="flex flex-col gap-2 mt-5">
-        <span className="w-full border-b text-lg">Kategoria</span>
-        {CATEGORY_ARRAY.sort((a, b) => a.localeCompare(b)).map((type) => (
-          <FilterButton key={type} value={type} disabled={isLoading} />
-        ))}
-      </section>
+      <CategoryFilterSection
+        isLoading={isLoading}
+        getRestaurants={getRestaurants}
+      />
 
-      <div className="flex flex-col gap-4 w-full mt-5">
+      <div className="flex flex-row gap-3 w-full mt-5">
         <button
           type="submit"
-          className="bg-primary-500 py-1 rounded-md hover:text-white transition-colors text-white"
+          className="w-full sm:w-1/2 bg-primary-500 py-1 rounded-md text-white"
         >
           Zastosuj
+        </button>
+        <button
+          type="button"
+          className="w-full sm:w-1/2 py-1 text-gray-200 rounded-md border border-gray-600 dark:border-gray-300"
+          onClick={handleClear}
+        >
+          Wyczyść
         </button>
       </div>
     </form>
@@ -74,9 +69,9 @@ function Filters({ setIsOpen }) {
 
 export default Filters;
 
-function FilterButton({ value, disabled }) {
+function FilterButton({ value, disabled, getRestaurants }) {
   const dispatch = useDispatch();
-  const { filterQuery } = useSelector((state) => state.restaurants);
+  const { filterQuery } = useSelector((state) => state.filters);
 
   const [checked, setChecked] = useState(false);
 
@@ -113,5 +108,81 @@ function FilterButton({ value, disabled }) {
         value
       )}
     </label>
+  );
+}
+
+function RatingFilterSection({ isLoading, getRestaurants }) {
+  const [isShow, setIsShow] = useState(false);
+  const { filterQuery } = useSelector((state) => state.filters);
+
+  const ratingQuery = filterQuery.filter((item) => item.hasOwnProperty('$gte'));
+
+  return (
+    <section className="flex flex-col gap-2 ">
+      <div className="flex items-center justify-between w-full border-b text-lg">
+        <div className="flex gap-1">
+          <span>Ocena</span>
+          {ratingQuery.length > 0 && (
+            <span className="text-red-500 text-sm">({ratingQuery.length})</span>
+          )}
+        </div>
+        <button
+          type="button"
+          className="text-2xl text-blue-600 dark:text-blue-300"
+          onClick={() => setIsShow((current) => !current)}
+        >
+          +
+        </button>
+      </div>
+      <div className={`${isShow ? 'h-fit flex flex-col gap-1' : 'h-0 hidden'}`}>
+        {RATING_ARRAY.map((rating) => (
+          <FilterButton
+            key={rating}
+            value={rating}
+            disabled={isLoading}
+            getRestaurants={getRestaurants}
+          />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function CategoryFilterSection({ isLoading, getRestaurants }) {
+  const [isShow, setIsShow] = useState(false);
+  const { filterQuery } = useSelector((state) => state.filters);
+
+  const ratingQuery = filterQuery.filter((item) =>
+    item.hasOwnProperty('category')
+  );
+
+  return (
+    <section className="flex flex-col gap-2 mt-5">
+      <div className="flex items-center justify-between w-full border-b text-lg">
+        <div className="flex gap-1">
+          <span>Kategoria</span>
+          {ratingQuery.length > 0 && (
+            <span className="text-red-500 text-sm">({ratingQuery.length})</span>
+          )}
+        </div>
+        <button
+          type="button"
+          className="text-2xl text-blue-600 dark:text-blue-300"
+          onClick={() => setIsShow((current) => !current)}
+        >
+          +
+        </button>
+      </div>
+      <div className={`${isShow ? 'h-fit flex flex-col gap-1' : 'h-0 hidden'}`}>
+        {CATEGORY_ARRAY.sort((a, b) => a.localeCompare(b)).map((type) => (
+          <FilterButton
+            key={type}
+            value={type}
+            disabled={isLoading}
+            getRestaurants={getRestaurants}
+          />
+        ))}
+      </div>
+    </section>
   );
 }
