@@ -14,7 +14,7 @@ function RestaurantListComponent({ restaurant, setPopupInfo }) {
 
   return (
     <div
-      className="container mx-auto px-4 py-4 flex gap-2 items-center hover:bg-gray-200 transition-colors rounded-lg cursor-pointer"
+      className="container mx-auto px-4 py-4 flex gap-2 items-center hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors rounded-lg cursor-pointer"
       onClick={handleClick}
     >
       <img
@@ -24,7 +24,7 @@ function RestaurantListComponent({ restaurant, setPopupInfo }) {
       />
 
       <div className="flex flex-col ">
-        <span className="font-extrabold text-gray-600 tracking-wide">
+        <span className="font-extrabold tracking-wide">
           {name} - {address.city}
         </span>
 

@@ -4,6 +4,7 @@ import defaultTheme from 'tailwindcss/defaultTheme';
 import colors from 'tailwindcss/colors';
 
 export default {
+  darkMode: 'selector',
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
@@ -47,6 +48,12 @@ export default {
           700: '#666666',
           800: '#999999',
           900: '#cccccc',
+        },
+        darkBg: {
+          DEFAULT: '#121212',
+        },
+        darkText: {
+          DEFAULT: '#e3e3e3',
         },
       },
     },

@@ -44,7 +44,7 @@ function Search() {
       {inputState.length > 0 && (
         <button
           type="button"
-          className="absolute top-[50%] right-2 translate-y-[-50%] text-xl"
+          className="absolute top-[50%] right-2 translate-y-[-50%] text-xl text-gray-600"
           onClick={handleClearInput}
         >
           <MdOutlineClose />

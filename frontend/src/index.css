@@ -43,6 +43,35 @@
   min-width: 400px;
 }
 
-input[type='checkbox'] {
-  accent-color: #000;
+.toggle-btn {
+  background-color: #b7b9ba;
+  border: 1px solid #aaa;
+  border-radius: 99px;
+  width: 65px;
+  height: 28px;
+  transition: background-color 0.1s ease, border-color 0.2 ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.toggle-btn .thumb {
+  height: 20px;
+  width: 20px;
+  background-color: #fff;
+  border-radius: 99px;
+  transform: translateX(0);
+  transition: left 0.15s ease;
+  position: absolute;
+  left: 3px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.toggle-btn.toggled {
+  background-color: #242424;
+  border-color: #111;
+}
+
+.toggle-btn.toggled .thumb {
+  left: calc(65px - 25px);
 }

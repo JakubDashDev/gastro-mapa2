@@ -13,7 +13,7 @@ function SortDropdown() {
 
   return (
     <div className="flex flex-col gap-1 w-1/2">
-      <span className="text-gray-500">Sortuj</span>
+      <span className="text-gray-500 dark:text-gray-300">Sortuj</span>
       <Select className="w-full border border-gray-300 px-1 py-1 rounded-md outline-none">
         <Select.Option value="Alfabetycznie (A-Z)" handleSort={handleSort}>
           Alfabetycznie (A-Z)

@@ -12,7 +12,7 @@ import MapMarker from '../ui/MapMarker';
 import useWindowDimensions from '../../hooks/useWindoDimensions';
 // mapboxgl.accessToken = import.meta.env.VITE_MAP_TOKEN;
 
-function Map({ data }) {
+function Map({ data, darkMode }) {
   const { width } = useWindowDimensions();
   return (
     <MapGL
@@ -23,7 +23,7 @@ function Map({ data }) {
         latitude: 52.237049,
         zoom: 5,
       }}
-      mapStyle="mapbox://styles/mapbox/navigation-day-v1"
+      mapStyle={darkMode ? 'mapbox://styles/mapbox/navigation-night-v1' : 'mapbox://styles/mapbox/navigation-day-v1'}
       style={{
         width: '100%',
         height: '100%',

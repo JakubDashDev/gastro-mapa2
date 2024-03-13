@@ -37,7 +37,7 @@ function Filters({ setIsOpen }) {
           <button
             type="button"
             onClick={handleClear}
-            className="text-sm text-blue-700 underline disabled:text-gray-300"
+            className="text-sm text-blue-700 dark:text-blue-400 underline disabled:text-gray-300 dark:disabled:text-gray-700"
             disabled={filterQuery.length === 0}
           >
             Wyczyść wszystko
@@ -63,12 +63,9 @@ function Filters({ setIsOpen }) {
       <div className="flex flex-col gap-4 w-full mt-5">
         <button
           type="submit"
-          className="bg-primary-500 py-1 rounded-md hover:text-white transition-colors"
+          className="bg-primary-500 py-1 rounded-md hover:text-white transition-colors text-white"
         >
           Zastosuj
-        </button>
-        <button type="button" onClick={() => setIsOpen((current) => !current)}>
-          Anuluj
         </button>
       </div>
     </form>
@@ -98,7 +95,7 @@ function FilterButton({ value, disabled }) {
   return (
     <label
       htmlFor={value}
-      className="flex items-center gap-2 my-1  w-fit cursor-pointer"
+      className="flex items-center gap-2 my-1  w-fit cursor-pointer accent-black-100 dark:accent-white border-white "
     >
       <input
         type="checkbox"
@@ -111,7 +108,7 @@ function FilterButton({ value, disabled }) {
         checked={checked}
       />
       {typeof value === 'number' ? (
-        <Rating rating={value} color="text-gray-600" />
+        <Rating rating={value} color="text-gray-600 dark:text-gray-200" />
       ) : (
         value
       )}

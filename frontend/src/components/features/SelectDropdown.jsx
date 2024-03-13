@@ -15,7 +15,7 @@ function Select({ children, className }) {
     <SelectContext.Provider value={{ activeOption, setActiveOption }}>
       <div className="w-full h-full relative">
         <button
-          className={`flex items-center justify-between text-gray-500 ${className} w-full`}
+          className={`flex items-center justify-between ${className} w-full`}
           onClick={handleOpen}
         >
           <span className="overflow-hidden text-nowrap">{activeOption}</span>
@@ -38,7 +38,7 @@ function Option({ value, children, handleSort }) {
   const { activeOption, setActiveOption } = useSelectContext();
 
   const isActive = activeOption === value;
-  const className = `border-b border-gray-200 py-1 text-gray-500 ${
+  const className = `border-b border-gray-200 py-1 text-gray-500 dark:text-gray-700 ${
     isActive
       ? 'bg-primary/80 text-black-500 disabled:cursor-not-allowed'
       : 'bg-none hover:bg-gray-200 transition-color'

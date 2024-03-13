@@ -11,13 +11,25 @@ function App() {
   const { restaurants } = useSelector((state) => state.restaurants);
   const { loading, error } = useGetData();
 
+  //HANDLING DARK MODE FEATURE
+  const [darkMode, setDarkMode] = useState(
+    localStorage.getItem('darkMode')
+      ? JSON.parse(localStorage.getItem('darkMode'))
+      : false
+  );
+  //HANDLING DARK MODE FEATURE
+
   if (loading) return <Loader />;
 
   return (
-    <main className="flex font-sans">
-      <SideNav data={restaurants} />
+    <main className={`${darkMode ? 'dark flex font-sans' : 'flex font-sans'}`}>
+      <SideNav
+        data={restaurants}
+        darkMode={darkMode}
+        setDarkMode={setDarkMode}
+      />
       <div className="flex-1 h-screen border-none xl:border-y-4 xl:border-x-4 border-white">
-        <Map data={restaurants} />
+        <Map data={restaurants} darkMode={darkMode} />
       </div>
     </main>
   );

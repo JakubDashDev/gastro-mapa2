@@ -6,7 +6,6 @@ import useWindowDimensions from '../../hooks/useWindoDimensions';
 import { IoIosClose } from 'react-icons/io';
 
 function MobileMarkerPopup({ popupInfo, setPopupInfo }) {
-  
   const handleClose = (event) => {
     if (event.target === event.currentTarget) {
       setPopupInfo(null);
@@ -18,7 +17,7 @@ function MobileMarkerPopup({ popupInfo, setPopupInfo }) {
       className="absolute top-0 left-0 w-screen h-screen z-10 bg-black/50"
       onClick={handleClose}
     >
-      <div className="flex flex-col gap-2 px-4 py-4 absolute bottom-0 w-screen bg-white rounded-t-xl border-t-2 z-10">
+      <div className="flex flex-col gap-2 p-2 absolute bottom-0 w-screen bg-white dark:bg-darkBg rounded-t-xl border-t-2 border-white dark:border-darkBg dark:text-gray-200">
         <button
           type="button"
           className="absolute top-1 right-1 text-2xl"
@@ -36,7 +35,7 @@ function MobileMarkerPopup({ popupInfo, setPopupInfo }) {
             className="rounded-lg"
           />
         </div>
-        <div className="flex flex-col border-b border-black/5 pb-1">
+        <div className="flex flex-col">
           <span className="text-lg">{popupInfo.name}</span>
           {popupInfo.type.map((type) => (
             <span key={type} className="text-sm capitalize text-gray-500">
@@ -44,7 +43,7 @@ function MobileMarkerPopup({ popupInfo, setPopupInfo }) {
             </span>
           ))}
         </div>
-        <span className="border-b border-black/5 pb-1">
+        <span className="border-b border-black/5 dark:border-white/15 pb-1">
           {popupInfo.address.street} {popupInfo.address.houseNumber},{' '}
           {popupInfo.address.zipCode} {popupInfo.address.city}{' '}
         </span>
@@ -56,7 +55,7 @@ function MobileMarkerPopup({ popupInfo, setPopupInfo }) {
             <button className="flex justify-center items-center border border-red-500 p-2 text-xl text-red-500  rounded-full  ">
               <FaYoutube />
             </button>
-            <button className="flex justify-center items-center border border-gray-500 text-gray-500 p-2 text-xl rounded-full ">
+            <button className="flex justify-center items-center border border-gray-500 dark:border-gray-200 text-gray-500 dark:text-gray-200 p-2 text-xl rounded-full ">
               <BiSolidNavigation />
             </button>
           </div>

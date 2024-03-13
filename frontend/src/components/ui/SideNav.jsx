@@ -7,20 +7,35 @@ import useWindowDimensions from '../../hooks/useWindoDimensions';
 import { MdMenuOpen } from 'react-icons/md';
 import { FaArrowLeft } from 'react-icons/fa';
 import { current } from '@reduxjs/toolkit';
+import { MdOutlineLightMode, MdDarkMode } from 'react-icons/md';
 
-function SideNav({ data }) {
+function SideNav({ data, darkMode, setDarkMode }) {
   const { width } = useWindowDimensions();
 
-  if (width >= 1280) return <DesktopSideNav data={data} />;
-  if (width < 1280) return <MobileSideNav data={data} />;
+  if (width >= 1280)
+    return (
+      <DesktopSideNav
+        data={data}
+        darkMode={darkMode}
+        setDarkMode={setDarkMode}
+      />
+    );
+  if (width < 1280)
+    return (
+      <MobileSideNav
+        data={data}
+        darkMode={darkMode}
+        setDarkMode={setDarkMode}
+      />
+    );
 }
 
 export default SideNav;
 
-function DesktopSideNav({ data }) {
+function DesktopSideNav({ data, darkMode, setDarkMode }) {
   return (
-    <div className="w-[390px] bg-white h-screen overflow-y-auto">
-      <h1 className="text-center text-gray-600 text-lg font-extrabold my-5">
+    <div className="w-[390px] bg-white dark:bg-darkBg h-screen overflow-y-auto relative text-gray-600 dark:text-darkText">
+      <h1 className="text-center text-lg font-extrabold my-5 col-span-2">
         Gastro Mapa
       </h1>
 
@@ -42,11 +57,15 @@ function DesktopSideNav({ data }) {
           );
         })}
       </div>
+
+      <div className="absolute bottom-0 p-4 bg-white dark:bg-darkBg w-full border-t border-black/10 dark:border-white/10">
+        <DarkModeButton darkMode={darkMode} setDarkMode={setDarkMode} />
+      </div>
     </div>
   );
 }
 
-function MobileSideNav({ data }) {
+function MobileSideNav({ data, darkMode, setDarkMode }) {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <Fragment>
@@ -58,9 +77,9 @@ function MobileSideNav({ data }) {
         <MdMenuOpen />
       </button>
       {isOpen && (
-        <div className="absolute top-0 left-0 w-screen h-screen bg-black/70 z-20">
-          <nav className="absolute top-0 left-0 h-screen w-screen sm:w-[390px] bg-white">
-            <div className="grid items-center grid-rows-1 grid-cols-4 container mx-auto px-4 text-gray-600">
+        <div className="absolute top-0 left-0 w-screen h-screen bg-black/70 dark:bg-black/40 z-20">
+          <nav className="w-screen sm:w-[390px] h-screen relative bg-white dark:bg-darkBg text-gray-600 dark:text-darkText">
+            <div className="grid items-center grid-rows-1 grid-cols-4 container mx-auto px-4">
               <button
                 type="button"
                 className="text-lg"
@@ -91,9 +110,37 @@ function MobileSideNav({ data }) {
                 );
               })}
             </div>
+            <div className="absolute bottom-0 p-4 bg-white dark:bg-darkBg w-full border-t border-black/20 dark:border-white/20">
+              <DarkModeButton darkMode={darkMode} setDarkMode={setDarkMode} />
+            </div>
           </nav>
         </div>
       )}
     </Fragment>
+  );
+}
+
+function DarkModeButton({ darkMode, setDarkMode }) {
+  const toggle = () => {
+    setDarkMode((current) => !current);
+    localStorage.setItem('darkMode', !darkMode);
+  };
+
+  return (
+    <button
+      className={`toggle-btn ${darkMode ? 'toggled' : undefined}`}
+      onClick={toggle}
+    >
+      <div className="thumb"></div>
+      {darkMode ? (
+        <span className="absolute left-1 text-xs bottom-[50%] translate-y-[50%] text-white">
+          Dark
+        </span>
+      ) : (
+        <span className="absolute right-1 text-xs bottom-[50%] translate-y-[50%] text-black">
+          Light
+        </span>
+      )}
+    </button>
   );
 }
