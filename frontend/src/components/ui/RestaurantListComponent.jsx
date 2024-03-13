@@ -3,13 +3,13 @@ import img from '../../assets/logo.png';
 import Rating from './Rating';
 import { useMap } from 'react-map-gl';
 
-function RestaurantListComponent({ restaurant, setPopupInfo }) {
+function RestaurantListComponent({ restaurant, setIsOpen }) {
   const { name, address, type, rating, latlng } = restaurant;
   const { mapMain } = useMap();
 
   const handleClick = () => {
     mapMain.flyTo({ center: [latlng.lng, latlng.lat], zoom: 13 });
-    // setPopupInfo(restaurant);
+    setIsOpen((current) => !current);
   };
 
   return (

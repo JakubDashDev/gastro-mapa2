@@ -106,6 +106,7 @@ function MobileSideNav({ data, darkMode, setDarkMode }) {
                   <RestaurantListComponent
                     key={restaurant._id}
                     restaurant={restaurant}
+                    setIsOpen={setIsOpen}
                   />
                 );
               })}
