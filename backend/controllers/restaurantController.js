@@ -24,12 +24,8 @@ const getAllRestaurants = asnycHandler(async (req, res) => {
     : {};
 
   const filtersArray = filters && JSON.parse(filters);
-  const ratings = filtersArray?.map(
-    (item) => item.hasOwnProperty('$gte') && item
-  );
-  const categories = filtersArray?.filter(
-    (item) => item.hasOwnProperty('$category') && item
-  );
+  const ratings = filtersArray?.filter((item) => item.hasOwnProperty('$gte'));
+  const categories = filtersArray?.filter((item) =>item.hasOwnProperty('category'));
 
   const filter = filtersArray
     ? {
