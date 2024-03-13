@@ -34,10 +34,10 @@ function MapMarker({ data }) {
   return (
     <>
       {markers}
-      {popupInfo && width >= 768 && (
+      {popupInfo && width >= 640 && (
         <MarkerPopup popupInfo={popupInfo} setPopupInfo={setPopupInfo} />
       )}
-      {popupInfo && width < 768 && (
+      {popupInfo && width < 640 && (
         <MobileMarkerPopup popupInfo={popupInfo} setPopupInfo={setPopupInfo} />
       )}
     </>
