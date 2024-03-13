@@ -4,7 +4,7 @@ import Filters from '../features/Filters';
 
 function FilterSideNav({ setIsOpen }) {
   return (
-    <div className="container mx-auto px-4 pb-4 absolute top-0 left-0 w-screen sm:w-[390px] bg-white dark:bg-darkBg h-screen overflow-y-auto">
+    <div className="container mx-auto px-4 pb-4 absolute top-0 left-0 w-screen sm:w-[390px] bg-white dark:bg-darkBg h-screen overflow-y-auto z-20">
       <section className="grid items-center grid-rows-1 grid-cols-4">
         <button
           className="text-lg"
