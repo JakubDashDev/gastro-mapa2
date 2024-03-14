@@ -2,10 +2,12 @@ import React, { createContext, useEffect, useState } from 'react';
 import { FaFilter } from 'react-icons/fa';
 import FilterSideNav from '../ui/FilterSideNav';
 import { useSelector } from 'react-redux';
+import { useSpring, animated } from '@react-spring/web';
 
 function FilterButton() {
   const [isOpen, setIsOpen] = useState(false);
   const { filterQuery, isActive } = useSelector((state) => state.filters);
+
   return (
     <div className="flex flex-col justify-center items-center gap-1">
       <div className="text-gray-500 dark:text-gray-300 flex items-center gap-1">
@@ -18,7 +20,7 @@ function FilterButton() {
         <FaFilter />
       </button>
 
-      {isOpen && <FilterSideNav setIsOpen={setIsOpen} />}
+      <FilterSideNav setIsOpen={setIsOpen} isOpen={isOpen} />
     </div>
   );
 }
