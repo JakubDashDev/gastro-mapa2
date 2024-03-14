@@ -55,7 +55,9 @@ function Rating({ rating, isText, color }) {
       </span>
       {isText && (
         <span
-          className={`mx-1 -mb-1 ${rating === 5 ? 'font-loader' : 'font-sans'}`}
+          className={`mx-1 ${
+            rating === 5 ? 'font-loader -mb-1' : 'font-sans'
+          }`}
         >
           {rating === 5 ? 'MUALA' : rating}
         </span>
