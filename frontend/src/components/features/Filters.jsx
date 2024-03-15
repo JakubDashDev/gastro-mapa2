@@ -58,8 +58,9 @@ function Filters({ setIsOpen }) {
         </button>
         <button
           type="button"
-          className="w-full sm:w-1/2 py-1 text-gray-200 rounded-md border border-gray-600 dark:border-gray-300"
+          className="w-full sm:w-1/2 py-1 text-gray-200 disabled:text-gray-600 rounded-md border border-gray-600 dark:border-gray-300 dark:disabled:border-gray-600 transition-colors"
           onClick={handleClear}
+          disabled={filterQuery.length === 0}
         >
           Wyczyść
         </button>
@@ -150,7 +151,7 @@ function RatingFilterSection({ isLoading, getRestaurants }) {
         (styles, item) =>
           item && (
             <div className="overflow-hidden">
-              <animated.div style={styles} className="flex flex-col gap-1">
+              <animated.div style={styles} className="flex flex-col gap-1 px-1">
                 {RATING_ARRAY.map((rating) => (
                   <FilterButton
                     key={rating}
@@ -206,8 +207,8 @@ function CategoryFilterSection({ isLoading, getRestaurants }) {
       {transition(
         (styles, item) =>
           item && (
-            <div className='overflow-hidden'>
-              <animated.div style={styles} className="flex flex-col gap-1">
+            <div className="overflow-hidden">
+              <animated.div style={styles} className="flex flex-col gap-1 px-1">
                 {CATEGORY_ARRAY.sort((a, b) => a.localeCompare(b)).map(
                   (type) => (
                     <FilterButton
