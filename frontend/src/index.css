@@ -5,6 +5,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/*PAGE LOADER*/
 .loader-container {
   display: inline-block;
 }
@@ -17,7 +18,9 @@
     width: 100%;
   }
 }
+/*PAGE LOADER*/
 
+/*MARKER POPUP*/
 .mapboxgl-popup-close-button {
   padding: 0.1rem 0.25rem;
   font-size: 1.25rem;
@@ -42,7 +45,9 @@
   box-shadow: 0 3px 14px rgba(0, 0, 0, 0.4);
   min-width: 400px;
 }
+/*MARKER POPUP*/
 
+/*DARKMODE SWITCH BUTTON*/
 .toggle-btn {
   background-color: #b7b9ba;
   border: 1px solid #aaa;
@@ -75,3 +80,4 @@
 .toggle-btn.toggled .thumb {
   left: calc(65px - 25px);
 }
+/*DARKMODE SWITCH BUTTON*/
