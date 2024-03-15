@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useTransition } from 'react';
+import React, { Fragment, useState } from 'react';
 import RestaurantListComponent from './RestaurantListComponent';
 import Search from '../features/Search';
 import SortDropdown from '../features/SortDropdown';
@@ -6,9 +6,7 @@ import FilterButton from '../features/FilterButton';
 import useWindowDimensions from '../../hooks/useWindoDimensions';
 import { MdMenuOpen } from 'react-icons/md';
 import { FaArrowLeft } from 'react-icons/fa';
-import { current } from '@reduxjs/toolkit';
-import { MdOutlineLightMode, MdDarkMode } from 'react-icons/md';
-import { useSpring, animated } from '@react-spring/web';
+import { useSpring, animated, useTransition } from '@react-spring/web';
 
 function SideNav({ data, darkMode, setDarkMode }) {
   const { width } = useWindowDimensions();
@@ -69,13 +67,14 @@ function DesktopSideNav({ data, darkMode, setDarkMode }) {
 function MobileSideNav({ data, darkMode, setDarkMode }) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const bg = useSpring({
-    left: isOpen ? '0' : '-100%',
+  const transition = useTransition(isOpen, {
+    from: { transform: 'translateX(-100%)' },
+    enter: { transform: 'translateX(0%)' },
+    leave: { transform: 'translateX(-100%)' },
   });
 
-  const nav = useSpring({
-    left: isOpen ? '0' : '-100%',
-    delay: 300,
+  const backdropAnimation = useSpring({
+    opacity: isOpen ? 1 : 0,
   });
 
   return (
@@ -87,52 +86,61 @@ function MobileSideNav({ data, darkMode, setDarkMode }) {
       >
         <MdMenuOpen />
       </button>
+      {transition(
+        (styles, item) =>
+          item && (
+            <Fragment>
+              <animated.nav
+                style={styles}
+                className="w-screen sm:w-[390px] h-screen absolute top-0 left-0 bg-white dark:bg-darkBg text-gray-600 dark:text-darkText z-30"
+              >
+                <div className="grid items-center grid-rows-1 grid-cols-4 container mx-auto px-4">
+                  <button
+                    type="button"
+                    className="text-lg"
+                    onClick={() => setIsOpen((current) => !current)}
+                  >
+                    <FaArrowLeft />
+                  </button>
+                  <h1 className="text-center text-lg font-extrabold my-5 col-span-2">
+                    Gastro Mapa
+                  </h1>
+                </div>
 
-      <animated.div
-        style={bg}
-        className="absolute top-0 left-0 w-screen h-screen bg-black/70 dark:bg-black/40 z-20"
-      >
-        <animated.nav
-          style={nav}
-          className="w-screen sm:w-[390px] h-screen relative bg-white dark:bg-darkBg text-gray-600 dark:text-darkText"
-        >
-          <div className="grid items-center grid-rows-1 grid-cols-4 container mx-auto px-4">
-            <button
-              type="button"
-              className="text-lg"
-              onClick={() => setIsOpen((current) => !current)}
-            >
-              <FaArrowLeft />
-            </button>
-            <h1 className="text-center text-lg font-extrabold my-5 col-span-2">
-              Gastro Mapa
-            </h1>
-          </div>
+                <div className="container mx-auto px-4 my-6">
+                  <Search />
+                </div>
+                <div className="container mx-auto px-4 my-6 flex justify-between items-center">
+                  <SortDropdown />
+                  <FilterButton />
+                </div>
 
-          <div className="container mx-auto px-4 my-6">
-            <Search />
-          </div>
-          <div className="container mx-auto px-4 my-6 flex justify-between items-center">
-            <SortDropdown />
-            <FilterButton />
-          </div>
-
-          <div>
-            {data.map((restaurant) => {
-              return (
-                <RestaurantListComponent
-                  key={restaurant._id}
-                  restaurant={restaurant}
-                  setIsOpen={setIsOpen}
-                />
-              );
-            })}
-          </div>
-          <div className="absolute bottom-0 p-4 bg-white dark:bg-darkBg w-full border-t border-black/20 dark:border-white/20">
-            <DarkModeButton darkMode={darkMode} setDarkMode={setDarkMode} />
-          </div>
-        </animated.nav>
-      </animated.div>
+                <div>
+                  {data.map((restaurant) => {
+                    return (
+                      <RestaurantListComponent
+                        key={restaurant._id}
+                        restaurant={restaurant}
+                        setIsOpen={setIsOpen}
+                      />
+                    );
+                  })}
+                </div>
+                <div className="absolute bottom-0 p-4 bg-white dark:bg-darkBg w-full border-t border-black/20 dark:border-white/20">
+                  <DarkModeButton
+                    darkMode={darkMode}
+                    setDarkMode={setDarkMode}
+                  />
+                </div>
+              </animated.nav>
+              <animated.div
+                style={backdropAnimation}
+                className="absolute top-0 left-0 w-screen h-screen bg-black/30 z-20 "
+                onClick={() => setIsOpen((current) => !current)}
+              />
+            </Fragment>
+          )
+      )}
     </Fragment>
   );
 }

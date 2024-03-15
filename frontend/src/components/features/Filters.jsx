@@ -8,6 +8,7 @@ import {
   updateFilterQuery,
 } from '../../redux/filtersSlice';
 import useGetRestaurants from '../../hooks/useGetRestaurants';
+import { useTransition, animated } from '@react-spring/web';
 function Filters({ setIsOpen }) {
   const dispatch = useDispatch();
   const { filterQuery } = useSelector((state) => state.filters);
@@ -117,8 +118,19 @@ function RatingFilterSection({ isLoading, getRestaurants }) {
 
   const ratingQuery = filterQuery.filter((item) => item.hasOwnProperty('$gte'));
 
+  const transition = useTransition(isShow, {
+    from: { height: '0px', opacity: 0, marginBottom: '0px', marginTop: '0px' },
+    enter: {
+      height: '150px',
+      opacity: 1,
+      marginBottom: '20px',
+      marginTop: '10px',
+    },
+    leave: { height: '0px', opacity: 0, marginBottom: '0px', marginTop: '0px' },
+  });
+
   return (
-    <section className="flex flex-col gap-2 ">
+    <section className="flex flex-col">
       <div className="flex items-center justify-between w-full border-b text-lg">
         <div className="flex gap-1">
           <span>Ocena</span>
@@ -134,16 +146,23 @@ function RatingFilterSection({ isLoading, getRestaurants }) {
           +
         </button>
       </div>
-      <div className={`${isShow ? 'h-fit flex flex-col gap-1' : 'h-0 hidden'}`}>
-        {RATING_ARRAY.map((rating) => (
-          <FilterButton
-            key={rating}
-            value={rating}
-            disabled={isLoading}
-            getRestaurants={getRestaurants}
-          />
-        ))}
-      </div>
+      {transition(
+        (styles, item) =>
+          item && (
+            <div className="overflow-hidden">
+              <animated.div style={styles} className="flex flex-col gap-1">
+                {RATING_ARRAY.map((rating) => (
+                  <FilterButton
+                    key={rating}
+                    value={rating}
+                    disabled={isLoading}
+                    getRestaurants={getRestaurants}
+                  />
+                ))}
+              </animated.div>
+            </div>
+          )
+      )}
     </section>
   );
 }
@@ -156,8 +175,19 @@ function CategoryFilterSection({ isLoading, getRestaurants }) {
     item.hasOwnProperty('category')
   );
 
+  const transition = useTransition(isShow, {
+    from: { height: '0px', opacity: 0, marginBottom: '0px', marginTop: '0px' },
+    enter: {
+      height: '400px',
+      opacity: 1,
+      marginBottom: '20px',
+      marginTop: '10px',
+    },
+    leave: { height: '0px', opacity: 0, marginBottom: '0px', marginTop: '0px' },
+  });
+
   return (
-    <section className="flex flex-col gap-2 mt-5">
+    <section className="flex flex-col mt-5">
       <div className="flex items-center justify-between w-full border-b text-lg">
         <div className="flex gap-1">
           <span>Kategoria</span>
@@ -173,16 +203,25 @@ function CategoryFilterSection({ isLoading, getRestaurants }) {
           +
         </button>
       </div>
-      <div className={`${isShow ? 'h-fit flex flex-col gap-1' : 'h-0 hidden'}`}>
-        {CATEGORY_ARRAY.sort((a, b) => a.localeCompare(b)).map((type) => (
-          <FilterButton
-            key={type}
-            value={type}
-            disabled={isLoading}
-            getRestaurants={getRestaurants}
-          />
-        ))}
-      </div>
+      {transition(
+        (styles, item) =>
+          item && (
+            <div className='overflow-hidden'>
+              <animated.div style={styles} className="flex flex-col gap-1">
+                {CATEGORY_ARRAY.sort((a, b) => a.localeCompare(b)).map(
+                  (type) => (
+                    <FilterButton
+                      key={type}
+                      value={type}
+                      disabled={isLoading}
+                      getRestaurants={getRestaurants}
+                    />
+                  )
+                )}
+              </animated.div>
+            </div>
+          )
+      )}
     </section>
   );
 }
