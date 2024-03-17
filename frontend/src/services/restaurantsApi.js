@@ -10,8 +10,18 @@ export const restaurantsApi = apiSlice.injectEndpoints({
         params: { keyword, filters },
       }),
     }),
+    getRestaurantsAdmin: builder.query({
+      query: ({ keyword, filters }) => ({
+        url: `http://localhost:3000/api/admin`,
+        method: 'GET',
+        params: { keyword, filters },
+      }),
+    }),
   }),
 });
 
-export const { useGetRestaurantsQuery, useLazyGetRestaurantsQuery } =
-  restaurantsApi;
+export const {
+  useGetRestaurantsQuery,
+  useLazyGetRestaurantsQuery,
+  useGetRestaurantsAdminQuery,
+} = restaurantsApi;
