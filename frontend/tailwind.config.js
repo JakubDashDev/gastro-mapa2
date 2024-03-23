@@ -55,6 +55,15 @@ export default {
         darkText: {
           DEFAULT: '#e3e3e3',
         },
+        dashboardPrimary: {
+          DEFAULT: '#141b2d',
+        },
+        dashboardSecondary: {
+          DEFAULT: '#1f2940',
+        },
+        dashboardText: {
+          DEFAULT: '#e1e2e5'
+        }
       },
     },
   },
