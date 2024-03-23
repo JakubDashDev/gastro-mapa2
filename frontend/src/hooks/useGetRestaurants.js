@@ -1,16 +1,23 @@
 import { useDispatch } from 'react-redux';
-import { useLazyGetRestaurantsQuery } from '../services/restaurantsApi';
+import {
+  useGetRestaurantsQuery,
+  useLazyGetRestaurantsQuery,
+} from '../services/restaurantsApi';
 import { setRestaurants } from '../redux/restaurantsSlice';
+import { useEffect } from 'react';
 
-function useGetRestaurants() {
+function useGetRestaurants({ keyword, filters }) {
   const dispatch = useDispatch();
-  const [trigger, { isLoading, error }] = useLazyGetRestaurantsQuery();
+  const { data, isLoading, isError, error } = useGetRestaurantsQuery({
+    keyword,
+    filters,
+  });
 
-  const getRestaurants = (credentials) => {
-    trigger(credentials).then((res) => dispatch(setRestaurants(res.data)));
-  };
+  useEffect(() => {
+    dispatch(setRestaurants(data));
+  }, [data]);
 
-  return { getRestaurants, isLoading, error };
+  return { isLoading, isError, error };
 }
 
 export default useGetRestaurants;
