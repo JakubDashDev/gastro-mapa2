@@ -44,13 +44,13 @@ function MobileMarkerPopup({ popupInfo, setPopupInfo }) {
                 type="text/html"
                 width={300}
                 height={181}
-                src={popupInfo?.youtubeRef.link}
+                src={popupInfo?.youtubeRef}
                 className="rounded-lg"
               />
             </div>
             <div className="flex flex-col">
               <span className="text-lg">{popupInfo?.name}</span>
-              {popupInfo?.type.map((type) => (
+              {popupInfo?.category.map((type) => (
                 <span key={type} className="text-sm capitalize text-gray-500">
                   {type}
                 </span>

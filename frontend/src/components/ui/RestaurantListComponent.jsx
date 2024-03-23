@@ -4,7 +4,7 @@ import Rating from './Rating';
 import { useMap } from 'react-map-gl';
 
 function RestaurantListComponent({ restaurant, setIsOpen }) {
-  const { name, address, type, rating, latlng } = restaurant;
+  const { name, address, category, rating, latlng } = restaurant;
   const { mapMain } = useMap();
 
   const handleClick = () => {
@@ -29,7 +29,7 @@ function RestaurantListComponent({ restaurant, setIsOpen }) {
         </span>
 
         <div className="flex items-center gap-2">
-          <span className="text-gray-400 capitalize ">{type[0]}</span>
+          <span className="text-gray-400 capitalize ">{category[0]}</span>
           <Rating rating={rating} isText />
         </div>
       </div>

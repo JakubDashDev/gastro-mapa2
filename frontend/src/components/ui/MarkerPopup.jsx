@@ -19,12 +19,12 @@ function MarkerPopup({ popupInfo, setPopupInfo }) {
           type="text/html"
           width="360"
           height="203"
-          src={popupInfo.youtubeRef.link}
+          src={popupInfo.youtubeRef}
           className="rounded-lg"
         />
         <div className="flex flex-col border-b border-black/5 pb-1">
           <span className="text-lg">{popupInfo.name}</span>
-          {popupInfo.type.map((type) => (
+          {popupInfo.category.map((type) => (
             <span key={type} className="text-sm capitalize text-gray-500">{type}</span>
           ))}
         </div>
