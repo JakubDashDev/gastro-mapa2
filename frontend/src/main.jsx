@@ -6,9 +6,10 @@ import { Provider } from 'react-redux';
 import store from './redux/store.js';
 import { MapProvider } from 'react-map-gl';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import AdminRoute from './components/AdminRoute.jsx';
-import RestaurantList from './pages/admin/HomePage.jsx';
+import AdminRoute from './components/admin/RouteLayout.jsx';
 import LoginPage from './pages/admin/LoginPage.jsx';
+import HomePage from './pages/admin/HomePage.jsx';
+import RestaurantsPage from './pages/admin/RestaurantsPage.jsx';
 
 const router = createBrowserRouter([
   {
@@ -16,17 +17,21 @@ const router = createBrowserRouter([
     element: <App />,
   },
   {
-    path: '/admin/main',
+    path: '/dashboard',
     element: <AdminRoute />,
     children: [
       {
         path: '',
-        element: <RestaurantList />,
+        element: <HomePage />,
+      },
+      {
+        path: '/dashboard/restaurants',
+        element: <RestaurantsPage />,
       },
     ],
   },
   {
-    path: '/admin/auth',
+    path: '/dashboard/auth',
     element: <LoginPage />,
   },
 ]);
