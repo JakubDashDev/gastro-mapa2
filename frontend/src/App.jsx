@@ -38,13 +38,9 @@ function App() {
 export default App;
 
 function useGetData() {
-  const { getRestaurants, isLoading, error } = useGetRestaurants();
+  const { isLoading, error } = useGetRestaurants({keyword: undefined, filters: undefined});
 
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    getRestaurants({ keyword: undefined, filter: undefined });
-  }, []);
 
   useEffect(() => {
     if (!isLoading) {
