@@ -22,7 +22,7 @@ function LoginPage() {
 
   const { handleSubmit, isLoading, error } = useHandleSubmit(state);
 
-  if (userInfo) return <Navigate to="/admin/main" replace />;
+  if (userInfo) return <Navigate to="/dashboard" replace />;
 
   return (
     <div className="w-screen h-screen bg-darkBg flex flex-col items-center justify-center gap-5">
