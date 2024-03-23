@@ -3,14 +3,14 @@ import { MdOutlineClose, MdOutlineSearch } from 'react-icons/md';
 import { useLazyGetRestaurantsQuery } from '../../services/restaurantsApi';
 import { useDispatch } from 'react-redux';
 import { setRestaurants } from '../../redux/restaurantsSlice';
-import useGetRestaurants from '../../hooks/useGetRestaurants';
+import useGetRestaurantsLazy from '../../hooks/useGetRestaurantsLazy';
 
 function Search() {
   //prettier-ignore
   const [inputState, setInputState] = useState(localStorage.getItem('searchInput') ? localStorage.getItem('searchInput') : '');
 
   const { isCustomText } = useCustomText(inputState);
-  const { getRestaurants, isLoading, error } = useGetRestaurants();
+  const { getRestaurants, isLoading, error } = useGetRestaurantsLazy();
 
   const handleSearch = (event) => {
     event.preventDefault();

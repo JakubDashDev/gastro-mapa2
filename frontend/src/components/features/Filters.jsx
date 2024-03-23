@@ -7,12 +7,12 @@ import {
   setIsActive,
   updateFilterQuery,
 } from '../../redux/filtersSlice';
-import useGetRestaurants from '../../hooks/useGetRestaurants';
+import useGetRestaurantsLazy from '../../hooks/useGetRestaurantsLazy';
 import { useTransition, animated } from '@react-spring/web';
 function Filters({ setIsOpen }) {
   const dispatch = useDispatch();
   const { filterQuery } = useSelector((state) => state.filters);
-  const { getRestaurants, isLoading, error } = useGetRestaurants();
+  const { getRestaurants, isLoading, error } = useGetRestaurantsLazy();
 
   const handleSubmit = (event) => {
     event.preventDefault();
