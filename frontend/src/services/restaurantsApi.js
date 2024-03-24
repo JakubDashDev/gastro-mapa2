@@ -24,4 +24,5 @@ export const {
   useGetRestaurantsQuery,
   useLazyGetRestaurantsQuery,
   useGetRestaurantsAdminQuery,
+  useLazyGetRestaurantsAdminQuery,
 } = restaurantsApi;
