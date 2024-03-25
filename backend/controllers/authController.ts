@@ -1,11 +1,12 @@
-import asnycHandler from '../middleware/asyncHandler.js';
-import AdminUser from '../models/AdminUserModel.js';
-import generateToken from '../utils/generateToken.js';
+import { Request, Response } from "express";
+import asnycHandler from "../middleware/asyncHandler.js";
+import AdminUser from "../models/AdminUserModel.js";
+import generateToken from "../utils/generateToken.js";
 
-const authAdmin = asnycHandler(async (req, res) => {
+const authAdmin = asnycHandler(async (req: Request, res: Response) => {
   const { username, email, password } = req.body;
 
-  const user = await AdminUser.findOne({ email, username }).select('+password');
+  const user = await AdminUser.findOne({ email, username }).select("+password");
 
   if (user && (await user.matchPassword(password))) {
     generateToken(res, user._id);
@@ -17,7 +18,7 @@ const authAdmin = asnycHandler(async (req, res) => {
     });
   } else {
     res.status(401);
-    throw new Error('Invalid email or password');
+    throw new Error("Invalid email or password");
   }
 });
 

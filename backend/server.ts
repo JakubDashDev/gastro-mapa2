@@ -24,34 +24,34 @@ app.use(cookies());
 
 connectDB();
 
-const add = async ({ name, address, category, latlng, rating, youtubeRef }) => {
-  await Restaurant.create({
-    name,
-    address,
-    category,
-    latlng,
-    rating,
-    youtubeRef,
-  }).then(res => console.log(res))
-};
+// const add = async ({ name, address, category, latlng, rating, youtubeRef }) => {
+//   await Restaurant.create({
+//     name,
+//     address,
+//     category,
+//     latlng,
+//     rating,
+//     youtubeRef,
+//   }).then(res => console.log(res))
+// };
 
-const data = {
-  name: 'Kura Warzyw Gemüse Kebap',
-  address: {
-    street: 'Jarosława Dąbrowskiego',
-    houseNumber: '15A',
-    city: 'Warszawa',
-    zipCode: '02-558',
-    country: 'Polska',
-  },
-  category: ['kebab'],
-  latlng: {
-    lat: 52.2023,
-    lng: 21.02075,
-  },
-  rating: 4,
-  youtubeRef: 'https://www.youtube.com/embed/4v4FGVj3FiQ?si=TKJfGQv22OvJ4sS-',
-};
+// const data = {
+//   name: 'Kura Warzyw Gemüse Kebap',
+//   address: {
+//     street: 'Jarosława Dąbrowskiego',
+//     houseNumber: '15A',
+//     city: 'Warszawa',
+//     zipCode: '02-558',
+//     country: 'Polska',
+//   },
+//   category: ['kebab'],
+//   latlng: {
+//     lat: 52.2023,
+//     lng: 21.02075,
+//   },
+//   rating: 4,
+//   youtubeRef: 'https://www.youtube.com/embed/4v4FGVj3FiQ?si=TKJfGQv22OvJ4sS-',
+// };
 
 // add(data)
 
