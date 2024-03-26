@@ -16,7 +16,7 @@ export const restaurantsApi = apiSlice.injectEndpoints({
     }),
     getRestaurantsAdmin: builder.query({
       query: ({ keyword, filters }: QueryType) => ({
-        url: `http://localhost:3000/api/admin`,
+        url: `http://localhost:3000/api/restaurants/admin`,
         method: "GET",
         params: { keyword, filters },
       }),
