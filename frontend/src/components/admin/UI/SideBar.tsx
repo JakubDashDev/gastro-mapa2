@@ -5,6 +5,9 @@ import { FaTimes, FaSignInAlt } from "react-icons/fa";
 import { MdSpaceDashboard } from "react-icons/md";
 import { FaBuilding, FaUsers, FaChartLine, FaGear } from "react-icons/fa6";
 import { Link, NavLink, NavLinkProps } from "react-router-dom";
+import { useLogoutMutation } from "../../../services/authApi";
+import { useAppDispatch } from "../../../redux/store";
+import { removeAuth } from "../../../redux/authSlice";
 
 type SideBarProps = {
   showSidebar: boolean;
@@ -12,6 +15,16 @@ type SideBarProps = {
 };
 
 function SideBar({ showSidebar, setShowSidebar }: SideBarProps) {
+  const dispatch = useAppDispatch();
+  const [logout, { isLoading, error }] = useLogoutMutation();
+
+  const handleLogout = () => {
+    logout(null)
+      .unwrap()
+      .then(() => dispatch(removeAuth()))
+      .catch((err) => alert(err));
+  };
+
   return (
     <Container showSidebar={showSidebar} setShowSidebar={setShowSidebar}>
       <div className="relative h-full flex flex-col bg-darkBg rounded-e-lg shadow-[-10px_-10px_30px_4px_rgba(0,0,0,0.1),_10px_10px_30px_4px_rgba(0,0,0,0.15)] text-white/90">
@@ -52,7 +65,10 @@ function SideBar({ showSidebar, setShowSidebar }: SideBarProps) {
             <FaGear className="text-xl" />
             <span>Ustawienia</span>
           </ActiveLink>
-          <button className="w-full flex items-center gap-2 py-3 px-2 rounded-lg hover:bg-white/10 transition-colors text-red-500">
+          <button
+            className="w-full flex items-center gap-2 py-3 px-2 rounded-lg hover:bg-white/10 transition-colors text-red-500"
+            onClick={handleLogout}
+          >
             <FaSignInAlt className="text-xl" />
             <span>Wyloguj się</span>
           </button>
