@@ -7,7 +7,7 @@ dotenv.config({ path: "./.env" });
 import connectDB from "./config/db.js";
 import { errorHandler } from "./middleware/errorMiddleware.js";
 import restaurantRoutes from "./routes/restaurantsRoutes.js";
-import adminRoutes from "./routes/adminRoutes.js";
+import adminRoutes from "./routes/userRoutes.js";
 import Restaurant from "./models/restaurantModel.js";
 
 const app = express();
@@ -21,10 +21,6 @@ app.use(
   })
 );
 app.use(cookies());
-
-app.get("/", (req, res) => {
-  res.send("HELLO FROM TS");
-});
 
 connectDB();
 
