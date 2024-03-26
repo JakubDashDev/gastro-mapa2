@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import InputField from "../../components/features/InputField";
 import { useHandleSubmit } from "./LoginPage.hooks";
-import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { useAppSelector } from "../../redux/store";
 
@@ -13,17 +12,14 @@ function LoginPage() {
     email: "",
     password: "",
   });
-
-  const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setState((current) => ({
       ...current,
-      [event.currentTarget.id]: event.currentTarget.value,
+      [event.target.id]: event.target.value,
     }));
   };
 
-  const { handleSubmit, isLoading, error } = useHandleSubmit(
-    JSON.stringify(state)
-  );
+  const { handleSubmit, isLoading, error } = useHandleSubmit(state);
 
   if (userInfo) return <Navigate to="/dashboard" replace />;
 
@@ -64,8 +60,8 @@ function LoginPage() {
         />
 
         {error && (
-          <div className="px-2 py-3 bg-red-300 border border-red-600">
-            {error && "message" in error && JSON.stringify(error.message)}
+          <div className="px-2 py-3 bg-red-300 border border-red-600 rounded-lg">
+            {(error as any).data.message}
           </div>
         )}
 
