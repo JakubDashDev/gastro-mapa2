@@ -11,12 +11,13 @@ import { Restaurant } from "../../redux/restaurantsSlice";
 // mapboxgl.accessToken = import.meta.env.VITE_MAP_TOKEN;
 
 type MapProps = {
-  data: Restaurant[];
+  data: Array<Restaurant>;
   darkMode: boolean;
 };
 
 function Map({ data, darkMode }: MapProps) {
   const { width } = useWindowDimensions();
+
   return (
     <MapGL
       id="mapMain"

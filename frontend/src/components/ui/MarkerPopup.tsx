@@ -27,7 +27,7 @@ function MarkerPopup({ popupInfo, setPopupInfo }: MarkerPopupProps) {
           src={popupInfo?.youtubeRef}
           className="rounded-lg"
         />
-        <div className="flex flex-col border-b border-black/5 pb-1">
+        <div className="flex flex-col pb-1">
           <span className="text-lg">{popupInfo?.name}</span>
           {popupInfo?.category.map((type) => (
             <span key={type} className="text-sm capitalize text-gray-500">
@@ -35,7 +35,7 @@ function MarkerPopup({ popupInfo, setPopupInfo }: MarkerPopupProps) {
             </span>
           ))}
         </div>
-        <span className="border-b border-black/5 pb-1">
+        <span className="border-b border-black/15 pb-1">
           {popupInfo?.address.street} {popupInfo?.address.houseNumber},{" "}
           {popupInfo?.address.zipCode} {popupInfo?.address.city}{" "}
         </span>
