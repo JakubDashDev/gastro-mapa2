@@ -6,9 +6,9 @@ import { useAppSelector } from "../../redux/store";
 
 const AdminRoute = () => {
   const { userInfo } = useAppSelector((state) => state.auth);
-  if (!userInfo) return <Navigate to="/dashboard/auth" replace />;
-
   const [showSidebar, setShowSidebar] = useState(false);
+
+  if (!userInfo) return <Navigate to="/dashboard/auth" replace />;
 
   return (
     <div className="flex flex-col lg:flex-row bg-gray-200">
