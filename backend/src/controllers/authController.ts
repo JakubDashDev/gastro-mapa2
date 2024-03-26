@@ -22,27 +22,32 @@ const authAdmin = asnycHandler(async (req: Request, res: Response) => {
   }
 });
 
-// const createAdmin = asnycHandler(async (req, res) => {
-//   const { email, username, password } = req.body;
+const createAdmin = asnycHandler(async (req: Request, res: Response) => {
+  const { email, username, password } = req.body;
 
-//   const userExist = await AdminUser.findOne({ email });
-//   if (userExist) {
-//     res.status(400);
-//     throw new Error('User already exists');
-//   }
+  const userExist = await AdminUser.findOne({ email });
+  if (userExist) {
+    res.status(400);
+    throw new Error("User already exists");
+  }
 
-//   const user = await AdminUser.create({
-//     username,
-//     email,
-//     password,
-//   });
+  const user = await AdminUser.create({
+    username,
+    email,
+    password,
+  });
 
-//   if (user) {
-//     res.status(201).json(user);
-//   } else {
-//     res.status(400);
-//     throw new Error('Invalid user data');
-//   }
-// });
+  if (user) {
+    res.status(201).json(user);
+  } else {
+    res.status(400);
+    throw new Error("Invalid user data");
+  }
+});
 
-export { authAdmin };
+const logout = asnycHandler(async (req: Request, res: Response) => {
+  res.clearCookie('jwt')
+  res.status(200).json({message: "Success!"})
+});
+
+export { authAdmin, createAdmin, logout };
