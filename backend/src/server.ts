@@ -8,7 +8,6 @@ import connectDB from "./config/db.js";
 import { errorHandler } from "./middleware/errorMiddleware.js";
 import restaurantRoutes from "./routes/restaurantsRoutes.js";
 import adminRoutes from "./routes/userRoutes.js";
-import Restaurant from "./models/restaurantModel.js";
 
 const app = express();
 
@@ -23,37 +22,6 @@ app.use(
 app.use(cookies());
 
 connectDB();
-
-// const add = async ({ name, address, category, latlng, rating, youtubeRef }) => {
-//   await Restaurant.create({
-//     name,
-//     address,
-//     category,
-//     latlng,
-//     rating,
-//     youtubeRef,
-//   }).then(res => console.log(res))
-// };
-
-// const data = {
-//   name: 'Kura Warzyw Gemüse Kebap',
-//   address: {
-//     street: 'Jarosława Dąbrowskiego',
-//     houseNumber: '15A',
-//     city: 'Warszawa',
-//     zipCode: '02-558',
-//     country: 'Polska',
-//   },
-//   category: ['kebab'],
-//   latlng: {
-//     lat: 52.2023,
-//     lng: 21.02075,
-//   },
-//   rating: 4,
-//   youtubeRef: 'https://www.youtube.com/embed/4v4FGVj3FiQ?si=TKJfGQv22OvJ4sS-',
-// };
-
-// add(data)
 
 app.use("/api/restaurants", restaurantRoutes);
 app.use("/api/admin", adminRoutes);
