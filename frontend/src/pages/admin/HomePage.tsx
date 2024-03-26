@@ -1,8 +1,9 @@
 import Card from "../../components/admin/UI/Card";
 import useGetRestaurants from "../../hooks/useGetRestaurants";
+import useGetRestaurantsAdmin from "../../hooks/useGetRestaurantsAdmin";
 
 function HomePage() {
-  const { isLoading, error } = useGetRestaurants({
+  const { isLoading, error } = useGetRestaurantsAdmin({
     keyword: undefined,
     filters: undefined,
   });
