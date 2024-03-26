@@ -2,7 +2,13 @@ import { useLoginMutation } from "../../services/authApi";
 import { setAuth } from "../../redux/authSlice";
 import { useAppDispatch } from "../../redux/store";
 
-export function useHandleSubmit(state: string) {
+type State = {
+  username: string;
+  email: string;
+  password: string;
+};
+
+export function useHandleSubmit(state: State) {
   const dispatch = useAppDispatch();
   const [login, { isLoading, error }] = useLoginMutation();
 
