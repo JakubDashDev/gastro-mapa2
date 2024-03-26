@@ -17,13 +17,8 @@ const adminUserSchema: Schema<IUser> = new mongoose.Schema({
 adminUserSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
 
-  // this.password = await bcrypt.hash(this.password, 12);
-  // next();
-
-  bcrypt.hash(this.password!, 12, (err: any, hash: string) => {
-    if (err) return next(err);
-    this.password = hash;
-  });
+  this.password = await bcrypt.hash(this.password, 12);
+  next();
 });
 
 adminUserSchema.methods.matchPassword = async function (
