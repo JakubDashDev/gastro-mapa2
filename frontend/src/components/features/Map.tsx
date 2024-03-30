@@ -50,9 +50,4 @@ function Map({ data, darkMode }: MapProps) {
   );
 }
 
-Map.propTypes = {
-  data: PropTypes.string.isRequired,
-  darkMode: PropTypes.bool.isRequired,
-};
-
 export default Map;
