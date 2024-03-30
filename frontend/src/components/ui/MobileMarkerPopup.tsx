@@ -51,7 +51,7 @@ function MobileMarkerPopup({
                 id="ytplayer"
                 width={300}
                 height={181}
-                src={popupInfo?.youtubeRef}
+                src={popupInfo?.youtubeEmbed}
                 className="rounded-lg"
               />
             </div>
@@ -64,8 +64,8 @@ function MobileMarkerPopup({
               ))}
             </div>
             <span className="border-b border-black/5 dark:border-white/15 pb-1">
-              {popupInfo?.address.street} {popupInfo?.address.houseNumber},{" "}
-              {popupInfo?.address.zipCode} {popupInfo?.address.city}{" "}
+              {popupInfo?.address.street}, {popupInfo?.address.zipCode}{" "}
+              {popupInfo?.address.city}{" "}
             </span>
             <div className="flex justify-between items-center gap-5 pt-1">
               <span className="pb-1">

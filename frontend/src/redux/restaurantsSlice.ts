@@ -6,17 +6,14 @@ export type Restaurant = {
   rating: number;
   address: {
     street: string;
-    houseNumber: number;
     zipCode: string;
     city: string;
     country: string;
-  };
-  latlng: {
-    lat: number;
-    lng: number;
+    latLng: number[];
   };
   category: string[];
-  youtubeRef: string;
+  youtubeEmbed: string;
+  youtubeLink: string;
   createdAt: Date;
   updatedAt: Date;
 };

@@ -14,11 +14,12 @@ function MapMarker({ data }: MapMarkerProps) {
   const [popupInfo, setPopupInfo] = useState<Restaurant | null>(null);
   const { width } = useWindowDimensions();
 
+
   const markers = data.map((restaurant, index) => (
     <Marker
       key={index}
-      longitude={restaurant.latlng.lng}
-      latitude={restaurant.latlng.lat}
+      longitude={restaurant.address.latLng[0]}
+      latitude={restaurant.address.latLng[1]}
       onClick={(e) => {
         // If we let the click event propagates to the map, it will immediately close the popup
         // with `closeOnClick: true`

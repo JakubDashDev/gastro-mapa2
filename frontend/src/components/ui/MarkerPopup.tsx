@@ -14,8 +14,8 @@ function MarkerPopup({ popupInfo, setPopupInfo }: MarkerPopupProps) {
   return (
     <Popup
       offset={25}
-      longitude={Number(popupInfo?.latlng.lng)}
-      latitude={Number(popupInfo?.latlng.lat)}
+      longitude={Number(popupInfo?.address.latLng[0])}
+      latitude={Number(popupInfo?.address.latLng[1])}
       onClose={() => setPopupInfo(null)}
       closeButton
     >
@@ -24,7 +24,7 @@ function MarkerPopup({ popupInfo, setPopupInfo }: MarkerPopupProps) {
           id="ytplayer"
           width="360"
           height="203"
-          src={popupInfo?.youtubeRef}
+          src={popupInfo?.youtubeEmbed}
           className="rounded-lg"
         />
         <div className="flex flex-col pb-1">
@@ -36,8 +36,8 @@ function MarkerPopup({ popupInfo, setPopupInfo }: MarkerPopupProps) {
           ))}
         </div>
         <span className="border-b border-black/15 pb-1">
-          {popupInfo?.address.street} {popupInfo?.address.houseNumber},{" "}
-          {popupInfo?.address.zipCode} {popupInfo?.address.city}{" "}
+          {popupInfo?.address.street}, {popupInfo?.address.zipCode}{" "}
+          {popupInfo?.address.city}{" "}
         </span>
 
         <div className="flex justify-between items-center gap-5 pt-1">

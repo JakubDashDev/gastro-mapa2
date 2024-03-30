@@ -9,11 +9,14 @@ type RestaurantListComponentProps = {
 };
 
 function RestaurantListComponent({ restaurant }: RestaurantListComponentProps) {
-  const { name, address, category, rating, latlng } = restaurant;
+  const { name, address, category, rating } = restaurant;
   const { mapMain } = useMap();
 
   const handleClick = () => {
-    mapMain?.flyTo({ center: [latlng.lng, latlng.lat], zoom: 13 });
+    mapMain?.flyTo({
+      center: [address.latLng[0], address.latLng[1]],
+      zoom: 13,
+    });
   };
 
   return (
