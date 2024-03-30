@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import asnycHandler from "../middleware/asyncHandler.js";
-import AdminUser from "../models/AdminUserModel.js";
+import AdminUser from "../models/adminUserModel.js";
 import generateToken from "../utils/generateToken.js";
 
 const authAdmin = asnycHandler(async (req: Request, res: Response) => {

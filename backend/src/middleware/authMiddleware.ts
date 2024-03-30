@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import AdminUser from "../models/AdminUserModel.js";
+import AdminUser from "../models/adminUserModel.js";
 import asnycHandler from "./asyncHandler.js";
 import jwt from "jsonwebtoken";
 
