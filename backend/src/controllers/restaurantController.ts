@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import asnycHandler from "../middleware/asyncHandler.js";
-import Restaurant from "../models/restaurantModel.js";
+import Restaurant, { RestaurantType } from "../models/restaurantModel.js";
 
 const getAllRestaurants = asnycHandler(async (req: Request, res: Response) => {
   const keyword = req.query.keyword;
@@ -27,9 +27,7 @@ const getAllRestaurants = asnycHandler(async (req: Request, res: Response) => {
   type filterType = { $gte?: number; $lte?: number; category?: string };
   const filtersArray: filterType[] = filters && JSON.parse(filters as string);
   const ratings = filtersArray?.filter((item) => item.hasOwnProperty("$gte"));
-  const categories = filtersArray?.filter((item) =>
-    item.hasOwnProperty("category")
-  );
+  const categories = filtersArray?.filter((item) => item.hasOwnProperty("category"));
 
   const filter = filtersArray
     ? {
@@ -61,4 +59,27 @@ const getAllRestaurants = asnycHandler(async (req: Request, res: Response) => {
   res.json(restaurants);
 });
 
-export { getAllRestaurants };
+interface CustomRequest<T> extends Request {
+  body: T;
+}
+const createRestaurant = asnycHandler(async (req: CustomRequest<RestaurantType>, res: Response) => {
+  const { name, rating, youtubeLink, googleLink, category, address } = req.body;
+
+  //NOTE: get Id from link to save embed link
+  const youtubeId = youtubeLink.split("https://youtu.be/")[1];
+
+  const restaurant = new Restaurant({
+    name,
+    rating: Number(rating),
+    youtubeLink,
+    googleLink,
+    youtubeEmbed: `https://www.youtube.com/embed/${youtubeId}`,
+    category: category,
+    address,
+  });
+
+  const createdRestaurant = await restaurant.save();
+  res.status(201).json(createdRestaurant);
+});
+
+export { getAllRestaurants, createRestaurant };
