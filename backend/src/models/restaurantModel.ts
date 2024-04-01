@@ -1,5 +1,24 @@
 import mongoose from "mongoose";
 
+export type RestaurantType = {
+  _id: string;
+  name: string;
+  rating: number;
+  address: {
+    street: string;
+    zipCode: string;
+    city: string;
+    country: string;
+    latLng: number[];
+  };
+  category: string[];
+  youtubeEmbed: string;
+  youtubeLink: string;
+  googleLink: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
 const addressSchema = new mongoose.Schema({
   street: { type: String, required: true },
   city: { type: String, required: true },
@@ -8,7 +27,7 @@ const addressSchema = new mongoose.Schema({
   latLng: { type: [Number], required: true },
 });
 
-const restaurantSchema = new mongoose.Schema(
+const restaurantSchema = new mongoose.Schema<RestaurantType>(
   {
     name: { type: String, required: true, unique: true },
     address: addressSchema,
@@ -16,6 +35,7 @@ const restaurantSchema = new mongoose.Schema(
     rating: { type: Number, required: true },
     youtubeEmbed: { type: String, required: true },
     youtubeLink: { type: String, required: true },
+    googleLink: { type: String, required: true },
   },
   { timestamps: true }
 );
