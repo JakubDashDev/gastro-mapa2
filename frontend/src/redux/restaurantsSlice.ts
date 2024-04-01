@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-export type Restaurant = {
-  _id: string;
+export type RestaurantType = {
+  _id?: string;
   name: string;
   rating: number;
   address: {
@@ -12,14 +12,14 @@ export type Restaurant = {
     latLng: number[];
   };
   category: string[];
-  youtubeEmbed: string;
+  youtubeEmbed?: string;
   youtubeLink: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 };
 
 type SliceState = {
-  restaurants: Restaurant[];
+  restaurants: RestaurantType[];
 };
 
 const initialState: SliceState = {
@@ -30,34 +30,32 @@ const restaurantSlice = createSlice({
   name: "restaurants",
   initialState,
   reducers: {
-    setRestaurants: (state, action: PayloadAction<Restaurant[]>) => {
+    setRestaurants: (state, action: PayloadAction<RestaurantType[]>) => {
       state.restaurants = action.payload;
+    },
+    updateRestaurants: (state, action: PayloadAction<RestaurantType>) => {
+      return {
+        ...state,
+        restaurants: [...state.restaurants, action.payload],
+      };
     },
     sortRestaurants: (state, action: PayloadAction<String>) => {
       if (action.payload === "Alfabetycznie (A-Z)") {
-        state.restaurants = state.restaurants
-          .slice()
-          .sort((a, b) => a.name.localeCompare(b.name));
+        state.restaurants = state.restaurants.slice().sort((a, b) => a.name.localeCompare(b.name));
       }
       if (action.payload === "Alfabetycznie (Z-A)") {
-        state.restaurants = state.restaurants
-          .slice()
-          .sort((a, b) => -1 * a.name.localeCompare(b.name));
+        state.restaurants = state.restaurants.slice().sort((a, b) => -1 * a.name.localeCompare(b.name));
       }
       if (action.payload === "Ocena: malejąco") {
-        state.restaurants = state.restaurants
-          .slice()
-          .sort((a, b) => a.rating - b.rating);
+        state.restaurants = state.restaurants.slice().sort((a, b) => a.rating - b.rating);
       }
       if (action.payload === "Ocena: rosnąco") {
-        state.restaurants = state.restaurants
-          .slice()
-          .sort((a, b) => b.rating - a.rating);
+        state.restaurants = state.restaurants.slice().sort((a, b) => b.rating - a.rating);
       }
     },
   },
 });
 
-export const { setRestaurants, sortRestaurants } = restaurantSlice.actions;
+export const { setRestaurants, sortRestaurants, updateRestaurants } = restaurantSlice.actions;
 
 export default restaurantSlice.reducer;
