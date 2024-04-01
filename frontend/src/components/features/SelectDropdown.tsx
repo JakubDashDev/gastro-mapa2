@@ -9,11 +9,12 @@ const SelectContext = createContext<SelectContexType | null>(null);
 
 type SelectType = {
   children: React.ReactNode;
-  className: String;
+  className?: string;
+  defaultValue: string;
 };
 
-function Select({ children, className }: SelectType) {
-  const [activeOption, setActiveOption] = useState("Alfabetycznie (A-Z)");
+function Select({ children, className, defaultValue }: SelectType) {
+  const [activeOption, setActiveOption] = useState(defaultValue);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleOpen = () => {
@@ -24,6 +25,7 @@ function Select({ children, className }: SelectType) {
     <SelectContext.Provider value={{ activeOption, setActiveOption }}>
       <div className="w-full h-full relative">
         <button
+          type="button"
           className={`flex items-center justify-between ${className} w-full`}
           onClick={handleOpen}
         >
@@ -46,7 +48,7 @@ function Select({ children, className }: SelectType) {
 type OptionType = {
   value: string;
   children: React.ReactNode;
-  handleSort: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  handleSort?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
 function Option({ value, children, handleSort }: OptionType) {
@@ -66,6 +68,7 @@ function Option({ value, children, handleSort }: OptionType) {
 
   return (
     <button
+      type="button"
       className={className}
       value={value}
       onClick={handleClick}
