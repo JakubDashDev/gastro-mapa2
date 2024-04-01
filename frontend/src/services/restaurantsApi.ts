@@ -1,3 +1,4 @@
+import { RestaurantType } from "../redux/restaurantsSlice";
 import { apiSlice } from "./apiSlice";
 
 type QueryType = {
@@ -21,12 +22,14 @@ export const restaurantsApi = apiSlice.injectEndpoints({
         params: { keyword, filters },
       }),
     }),
+    createRestaurants: builder.mutation({
+      query: (data: RestaurantType) => ({
+        url: "http://localhost:3000/api/restaurants",
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
-export const {
-  useGetRestaurantsQuery,
-  useLazyGetRestaurantsQuery,
-  useGetRestaurantsAdminQuery,
-  useLazyGetRestaurantsAdminQuery,
-} = restaurantsApi;
+export const { useGetRestaurantsQuery, useLazyGetRestaurantsQuery, useGetRestaurantsAdminQuery, useLazyGetRestaurantsAdminQuery, useCreateRestaurantsMutation } = restaurantsApi;
