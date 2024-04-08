@@ -1,6 +1,14 @@
-import { fetchBaseQuery, createApi } from "@reduxjs/toolkit/query/react";
+import { fetchBaseQuery, createApi, BaseQueryFn, FetchArgs } from "@reduxjs/toolkit/query/react";
 import { BASE_URL } from "../../constatns";
 import { removeAuth } from "../redux/authSlice";
+
+interface CustomError {
+  data: {
+    message: string;
+    stack: string;
+  };
+  status: number;
+}
 
 const baseQuery = fetchBaseQuery({
   baseUrl: BASE_URL,
@@ -17,6 +25,6 @@ async function baseQueryWithAuth(args: any, api: any, extra: any) {
 }
 
 export const apiSlice = createApi({
-  baseQuery: baseQueryWithAuth,
+  baseQuery: baseQueryWithAuth as BaseQueryFn<string | FetchArgs, unknown, CustomError, {}>,
   endpoints: () => ({}),
 });
