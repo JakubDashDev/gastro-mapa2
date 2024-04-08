@@ -2,10 +2,10 @@ import React from "react";
 import img from "../../assets/logo.png";
 import Rating from "./Rating";
 import { useMap } from "react-map-gl";
-import { Restaurant } from "../../redux/restaurantsSlice";
+import { RestaurantType } from "../../redux/restaurantsSlice";
 
 type RestaurantListComponentProps = {
-  restaurant: Restaurant;
+  restaurant: RestaurantType;
 };
 
 function RestaurantListComponent({ restaurant }: RestaurantListComponentProps) {
