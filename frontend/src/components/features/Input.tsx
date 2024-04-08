@@ -3,9 +3,10 @@ import React from "react";
 type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   label?: string;
   styles?: string;
+  error?: string | null | undefined;
 };
 
-function Input({ label, styles, ...props }: InputProps) {
+function Input({ label, styles, error, ...props }: InputProps) {
   return (
     <div className="w-full flex flex-col">
       {label && (
@@ -24,8 +25,11 @@ function Input({ label, styles, ...props }: InputProps) {
         value={props.value}
         onChange={props.onChange}
         {...props}
-        className={`${styles} "w-full flex-1 rounded-lg py-2 px-4 text-sm border-2 border-dashboardSecondary text-gray-300 focus:border-primary-500 focus:outline-none bg-dashboardSecondary "`}
+        className={`${styles} ${
+          error ? "border-red-500" : "border-dashboardPrimary"
+        } "w-full flex-1 rounded-lg py-2 px-4 text-sm border-2  text-gray-300 focus:border-primary-500 focus:outline-none bg-dashboardSecondary "`}
       />
+      {error && <span className="text-red-500 mt-1 mx-1 font-bold text-sm">{error}</span>}
     </div>
   );
 }

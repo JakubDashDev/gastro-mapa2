@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Map from "./components/features/Map";
-import Loader from "./components/ui/Loader";
+import Loader from "./components/ui/WelcomeLoader";
 import SideNav from "./components/ui/SideNav";
 import useGetRestaurants from "./hooks/useGetRestaurants";
 import { useAppSelector } from "./redux/store";

@@ -1,4 +1,4 @@
-import Card from "../../components/admin/UI/Card";
+import Card from "../../components/ui/Card";
 import useGetRestaurants from "../../hooks/useGetRestaurants";
 import useGetRestaurantsAdmin from "../../hooks/useGetRestaurantsAdmin";
 

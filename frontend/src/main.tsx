@@ -6,7 +6,7 @@ import { Provider } from "react-redux";
 import store from "./redux/store";
 import { MapProvider } from "react-map-gl";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import AdminRoute from "./components/admin/RouteLayout";
+import AdminRoute from "./components/RouteLayout";
 import LoginPage from "./pages/admin/LoginPage";
 import HomePage from "./pages/admin/HomePage";
 import RestaurantsPage from "./pages/admin/RestaurantsPage";

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import SideBar from "./UI/SideBar";
-import NavBar from "./UI/NavBar";
-import { useAppSelector } from "../../redux/store";
+import SideBar from "./ui/SideBar";
+import NavBar from "./ui/NavBar";
+import { useAppSelector } from "../redux/store";
 
 const AdminRoute = () => {
   const { userInfo } = useAppSelector((state) => state.auth);

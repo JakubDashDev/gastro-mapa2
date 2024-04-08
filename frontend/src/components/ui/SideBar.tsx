@@ -1,13 +1,13 @@
 import { Fragment } from "react";
-import useWindowDimensions from "../../../hooks/useWindoDimensions";
+import useWindowDimensions from "../../hooks/useWindoDimensions";
 import { useTransition, animated, useSpring } from "@react-spring/web";
 import { FaTimes, FaSignInAlt } from "react-icons/fa";
 import { MdSpaceDashboard } from "react-icons/md";
 import { FaBuilding, FaUsers, FaChartLine, FaGear } from "react-icons/fa6";
 import { Link, NavLink, NavLinkProps } from "react-router-dom";
-import { useLogoutMutation } from "../../../services/authApi";
-import { useAppDispatch } from "../../../redux/store";
-import { removeAuth } from "../../../redux/authSlice";
+import { useLogoutMutation } from "../../services/authApi";
+import { useAppDispatch } from "../../redux/store";
+import { removeAuth } from "../../redux/authSlice";
 
 type SideBarProps = {
   showSidebar: boolean;
@@ -129,13 +129,13 @@ function Container({ showSidebar, setShowSidebar, children }: ContainerProps) {
 type ActiveLinkProps = NavLinkProps & {
   children: React.ReactNode;
 };
-function ActiveLink({ to, children }: NavLinkProps) {
+function ActiveLink({ to, children }: ActiveLinkProps) {
   return (
     <NavLink
       end
       to={to}
       className={({ isActive }) =>
-        `w-full flex items-center gap-2 py-3 px-2 rounded-lg ${
+        `w-full flex items-center gap-2 py-2 px-2 rounded-lg ${
           isActive ? "bg-secondary" : "hover:bg-white/10 transition-colors"
         }`
       }
