@@ -65,6 +65,13 @@ interface CustomRequest<T> extends Request {
 const createRestaurant = asnycHandler(async (req: CustomRequest<RestaurantType>, res: Response) => {
   const { name, rating, youtubeLink, googleLink, category, address } = req.body;
 
+  const restaurantExists = await Restaurant.findOne({ name });
+
+  if (restaurantExists) {
+    res.status(400);
+    throw new Error("Restauracja o tej nazwie już istnieje!");
+  }
+
   //NOTE: get Id from link to save embed link
   const youtubeId = youtubeLink.split("https://youtu.be/")[1];
 
