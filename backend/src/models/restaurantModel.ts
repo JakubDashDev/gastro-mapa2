@@ -19,7 +19,7 @@ export type RestaurantType = {
   updatedAt: Date;
 };
 
-const addressSchema = new mongoose.Schema({
+const AddressSchema = new mongoose.Schema({
   street: { type: String, required: true },
   city: { type: String, required: true },
   zipCode: { type: String, required: true },
@@ -27,10 +27,10 @@ const addressSchema = new mongoose.Schema({
   latLng: { type: [Number], required: true },
 });
 
-const restaurantSchema = new mongoose.Schema<RestaurantType>(
+const RestaurantSchema = new mongoose.Schema<RestaurantType>(
   {
     name: { type: String, required: true, unique: true },
-    address: addressSchema,
+    address: AddressSchema,
     category: { type: [String], required: true },
     rating: { type: Number, required: true },
     youtubeEmbed: { type: String, required: true },
@@ -40,6 +40,6 @@ const restaurantSchema = new mongoose.Schema<RestaurantType>(
   { timestamps: true }
 );
 
-const Restaurant = mongoose.model("Restaurant", restaurantSchema);
+const Restaurant = mongoose.model("Restaurant", RestaurantSchema);
 
 export default Restaurant;
