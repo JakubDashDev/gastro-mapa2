@@ -1,4 +1,4 @@
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
 import morgan from "morgan";
 import cors from "cors";
 import cookies from "cookie-parser";
@@ -26,10 +26,13 @@ connectDB();
 app.use("/api/restaurants", restaurantRoutes);
 app.use("/api/admin", adminRoutes);
 
+//The 404 Route (ALWAYS Keep this as the last route)
+app.get("*", function (req, res) {
+  res.status(404).json({ message: "Route not found :(" });
+});
+
 app.use(errorHandler);
 
 app.listen(process.env.PORT, () => {
-  console.log(
-    `Server is running on port ${process.env.PORT} as ${process.env.NODE_ENV}`
-  );
+  console.log(`Server is running on port ${process.env.PORT} as ${process.env.NODE_ENV}`);
 });
