@@ -1,16 +1,17 @@
 import { NextFunction, Response, Request } from "express";
 
-const errorHandler = (
-  err: any,
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  let statusCode = res.statusCode === 200 ? 500 : res.statusCode;
-  let message = err.message;
+interface IError extends Error {
+  statusCode: number;
+}
 
-  res.status(statusCode).json({
-    message: message,
+const errorHandler = (err: IError, req: Request, res: Response, next: NextFunction) => {
+  let statusCode = res.statusCode === 200 ? 500 : res.statusCode;
+
+  err.message = err.message || "Internal server error";
+
+  return res.status(statusCode).json({
+    statusCode: err.statusCode,
+    message: err.message,
     stack: process.env.NODE_ENV === "production" ? null : err.stack,
   });
 };
