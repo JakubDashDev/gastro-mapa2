@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Nosifer&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Varela+Round&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nosifer&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -81,3 +81,30 @@
   left: calc(65px - 25px);
 }
 /*DARKMODE SWITCH BUTTON*/
+
+/*LOADER*/
+#loader {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+/*LOADER*/
+
+.centered {
+  position: fixed;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
