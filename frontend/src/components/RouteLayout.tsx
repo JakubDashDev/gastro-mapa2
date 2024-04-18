@@ -11,7 +11,7 @@ const AdminRoute = () => {
   if (!userInfo) return <Navigate to="/dashboard/auth" replace />;
 
   return (
-    <div className="flex flex-col lg:flex-row bg-gray-200">
+    <div className="flex flex-col lg:flex-row bg-[#eff2f7]">
       <SideBar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
       <div className="flex-1">
         <NavBar setShowSidebar={setShowSidebar} />
