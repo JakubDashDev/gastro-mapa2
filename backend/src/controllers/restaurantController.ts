@@ -89,4 +89,41 @@ const createRestaurant = asnycHandler(async (req: CustomRequest<RestaurantType>,
   res.status(201).json(createdRestaurant);
 });
 
-export { getAllRestaurants, createRestaurant };
+const updateRestaurant = asnycHandler(async (req: CustomRequest<RestaurantType>, res: Response) => {
+  const { name, rating, address, category, googleLink, youtubeLink, youtubeEmbed } = req.body;
+
+  const restaurant = await Restaurant.findById(req.params.id);
+
+  const youtubeId = youtubeLink.split("https://youtu.be/")[1];
+
+  //prettier-ignore
+  if(restaurant){
+    restaurant.name = name,
+    restaurant.rating = rating,
+    restaurant.address = address,
+    restaurant.category = category,
+    restaurant.googleLink = googleLink,
+    restaurant.youtubeLink = youtubeLink,
+    restaurant.youtubeEmbed = `https://www.youtube.com/embed/${youtubeId}`
+
+    const updatedRestaurant = await restaurant.save()
+    res.status(200).json(updatedRestaurant)
+  } else {
+    res.status(404)
+    throw new Error("Nie znaleziono restauracji")
+  }
+});
+
+const deleteRestuarant = asnycHandler(async (req: CustomRequest<RestaurantType>, res: Response) => {
+  const restaurant = await Restaurant.findById(req.params.id);
+
+  if (restaurant) {
+    await restaurant.deleteOne({ _id: restaurant._id });
+    res.status(200).json({ message: "Restauracja została usunięta!" });
+  } else {
+    res.status(404);
+    throw new Error("Nie znaleziono restauracji");
+  }
+});
+
+export { getAllRestaurants, createRestaurant, updateRestaurant, deleteRestuarant };
