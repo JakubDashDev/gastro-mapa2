@@ -9,11 +9,12 @@ export type RestaurantType = {
     zipCode: string;
     city: string;
     country: string;
-    latLng: number[];
+    lngLat: number[];
   };
   category: string[];
   youtubeEmbed?: string;
   youtubeLink: string;
+  googleLink: string;
   createdAt?: Date;
   updatedAt?: Date;
 };
@@ -31,12 +32,27 @@ const restaurantSlice = createSlice({
   initialState,
   reducers: {
     setRestaurants: (state, action: PayloadAction<RestaurantType[]>) => {
-      state.restaurants = action.payload;
+      return {
+        ...state,
+        restaurants: action.payload,
+      };
     },
     updateRestaurants: (state, action: PayloadAction<RestaurantType>) => {
       return {
         ...state,
         restaurants: [...state.restaurants, action.payload],
+      };
+    },
+    updateRestaurant: (state, action: PayloadAction<RestaurantType>) => {
+      return {
+        ...state,
+        restaurants: state.restaurants.map((item) => (item._id === action.payload._id ? action.payload : item)),
+      };
+    },
+    deleteRestaurant: (state, action: PayloadAction<string>) => {
+      return {
+        ...state,
+        restaurants: state.restaurants.filter((item) => item._id !== action.payload),
       };
     },
     sortRestaurants: (state, action: PayloadAction<String>) => {
@@ -56,6 +72,7 @@ const restaurantSlice = createSlice({
   },
 });
 
-export const { setRestaurants, sortRestaurants, updateRestaurants } = restaurantSlice.actions;
+export const { setRestaurants, sortRestaurants, updateRestaurants, updateRestaurant, deleteRestaurant } =
+  restaurantSlice.actions;
 
 export default restaurantSlice.reducer;

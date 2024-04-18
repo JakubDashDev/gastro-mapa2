@@ -23,13 +23,34 @@ export const restaurantsApi = apiSlice.injectEndpoints({
       }),
     }),
     createRestaurants: builder.mutation({
-      query: (data: RestaurantType) => ({
+      query: (data: any) => ({
         url: "http://localhost:3000/api/restaurants",
         method: "POST",
         body: data,
       }),
     }),
+    updateRestaurant: builder.mutation({
+      query: (data: any) => ({
+        url: `http://localhost:3000/api/restaurants/${data._id}`,
+        method: "PUT",
+        body: data,
+      }),
+    }),
+    deleteRestaurant: builder.mutation({
+      query: (_id: string) => ({
+        url: `http://localhost:3000/api/restaurants/${_id}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
-export const { useGetRestaurantsQuery, useLazyGetRestaurantsQuery, useGetRestaurantsAdminQuery, useLazyGetRestaurantsAdminQuery, useCreateRestaurantsMutation } = restaurantsApi;
+export const {
+  useGetRestaurantsQuery,
+  useLazyGetRestaurantsQuery,
+  useGetRestaurantsAdminQuery,
+  useLazyGetRestaurantsAdminQuery,
+  useCreateRestaurantsMutation,
+  useUpdateRestaurantMutation,
+  useDeleteRestaurantMutation,
+} = restaurantsApi;
