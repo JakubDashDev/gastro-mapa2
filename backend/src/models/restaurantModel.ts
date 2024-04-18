@@ -9,7 +9,7 @@ export type RestaurantType = {
     zipCode: string;
     city: string;
     country: string;
-    latLng: number[];
+    lngLat: number[];
   };
   category: string[];
   youtubeEmbed: string;
@@ -19,18 +19,17 @@ export type RestaurantType = {
   updatedAt: Date;
 };
 
-const AddressSchema = new mongoose.Schema({
-  street: { type: String, required: true },
-  city: { type: String, required: true },
-  zipCode: { type: String, required: true },
-  country: { type: String, required: true },
-  latLng: { type: [Number], required: true },
-});
-
 const RestaurantSchema = new mongoose.Schema<RestaurantType>(
   {
     name: { type: String, required: true, unique: true },
-    address: AddressSchema,
+    address: {
+      street: { type: String, required: true },
+      city: { type: String, required: true },
+      zipCode: { type: String, required: true },
+      country: { type: String, required: true },
+      lngLat: { type: [Number], required: true },
+      _id: false,
+    },
     category: { type: [String], required: true },
     rating: { type: Number, required: true },
     youtubeEmbed: { type: String, required: true },
@@ -41,5 +40,11 @@ const RestaurantSchema = new mongoose.Schema<RestaurantType>(
 );
 
 const Restaurant = mongoose.model("Restaurant", RestaurantSchema);
+
+RestaurantSchema.path("name").validate(async (value) => {
+  const nameCount = await mongoose.models.Restaurant.countDocuments({ name: value });
+  return !nameCount;
+}, "Restauracja o tej nazwie już istnieje");
+
 
 export default Restaurant;
