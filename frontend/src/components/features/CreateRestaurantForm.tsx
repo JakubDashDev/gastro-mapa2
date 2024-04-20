@@ -115,6 +115,7 @@ function CreateRestaurantForm({ isShow, setIsShow }: ModalProps) {
               placeholder="Wybierz..."
               isOptionDisabled={() => category?.length! >= 3}
               required
+              className="capitalize"
               classNames={{
                 control: () => "!border-dashboardSecondary !rounded-lg",
                 valueContainer: () => "bg-dashboardSecondary ",
