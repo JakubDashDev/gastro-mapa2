@@ -14,7 +14,7 @@ function RestaurantListComponent({ restaurant }: RestaurantListComponentProps) {
 
   const handleClick = () => {
     mapMain?.flyTo({
-      center: [address.latLng[0], address.latLng[1]],
+      center: [address.lngLat[0], address.lngLat[1]],
       zoom: 13,
     });
   };
