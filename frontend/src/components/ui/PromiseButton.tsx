@@ -9,6 +9,7 @@ type PromiseButtonType = {
   isLoading?: boolean;
   disabled?: boolean;
   type: "submit" | "reset" | "button" | undefined;
+  onClick?: () => void;
   bgColor: string;
   hoverColor?: string;
   children: React.ReactNode;
@@ -20,32 +21,27 @@ function PromiseButton({
   isLoading,
   disabled,
   type,
+  onClick,
   bgColor,
   hoverColor = bgColor,
   children,
 }: PromiseButtonType) {
 
-    useEffect(() => {
-        setTimeout(() => isError = false, 1000)
-    }, [isError])
+  //??? idk for what it is 
+  // useEffect(() => {
+  //   setTimeout(() => (isError = false), 1000);
+  // }, [isError]);
 
   return (
     <button
       type={type}
       disabled={isLoading || disabled}
-      className={`w-full py-1 transition-all flex justify-center text-white rounded-lg cursor-pointer disabled:bg-gray-800 disabled:text-gray-600 ${
+      className={`w-full py-1 transition-all flex justify-center text-white rounded-lg cursor-pointer disabled:bg-gray-800 disabled:cursor-not-allowed disabled:text-gray-600 ${
         isError ? "bg-red-500" : isSuccess ? "bg-green-600" : `bg-${bgColor} hover:bg-${hoverColor}`
       }`}
+      onClick={onClick}
     >
-      {isLoading ? (
-        <Loader />
-      ) : isError ? (
-        <span>:(</span>
-      ) : isSuccess ? (
-        <FaCheck className="text-2xl" />
-      ) : (
-        children
-      )}
+      {isLoading ? <Loader /> : isError ? <span>:(</span> : isSuccess ? <FaCheck className="text-2xl" /> : children}
     </button>
   );
 }
