@@ -8,12 +8,12 @@ type HandleFormStateProps = {
   setFormState: React.Dispatch<
     React.SetStateAction<{
       name: string;
-      rating: number;
+      rating: number | undefined;
       youtubeLink: string;
       googleLink: string;
     }>
   >;
-  reset: () => void;
+  reset?: () => void;
 };
 
 //prettier-ignore
@@ -22,24 +22,36 @@ export const handleFormState = ({event, setFormState, reset}:HandleFormStateProp
     ...current,
     [event.target.id]: event.target.value,
   }));
-  reset();
+  reset && reset();
 };
 
 type handleSubmitProps = {
   event: React.FormEvent<HTMLFormElement>;
   formState: {
     name: string;
-    rating: number;
+    rating: number | undefined;
     youtubeLink: string;
     googleLink: string;
   };
+  setFormState: React.Dispatch<
+    React.SetStateAction<{ name: string; rating: number | undefined; youtubeLink: string; googleLink: string }>
+  >;
   addressState: {
     street: string | undefined;
     zipCode: string | undefined;
     city: string | undefined;
     country: string | undefined;
-    latLng: number[] | undefined;
+    lngLat: number[] | undefined;
   };
+  setAddressState: React.Dispatch<
+    React.SetStateAction<{
+      street: string | undefined;
+      zipCode: string | undefined;
+      city: string | undefined;
+      country: string | undefined;
+      lngLat: number[] | undefined;
+    }>
+  >;
   category: any;
   setIsShow: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -49,10 +61,10 @@ export const useHandleSubmit = () => {
   const dispatch = useAppDispatch()
   const [trigger, {isLoading, error, isError, isSuccess, reset}] = useCreateRestaurantsMutation()
 
-  const createRestaurant = async ({ event, formState, addressState, category, setIsShow }: handleSubmitProps) => {
+  const createRestaurant = async ({ event, formState, setFormState, addressState, setAddressState, category, setIsShow }: handleSubmitProps) => {
     event.preventDefault()
     const name = formState.name
-    const rating = formState.rating
+    const rating = formState.rating 
     const youtubeLink = formState.youtubeLink
     const googleLink = formState.googleLink
     const address = {
@@ -60,17 +72,31 @@ export const useHandleSubmit = () => {
       zipCode: addressState.zipCode!,
       city: addressState.city!,
       country: addressState.country!,
-      latLng: addressState.latLng!
+      lngLat: addressState.lngLat!
     }
     const categories = category.map((item: {label: string, value:string}) => item.value)
 
     const data = {name, rating, youtubeLink, googleLink, address, category: categories}
 
     trigger(data).unwrap()
-    .then((res: RestaurantType) => dispatch(updateRestaurants(res)))
-    .then(() => {
-      setTimeout(() => setIsShow(false), 1000)
-    })
+    .then((res: any) => setTimeout(() => {
+      dispatch(updateRestaurants(res))
+      setIsShow(false)
+      setFormState({
+        name: "",
+        rating: undefined,
+        googleLink: "",
+        youtubeLink: ""
+      })
+      setAddressState({
+        street: undefined,
+        city: undefined,
+        lngLat: undefined,
+        zipCode: undefined,
+        country: undefined
+      })
+      reset()
+    }, 1000))
   }
 
   return {createRestaurant, isLoading, error, isSuccess, isError, reset}
