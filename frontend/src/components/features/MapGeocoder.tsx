@@ -1,39 +1,36 @@
-import MapboxGeocoder, {
-  GeocoderOptions,
-  Result,
-} from "@mapbox/mapbox-gl-geocoder";
+import MapboxGeocoder, { GeocoderOptions, Result } from "@mapbox/mapbox-gl-geocoder";
 import { useState } from "react";
-import {
-  ControlPosition,
-  Map,
-  Marker,
-  MarkerProps,
-  useControl,
-} from "react-map-gl";
+import { ControlPosition, Map, Marker, MarkerProps, useControl } from "react-map-gl";
+import { MarkerInstance } from "react-map-gl/dist/esm/types";
 
 const TOKEN = import.meta.env.VITE_MAP_TOKEN;
 
 type MapGeocoderProps = {
   setResult: React.Dispatch<React.SetStateAction<Result | null>>;
+  initalMarker?: {
+    lat: number;
+    lng: number;
+  };
+  center?: {
+    lat: number;
+    lng: number;
+  };
 };
 
-function MapGeocoder({ setResult }: MapGeocoderProps) {
+function MapGeocoder({ setResult, initalMarker, center }: MapGeocoderProps) {
   return (
     <>
       <Map
         initialViewState={{
-          longitude: -79.4512,
-          latitude: 43.6568,
-          zoom: 13,
+          longitude: center?.lng || 21.01223,
+          latitude: center?.lat || 52.229675,
+          zoom: 10,
         }}
         mapStyle="mapbox://styles/mapbox/streets-v9"
         mapboxAccessToken={TOKEN}
       >
-        <GeocoderControl
-          mapboxAccessToken={TOKEN}
-          position="top-left"
-          onResult={(res: any) => setResult(res.result)}
-        />
+        <GeocoderControl mapboxAccessToken={TOKEN} position="top-left" onResult={(res: any) => setResult(res.result)} />
+        {initalMarker && <Marker latitude={initalMarker.lat} longitude={initalMarker.lng} />}
       </Map>
     </>
   );
@@ -41,10 +38,7 @@ function MapGeocoder({ setResult }: MapGeocoderProps) {
 
 export default MapGeocoder;
 
-type GeocoderControlProps = Omit<
-  GeocoderOptions,
-  "accessToken" | "mapboxgl" | "marker"
-> & {
+type GeocoderControlProps = Omit<GeocoderOptions, "accessToken" | "mapboxgl" | "marker"> & {
   mapboxAccessToken: string;
   marker?: boolean | Omit<MarkerProps, "longitude" | "latitude">;
 
@@ -73,17 +67,9 @@ function GeocoderControl(props: GeocoderControlProps) {
 
         const { result } = evt;
         const location =
-          result &&
-          (result.center ||
-            (result.geometry?.type === "Point" && result.geometry.coordinates));
+          result && (result.center || (result.geometry?.type === "Point" && result.geometry.coordinates));
         if (location && props.marker) {
-          setMarker(
-            <Marker
-              {...(props.marker as object)}
-              longitude={location[0]}
-              latitude={location[1]}
-            />
-          );
+          setMarker(<Marker {...(props.marker as object)} longitude={location[0]} latitude={location[1]} />);
         } else {
           setMarker(null);
         }
@@ -99,22 +85,13 @@ function GeocoderControl(props: GeocoderControlProps) {
   //NOTE: this comes from mapbox docs
   // @ts-ignore (TS2339) private member
   if (geocoder._map) {
-    if (
-      geocoder.getProximity() !== props.proximity &&
-      props.proximity !== undefined
-    ) {
+    if (geocoder.getProximity() !== props.proximity && props.proximity !== undefined) {
       geocoder.setProximity(props.proximity);
     }
-    if (
-      geocoder.getRenderFunction() !== props.render &&
-      props.render !== undefined
-    ) {
+    if (geocoder.getRenderFunction() !== props.render && props.render !== undefined) {
       geocoder.setRenderFunction(props.render);
     }
-    if (
-      geocoder.getLanguage() !== props.language &&
-      props.language !== undefined
-    ) {
+    if (geocoder.getLanguage() !== props.language && props.language !== undefined) {
       geocoder.setLanguage(props.language);
     }
     if (geocoder.getZoom() !== props.zoom && props.zoom !== undefined) {
@@ -123,25 +100,16 @@ function GeocoderControl(props: GeocoderControlProps) {
     if (geocoder.getFlyTo() !== props.flyTo && props.flyTo !== undefined) {
       geocoder.setFlyTo(props.flyTo);
     }
-    if (
-      geocoder.getPlaceholder() !== props.placeholder &&
-      props.placeholder !== undefined
-    ) {
+    if (geocoder.getPlaceholder() !== props.placeholder && props.placeholder !== undefined) {
       geocoder.setPlaceholder(props.placeholder);
     }
-    if (
-      geocoder.getCountries() !== props.countries &&
-      props.countries !== undefined
-    ) {
+    if (geocoder.getCountries() !== props.countries && props.countries !== undefined) {
       geocoder.setCountries(props.countries);
     }
     if (geocoder.getTypes() !== props.types && props.types !== undefined) {
       geocoder.setTypes(props.types);
     }
-    if (
-      geocoder.getMinLength() !== props.minLength &&
-      props.minLength !== undefined
-    ) {
+    if (geocoder.getMinLength() !== props.minLength && props.minLength !== undefined) {
       geocoder.setMinLength(props.minLength);
     }
     if (geocoder.getLimit() !== props.limit && props.limit !== undefined) {
