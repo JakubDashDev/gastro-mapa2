@@ -1,7 +1,7 @@
-import { useDispatch } from "react-redux";
 import { useGetRestaurantsAdminQuery } from "../services/restaurantsApi";
 import { setRestaurants } from "../redux/restaurantsSlice";
 import { useEffect } from "react";
+import { useAppDispatch } from "../redux/store";
 
 type FunctionParameters = {
   keyword?: string;
@@ -9,14 +9,16 @@ type FunctionParameters = {
 };
 
 function useGetRestaurantsAdmin({ keyword, filters }: FunctionParameters) {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { data, isLoading, isError, error } = useGetRestaurantsAdminQuery({
     keyword,
     filters,
   });
 
   useEffect(() => {
-    dispatch(setRestaurants(data));
+    if (data) {
+      dispatch(setRestaurants(data));
+    }
   }, [data]);
 
   return { isLoading, isError, error };
