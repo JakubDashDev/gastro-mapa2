@@ -9,33 +9,42 @@ import { CATEGORY_ARRAY } from "../../../constatns";
 import { handleFormState, useHandleSubmit } from "./CreateRestrauantForm.hooks";
 import PromiseButton from "../ui/PromiseButton";
 
+type addressStateType = {
+  street: string | undefined;
+  zipCode: string | undefined;
+  city: string | undefined;
+  country: string | undefined;
+  lngLat: number[] | undefined;
+};
+
+type formStateType = {
+  name: string;
+  rating: number | undefined;
+  youtubeLink: string;
+  googleLink: string;
+};
+
 function CreateRestaurantForm({ isShow, setIsShow }: ModalProps) {
   const [showAddressModal, setShowAddressModal] = useState(false);
-  const [formState, setFormState] = useState({
+  const [formState, setFormState] = useState<formStateType>({
     name: "",
     rating: 0,
     youtubeLink: "",
     googleLink: "",
   });
   const [category, setCategory] = useState<any>(null);
-  const [addressState, setAddressState] = useState<{
-    street: string | undefined;
-    zipCode: string | undefined;
-    city: string | undefined;
-    country: string | undefined;
-    latLng: number[] | undefined;
-  }>({
+  const [addressState, setAddressState] = useState<addressStateType>({
     street: undefined,
     zipCode: undefined,
     city: undefined,
     country: undefined,
-    latLng: undefined,
+    lngLat: undefined,
   });
 
   const { createRestaurant, isLoading, error, isSuccess, isError, reset } = useHandleSubmit();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    await createRestaurant({ event: e, formState, addressState, category, setIsShow });
+    await createRestaurant({ event: e, formState, setFormState, addressState, setAddressState, category, setIsShow });
   };
 
   return (
@@ -151,7 +160,7 @@ function CreateRestaurantForm({ isShow, setIsShow }: ModalProps) {
               isSuccess={isSuccess}
               isLoading={isLoading}
               isError={isError}
-              disabled={Object.values(addressState).some((el) => el === undefined)}
+              disabled={!isSuccess && Object.values(addressState).some((el) => el === undefined)}
             >
               Zapisz
             </PromiseButton>
@@ -179,24 +188,32 @@ type AddressModalProps = ModalProps & {
       zipCode: string | undefined;
       city: string | undefined;
       country: string | undefined;
-      latLng: number[] | undefined;
+      lngLat: number[] | undefined;
     }>
   >;
+  initalMarker?: {
+    lat: number;
+    lng: number;
+  };
+  center?: {
+    lat: number;
+    lng: number;
+  };
 };
 
-function AddressModal(props: AddressModalProps) {
+export function AddressModal(props: AddressModalProps) {
   const [result, setResult] = useState<Result | null>(null);
 
   const saveResult = () => {
     const street = result!.place_name.split(",")[0];
-    const latLng = result!.center;
+    const lngLat = result!.center;
     const city = result?.context.find((obj) => obj.id.includes("place")).text;
     const zipCode = result?.context.find((obj) => obj.id.includes("postcode")).text;
     const country = result?.context.find((obj) => obj.id.includes("country")).text;
 
     props.setAddressState({
       street,
-      latLng,
+      lngLat,
       city,
       zipCode,
       country,
@@ -206,7 +223,7 @@ function AddressModal(props: AddressModalProps) {
 
   return (
     <Modal isShow={props.isShow} setIsShow={props.setIsShow}>
-      <MapGeocoder setResult={setResult} />
+      <MapGeocoder setResult={setResult} initalMarker={props.initalMarker} center={props.center} />
 
       <div className="w-full lg:w-1/2 flex gap-5">
         <button type="button" className="w-full bg-blue-500 rounded-lg py-1 text-white" onClick={saveResult}>
