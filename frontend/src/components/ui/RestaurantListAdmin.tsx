@@ -22,8 +22,8 @@ function RestaurantList({ isShow, setIsShow }: ModalProps) {
     <section className="w-full flex flex-col">
       <div className="hidden container px-4 mx-auto xl:grid grid-cols-9 grid-rows-1 font-bold pt-5 pb-3 uppercase text-sm border-b-2 border-neutral-300">
         <span className="col-span-2">Restauracja</span>
-        <span>Ocena</span>
-        <span className=" col-span-3">Adres</span>
+        <span className="col-span-2">Ocena</span>
+        <span className=" col-span-2">Adres</span>
         <span className="col-span-2">Kategorie</span>
         <span>Akcje</span>
       </div>
@@ -47,13 +47,13 @@ function TableRow({ restaurant, onClick }: TableRowProps) {
   return (
     <div
       onClick={onClick}
-      className="lg:text-black/80 group container flex flex-col gap-2 xl:gap-0 px-4 py-5 mx-auto capitalize xl:grid grid-cols-9 grid-rows-1 group odd:bg-white even:bg-neutral-200 hover:bg-blue-900/20 cursor-pointer transition-all"
+      className="lg:text-black/80 group container flex flex-col gap-2 xl:gap-0 px-4 py-5 mx-auto capitalize xl:grid grid-cols-9 grid-rows-1 items-center group odd:bg-white even:bg-neutral-200 hover:bg-blue-900/20 cursor-pointer transition-all"
     >
       <strong className="col-span-2">{restaurant.name}</strong>
-      <Fragment>
-        <Rating rating={restaurant.rating} />
-      </Fragment>
-      <span className=" col-span-3 text-sm">
+      <div className="col-span-2">
+        <Rating rating={restaurant.rating} isText />
+      </div>
+      <span className=" col-span-2 text-sm">
         {restaurant.address.street}, {restaurant.address.city}
       </span>
       <span className="col-span-2 text-gray-400 lg:text-black/80">
