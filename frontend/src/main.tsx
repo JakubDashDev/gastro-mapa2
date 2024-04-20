@@ -9,7 +9,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import AdminRoute from "./components/RouteLayout";
 import LoginPage from "./pages/admin/LoginPage";
 import HomePage from "./pages/admin/HomePage";
-import RestaurantsPage from "./pages/admin/RestaurantsPage";
+import RestaurantsPage from "./pages/admin/RestaurantsListPage";
 
 const router = createBrowserRouter([
   {
@@ -25,7 +25,7 @@ const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: "/dashboard/restaurants",
+        path: "/dashboard/restaurants/:id?",
         element: <RestaurantsPage />,
       },
     ],
