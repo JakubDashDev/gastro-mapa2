@@ -89,7 +89,7 @@ export const useIsSubmitDisabled = (restaurant: RestaurantType | undefined, stat
     const name = restaurant.name === state.state.name;
     const rating = restaurant.rating.toString() === state.state.rating.toString();
     const category =
-      JSON.stringify(restaurant.category.sort()) === JSON.stringify(state.category.map((item: any) => item.value));
+      JSON.stringify([...restaurant.category].sort()) === JSON.stringify(state.category.map((item: any) => item.value));
     const address = JSON.stringify(restaurant.address.lngLat) === JSON.stringify(state.addressState.lngLat);
 
     if (!name || !rating || !category || !address) {
