@@ -7,10 +7,10 @@ import useWindowDimensions from "../../hooks/useWindoDimensions";
 import { MdMenuOpen } from "react-icons/md";
 import { FaArrowLeft } from "react-icons/fa";
 import { useSpring, animated, useTransition } from "@react-spring/web";
-import { Restaurant } from "../../redux/restaurantsSlice";
+import { RestaurantType } from "../../redux/restaurantsSlice";
 
 type SideNavProps = {
-  data: Restaurant[];
+  data: RestaurantType[];
   darkMode: boolean;
   setDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -40,7 +40,7 @@ export default SideNav;
 
 function DesktopSideNav({ data, darkMode, setDarkMode }: SideNavProps) {
   return (
-    <div className="w-[390px] bg-white dark:bg-darkBg h-screen overflow-y-auto relative text-gray-600 dark:text-darkText">
+    <div className="w-[390px] bg-white dark:bg-darkBg h-screen overflow-x-auto relative text-gray-600 dark:text-darkText">
       <h1 className="text-center text-lg font-extrabold my-5 col-span-2">
         Gastro Mapa
       </h1>
