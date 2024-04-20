@@ -20,13 +20,7 @@ function MarkerPopup({ popupInfo, setPopupInfo }: MarkerPopupProps) {
       closeButton
     >
       <div className="flex flex-col gap-2 font-sans">
-        <iframe
-          id="ytplayer"
-          width="360"
-          height="203"
-          src={popupInfo?.youtubeEmbed}
-          className="rounded-lg"
-        />
+        <iframe id="ytplayer" width="360" height="203" src={popupInfo?.youtubeEmbed} className="rounded-lg" />
         <div className="flex flex-col pb-1">
           <span className="text-lg">{popupInfo?.name}</span>
           {popupInfo?.category.map((type: string) => (
@@ -36,8 +30,7 @@ function MarkerPopup({ popupInfo, setPopupInfo }: MarkerPopupProps) {
           ))}
         </div>
         <span className="border-b border-black/15 pb-1">
-          {popupInfo?.address.street}, {popupInfo?.address.zipCode}{" "}
-          {popupInfo?.address.city}{" "}
+          {popupInfo?.address.street}, {popupInfo?.address.zipCode} {popupInfo?.address.city}{" "}
         </span>
 
         <div className="flex justify-between items-center gap-5 pt-1">
@@ -45,12 +38,20 @@ function MarkerPopup({ popupInfo, setPopupInfo }: MarkerPopupProps) {
             <Rating rating={popupInfo?.rating || 0} isText />
           </span>
           <div className="flex items-center gap-3">
-            <button className="flex justify-center items-center border border-red-500  p-2 text-xl text-red-500  rounded-full transition-all hover:scale-105 ">
+            <a
+              href={popupInfo?.youtubeLink}
+              target="_blank"
+              className="flex justify-center items-center border border-red-500  p-2 text-xl text-red-500  rounded-full transition-all hover:scale-105 "
+            >
               <FaYoutube />
-            </button>
-            <button className="flex justify-center items-center border border-gray-500 text-gray-500 p-2 text-xl rounded-full transition-all hover:scale-105">
+            </a>
+            <a
+              href={popupInfo?.googleLink}
+              target="_blank"
+              className="flex justify-center items-center border border-gray-500 text-gray-500 p-2 text-xl rounded-full transition-all hover:scale-105"
+            >
               <BiSolidNavigation />
-            </button>
+            </a>
           </div>
         </div>
       </div>
