@@ -14,6 +14,9 @@ export const CATEGORY_ARRAY = [
   "chińczyk",
   "bar mleczny",
   "hot-dog",
+  "meksykańska",
+  "ostre 🌶️",
+  "tortilla",
 ].sort((a, b) => a.localeCompare(b));
 
 export const RATING_ARRAY = [5, 4, 3, 2, 1, 0];
