@@ -27,11 +27,9 @@ function SideBar({ showSidebar, setShowSidebar }: SideBarProps) {
 
   return (
     <Container showSidebar={showSidebar} setShowSidebar={setShowSidebar}>
-      <div className="relative h-full flex flex-col bg-darkBg rounded-e-lg shadow-[-10px_-10px_30px_4px_rgba(0,0,0,0.1),_10px_10px_30px_4px_rgba(0,0,0,0.15)] text-white/90">
+      <div className="relative h-full flex flex-col bg-[#343d4c] text-white/90">
         <div className="flex items-center justify-center h-20 border-b border-white/50 ">
-          <span className="text-sm text-white/90 uppercase font-bold">
-            Muala dashboard
-          </span>
+          <span className="text-sm text-white uppercase font-bold">Muala dashboard</span>
           <button
             type="button"
             className="block lg:hidden text-white/80 text-xl absolute top-2 right-2"
@@ -42,7 +40,7 @@ function SideBar({ showSidebar, setShowSidebar }: SideBarProps) {
         </div>
 
         <nav className="flex-1 flex flex-col gap-4 px-2 py-3">
-          <ActiveLink to="/dashboard">
+          <ActiveLink to="/dashboard" end>
             <MdSpaceDashboard className="text-xl" />
             <span>Panel</span>
           </ActiveLink>
@@ -58,9 +56,7 @@ function SideBar({ showSidebar, setShowSidebar }: SideBarProps) {
             <FaChartLine className="text-xl" />
             <span>Statystyki</span>
           </ActiveLink>
-          <span className="mt-4 px-4 text-white/70 font-bold uppercase text-sm ">
-            Konto
-          </span>
+          <span className="mt-4 px-4 text-white/70 font-bold uppercase text-sm ">Konto</span>
           <ActiveLink to="/dashboard/account">
             <FaGear className="text-xl" />
             <span>Ustawienia</span>
@@ -108,10 +104,7 @@ function Container({ showSidebar, setShowSidebar, children }: ContainerProps) {
       (styles, item) =>
         item && (
           <Fragment>
-            <animated.aside
-              style={styles}
-              className="fixed left-0  h-screen w-full max-w-64 z-20"
-            >
+            <animated.aside style={styles} className="fixed left-0  h-screen w-full max-w-64 z-20">
               {children}
             </animated.aside>
             <animated.div
@@ -123,20 +116,20 @@ function Container({ showSidebar, setShowSidebar, children }: ContainerProps) {
         )
     );
 
-  return <aside className="h-screen w-full max-w-64">{children}</aside>;
+  return <aside className="h-screen w-full max-w-80">{children}</aside>;
 }
 
 type ActiveLinkProps = NavLinkProps & {
   children: React.ReactNode;
 };
-function ActiveLink({ to, children }: ActiveLinkProps) {
+function ActiveLink({ to, children, end }: ActiveLinkProps) {
   return (
     <NavLink
-      end
+      end={end}
       to={to}
       className={({ isActive }) =>
-        `w-full flex items-center gap-2 py-2 px-2 rounded-lg ${
-          isActive ? "bg-secondary" : "hover:bg-white/10 transition-colors"
+        `w-full flex items-center gap-2 py-4 px-5 rounded-lg ${
+          isActive ? "bg-[#1c2129] text-white" : "hover:bg-white/10 transition-colors"
         }`
       }
     >
