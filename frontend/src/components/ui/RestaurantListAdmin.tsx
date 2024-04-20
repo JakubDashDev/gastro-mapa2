@@ -28,7 +28,7 @@ function RestaurantList({ isShow, setIsShow }: ModalProps) {
         <span>Akcje</span>
       </div>
       {restaurants.map((restaurant: RestaurantType) => (
-        <Fragment>
+        <Fragment key={restaurant._id}>
           <TableRow restaurant={restaurant} key={restaurant._id} onClick={() => handleOpen(restaurant._id!)} />
         </Fragment>
       ))}
