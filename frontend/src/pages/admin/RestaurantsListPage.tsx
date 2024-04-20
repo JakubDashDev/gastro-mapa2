@@ -5,9 +5,11 @@ import RestaurantSearch from "../../components/features/RestaurantSearch";
 import CreateRestaurantForm from "../../components/features/CreateRestaurantForm";
 import useGetRestaurantsAdmin from "../../hooks/useGetRestaurantsAdmin";
 import Loader from "../../components/ui/Loader";
+import EditRestaurantForm from "../../components/features/EditRestaurantForm";
 
 function RestaurantsPage() {
   const [showModal, setShowModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
 
   const { isLoading, error } = useGetRestaurantsAdmin({
     keyword: undefined,
@@ -24,7 +26,7 @@ function RestaurantsPage() {
 
   return (
     <Fragment>
-      <div className="flex flex-col gap-3 container mx-auto px-4">
+      <div className="flex flex-col gap-3 container mx-auto px-4 mt-10">
         <button
           onClick={() => setShowModal(true)}
           className="flex items-center justify-center w-[150px] gap-2 py-1 bg-primary-500 hover:bg-primary-400 transition-colors rounded-lg text-white"
@@ -33,10 +35,11 @@ function RestaurantsPage() {
         </button>
         <div className="overflow-x-auto bg-neutral-50 dark:bg-neutral-700 rounded-lg shadow-xl">
           <RestaurantSearch />
-          <RestaurantList />
+          <RestaurantList isShow={showEditModal} setIsShow={setShowEditModal} />
         </div>
       </div>
       <CreateRestaurantForm isShow={showModal} setIsShow={setShowModal} />
+      <EditRestaurantForm isShow={showEditModal} setIsShow={setShowEditModal} />
     </Fragment>
   );
 }
