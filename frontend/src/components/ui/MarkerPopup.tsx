@@ -3,19 +3,19 @@ import { FaYoutube } from "react-icons/fa";
 import { BiSolidNavigation } from "react-icons/bi";
 import { Popup } from "react-map-gl";
 import Rating from "./Rating";
-import { Restaurant } from "../../redux/restaurantsSlice";
+import { RestaurantType } from "../../redux/restaurantsSlice";
 
 type MarkerPopupProps = {
-  popupInfo: Restaurant | null;
-  setPopupInfo: React.Dispatch<React.SetStateAction<Restaurant | null>>;
+  popupInfo: RestaurantType | null;
+  setPopupInfo: React.Dispatch<React.SetStateAction<RestaurantType | null>>;
 };
 
 function MarkerPopup({ popupInfo, setPopupInfo }: MarkerPopupProps) {
   return (
     <Popup
       offset={25}
-      longitude={Number(popupInfo?.address.latLng[0])}
-      latitude={Number(popupInfo?.address.latLng[1])}
+      longitude={Number(popupInfo?.address.lngLat[0])}
+      latitude={Number(popupInfo?.address.lngLat[1])}
       onClose={() => setPopupInfo(null)}
       closeButton
     >
@@ -29,7 +29,7 @@ function MarkerPopup({ popupInfo, setPopupInfo }: MarkerPopupProps) {
         />
         <div className="flex flex-col pb-1">
           <span className="text-lg">{popupInfo?.name}</span>
-          {popupInfo?.category.map((type) => (
+          {popupInfo?.category.map((type: string) => (
             <span key={type} className="text-sm capitalize text-gray-500">
               {type}
             </span>
