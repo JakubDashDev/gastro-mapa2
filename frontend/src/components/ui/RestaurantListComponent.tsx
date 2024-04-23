@@ -6,9 +6,10 @@ import { RestaurantType } from "../../redux/restaurantsSlice";
 
 type RestaurantListComponentProps = {
   restaurant: RestaurantType;
+  handleClose?: React.Dispatch<React.SetStateAction<boolean>>; //NOTE: close navigation on Restaurant click on Mobile view
 };
 
-function RestaurantListComponent({ restaurant }: RestaurantListComponentProps) {
+function RestaurantListComponent({ restaurant, handleClose }: RestaurantListComponentProps) {
   const { name, address, category, rating } = restaurant;
   const { mapMain } = useMap();
 
@@ -17,6 +18,7 @@ function RestaurantListComponent({ restaurant }: RestaurantListComponentProps) {
       center: [address.lngLat[0], address.lngLat[1]],
       zoom: 13,
     });
+    handleClose && handleClose(false)
   };
 
   return (
@@ -24,11 +26,7 @@ function RestaurantListComponent({ restaurant }: RestaurantListComponentProps) {
       className="container mx-auto px-4 py-4 flex gap-2 items-center hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors rounded-lg cursor-pointer"
       onClick={handleClick}
     >
-      <img
-        src={img}
-        alt="placeholeder image"
-        className="rounded-full h-[50px]"
-      />
+      <img src={img} alt="placeholeder image" className="rounded-full h-[50px]" />
 
       <div className="flex flex-col ">
         <span className="font-extrabold tracking-wide">
@@ -43,5 +41,4 @@ function RestaurantListComponent({ restaurant }: RestaurantListComponentProps) {
     </div>
   );
 }
-// text-yellow-500 flex items-center font-bold
 export default RestaurantListComponent;
