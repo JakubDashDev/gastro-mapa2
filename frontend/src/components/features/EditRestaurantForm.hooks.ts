@@ -11,22 +11,30 @@ export const useIntialRestaurant = (id: string | undefined, isShow: boolean) => 
   return { restaurant };
 };
 
-type stateType = {
+type addressStateType = {
   street: string | undefined;
   zipCode: string | undefined;
   city: string | undefined;
   country: string | undefined;
   lngLat: number[] | undefined;
 };
+
+type formStateType = {
+  name: string;
+  rating: number | string | undefined;
+  youtubeLink: string;
+  googleLink: string;
+};
+
 export const handleFormState = (restaurant: RestaurantType, reset: () => void) => {
-  const [state, setState] = useState({
+  const [state, setState] = useState<formStateType>({
     name: "",
-    rating: 0,
+    rating: "",
     youtubeLink: "",
     googleLink: "",
   });
   const [category, setCategory] = useState<any>([]);
-  const [addressState, setAddressState] = useState<stateType>({
+  const [addressState, setAddressState] = useState<addressStateType>({
     street: "",
     zipCode: "",
     city: "",
@@ -81,7 +89,7 @@ export const handleFormState = (restaurant: RestaurantType, reset: () => void) =
     reset && reset();
   };
 
-  return { state, category, setCategory, addressState, setAddressState, setFormState };
+  return { state, setState, category, setCategory, addressState, setAddressState, setFormState };
 };
 
 export const useIsSubmitDisabled = (restaurant: RestaurantType | undefined, state: any) => {
@@ -107,7 +115,7 @@ type useUpdateRestaurantType = {
   _id: string | undefined;
   state: {
     name: string | undefined;
-    rating: number | undefined;
+    rating: number | string | undefined;
     youtubeLink: string | undefined;
     googleLink: string | undefined;
   };
@@ -130,7 +138,7 @@ export const useUpdateRestaurant = () => {
     event.preventDefault();
 
     const name = state.name
-    const rating = state.rating 
+    const rating = state.rating === "challange ostrości" ? "challange ostrości" : Number(state.rating)
     const youtubeLink = state.youtubeLink
     const googleLink = state.googleLink
     const address = {
@@ -157,7 +165,7 @@ export const useUpdateRestaurant = () => {
 export const useDeleteRestaurant = () => {
   const dispatch = useAppDispatch();
 
-  const [trigger, { isLoading, isError, error, isSuccess }] = useDeleteRestaurantMutation();
+  const [trigger, { isLoading, isError, error, isSuccess, reset }] = useDeleteRestaurantMutation();
 
   const deleteR = (id: string, setIsShow: React.Dispatch<boolean>) => {
     trigger(id)
@@ -171,5 +179,5 @@ export const useDeleteRestaurant = () => {
       .catch((err) => alert(err));
   };
 
-  return { deleteR, isLoading, isError, error, isSuccess };
+  return { deleteR, isLoading, isError, error, isSuccess, reset };
 };

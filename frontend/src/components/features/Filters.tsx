@@ -2,11 +2,7 @@ import React, { useEffect, useState } from "react";
 import { RATING_ARRAY, CATEGORY_ARRAY } from "../../../constatns";
 import Rating from "../ui/Rating";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  clearFilterQuery,
-  setIsActive,
-  updateFilterQuery,
-} from "../../redux/filtersSlice";
+import { clearFilterQuery, setIsActive, updateFilterQuery } from "../../redux/filtersSlice";
 import useGetRestaurantsLazy from "../../hooks/useGetRestaurantsLazy";
 import { useTransition, animated } from "@react-spring/web";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
@@ -26,9 +22,7 @@ function Filters({ setIsOpen }: FiltersProps) {
       filters: JSON.stringify(filterQuery),
     });
 
-    filterQuery.length > 0
-      ? dispatch(setIsActive(true))
-      : dispatch(setIsActive(false));
+    filterQuery.length > 0 ? dispatch(setIsActive(true)) : dispatch(setIsActive(false));
     setIsOpen((current) => !current);
   };
 
@@ -49,10 +43,7 @@ function Filters({ setIsOpen }: FiltersProps) {
       <CategoryFilterSection isLoading={isLoading} />
 
       <div className="flex flex-row gap-3 w-full mt-5">
-        <button
-          type="submit"
-          className="w-full sm:w-1/2 bg-primary-500 py-1 rounded-md text-white"
-        >
+        <button type="submit" className="w-full sm:w-1/2 bg-primary-500 py-1 rounded-md text-white">
           Zastosuj
         </button>
         <button
@@ -70,8 +61,7 @@ function Filters({ setIsOpen }: FiltersProps) {
 
 export default Filters;
 
-interface FilterButtonType
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface FilterButtonType extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   value: string | number;
 }
 
@@ -86,9 +76,7 @@ function FilterButton({ value, disabled }: FilterButtonType) {
   };
 
   useEffect(() => {
-    const condition = filterQuery.some(
-      (item) => item.$gte === value || item.category === value
-    );
+    const condition = filterQuery.some((item) => item.$gte === value || item.category === value);
 
     setChecked(condition);
   }, [filterQuery]);
@@ -96,7 +84,7 @@ function FilterButton({ value, disabled }: FilterButtonType) {
   return (
     <label
       htmlFor={value.toString()}
-      className="flex items-center gap-2 my-1  w-fit cursor-pointer accent-black-100 dark:accent-white border-white "
+      className="flex items-center gap-2 my-1 w-fit cursor-pointer accent-black-100 dark:accent-white border-white capitalize "
     >
       <input
         type="checkbox"
@@ -108,11 +96,7 @@ function FilterButton({ value, disabled }: FilterButtonType) {
         disabled={disabled}
         checked={checked}
       />
-      {typeof value === "number" ? (
-        <Rating rating={value} color="text-gray-600 dark:text-gray-200" />
-      ) : (
-        value
-      )}
+      {RATING_ARRAY.includes(value) ? <Rating rating={value} color="text-gray-600 dark:text-gray-200" /> : value}
     </label>
   );
 }
@@ -131,7 +115,7 @@ function RatingFilterSection({ isLoading }: FilterSectionProps) {
   const transition = useTransition(isShow, {
     from: { height: "0px", opacity: 0, marginBottom: "0px", marginTop: "0px" },
     enter: {
-      height: "150px",
+      height: "175px",
       opacity: 1,
       marginBottom: "20px",
       marginTop: "10px",
@@ -144,9 +128,7 @@ function RatingFilterSection({ isLoading }: FilterSectionProps) {
       <div className="flex items-center justify-between w-full border-b text-lg">
         <div className="flex gap-1">
           <span>Ocena</span>
-          {ratingQuery.length > 0 && (
-            <span className="text-red-500 text-sm">({ratingQuery.length})</span>
-          )}
+          {ratingQuery.length > 0 && <span className="text-red-500 text-sm">({ratingQuery.length})</span>}
         </div>
         <button
           type="button"
@@ -162,11 +144,7 @@ function RatingFilterSection({ isLoading }: FilterSectionProps) {
             <div className="overflow-hidden">
               <animated.div style={styles} className="flex flex-col gap-1 px-1">
                 {RATING_ARRAY.map((rating) => (
-                  <FilterButton
-                    key={rating}
-                    value={rating}
-                    disabled={isLoading}
-                  />
+                  <FilterButton key={rating} value={rating} disabled={isLoading} />
                 ))}
               </animated.div>
             </div>
@@ -180,9 +158,7 @@ function CategoryFilterSection({ isLoading }: FilterSectionProps) {
   const [isShow, setIsShow] = useState(false);
   const { filterQuery } = useAppSelector((state) => state.filters);
 
-  const ratingQuery = filterQuery.filter((item) =>
-    item.hasOwnProperty("category")
-  );
+  const ratingQuery = filterQuery.filter((item) => item.hasOwnProperty("category"));
 
   const transition = useTransition(isShow, {
     from: { height: "0px", opacity: 0, marginBottom: "0px", marginTop: "0px" },
@@ -200,9 +176,7 @@ function CategoryFilterSection({ isLoading }: FilterSectionProps) {
       <div className="flex items-center justify-between w-full border-b text-lg">
         <div className="flex gap-1">
           <span>Kategoria</span>
-          {ratingQuery.length > 0 && (
-            <span className="text-red-500 text-sm">({ratingQuery.length})</span>
-          )}
+          {ratingQuery.length > 0 && <span className="text-red-500 text-sm">({ratingQuery.length})</span>}
         </div>
         <button
           type="button"
@@ -217,15 +191,9 @@ function CategoryFilterSection({ isLoading }: FilterSectionProps) {
           item && (
             <div className="overflow-hidden">
               <animated.div style={styles} className="flex flex-col gap-1 px-1">
-                {CATEGORY_ARRAY.sort((a, b) => a.localeCompare(b)).map(
-                  (type) => (
-                    <FilterButton
-                      key={type}
-                      value={type}
-                      disabled={isLoading}
-                    />
-                  )
-                )}
+                {CATEGORY_ARRAY.sort((a, b) => a.localeCompare(b)).map((type) => (
+                  <FilterButton key={type} value={type} disabled={isLoading} />
+                ))}
               </animated.div>
             </div>
           )

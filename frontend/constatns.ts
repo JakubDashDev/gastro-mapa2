@@ -19,4 +19,4 @@ export const CATEGORY_ARRAY = [
   "tortilla",
 ].sort((a, b) => a.localeCompare(b));
 
-export const RATING_ARRAY = [5, 4, 3, 2, 1, 0];
+export const RATING_ARRAY = [5, 4, 3, 2, 1, 0, "challange ostrości"];

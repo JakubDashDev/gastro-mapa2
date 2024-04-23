@@ -1,9 +1,9 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 export type RestaurantType = {
   _id: string;
   name: string;
-  rating: number;
+  rating: number | string;
   address: {
     street: string;
     zipCode: string;
@@ -31,7 +31,7 @@ const RestaurantSchema = new mongoose.Schema<RestaurantType>(
       _id: false,
     },
     category: { type: [String], required: true },
-    rating: { type: Number, required: true },
+    rating: { type: Schema.Types.Mixed, required: [true, "To pole nie może być puste!"] },
     youtubeEmbed: { type: String, required: true },
     youtubeLink: { type: String, required: true },
     googleLink: { type: String, required: true },
@@ -40,11 +40,5 @@ const RestaurantSchema = new mongoose.Schema<RestaurantType>(
 );
 
 const Restaurant = mongoose.model("Restaurant", RestaurantSchema);
-
-RestaurantSchema.path("name").validate(async (value) => {
-  const nameCount = await mongoose.models.Restaurant.countDocuments({ name: value });
-  return !nameCount;
-}, "Restauracja o tej nazwie już istnieje");
-
 
 export default Restaurant;

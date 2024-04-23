@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { CATEGORY_ARRAY, RATING_ARRAY } from "../../constatns";
 
 type FilterQueryType = {
   $gte?: number;
@@ -22,21 +23,25 @@ const filtersSlice = createSlice({
   reducers: {
     updateFilterQuery: (state, action) => {
       const condition = state.filterQuery.some(
-        (item: any) =>
-          item.$gte === action.payload || item.category === action.payload
+        (item: any) => item.$gte === action.payload || item.category === action.payload
       );
 
-      if (typeof action.payload === "number" && !condition) {
-        return {
-          ...state,
-          filterQuery: [
-            ...state.filterQuery,
-            { $gte: action.payload, $lte: action.payload + 0.9 },
-          ],
-        };
+      if (RATING_ARRAY.includes(action.payload) && !condition) {
+        //NOTE: handling custom value of rating
+        if (action.payload === "challange ostrości") {
+          return {
+            ...state,
+            filterQuery: [...state.filterQuery, { $gte: action.payload, $lte: action.payload }],
+          };
+        } else {
+          return {
+            ...state,
+            filterQuery: [...state.filterQuery, { $gte: action.payload, $lte: action.payload + 0.9 }],
+          };
+        }
       }
 
-      if (typeof action.payload === "string" && !condition) {
+      if (CATEGORY_ARRAY.includes(action.payload) && !condition) {
         return {
           ...state,
           filterQuery: [...state.filterQuery, { category: action.payload }],
@@ -46,18 +51,14 @@ const filtersSlice = createSlice({
       if (typeof action.payload === "number" && condition) {
         return {
           ...state,
-          filterQuery: state.filterQuery.filter(
-            (item: any) => item.$gte !== action.payload
-          ),
+          filterQuery: state.filterQuery.filter((item: any) => item.$gte !== action.payload),
         };
       }
 
       if (typeof action.payload === "string" && condition) {
         return {
           ...state,
-          filterQuery: state.filterQuery.filter(
-            (item: any) => item.category !== action.payload
-          ),
+          filterQuery: state.filterQuery.filter((item: any) => item.category !== action.payload),
         };
       }
     },
@@ -71,7 +72,6 @@ const filtersSlice = createSlice({
   },
 });
 
-export const { updateFilterQuery, clearFilterQuery, setIsActive } =
-  filtersSlice.actions;
+export const { updateFilterQuery, clearFilterQuery, setIsActive } = filtersSlice.actions;
 
 export default filtersSlice.reducer;

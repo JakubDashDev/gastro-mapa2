@@ -1,68 +1,33 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 
 type RatingProps = {
-  rating: number;
+  rating: number | string;
   isText?: boolean;
   color: string;
 };
 
 function Rating({ rating, isText, color }: RatingProps) {
+  if (rating === "challange ostrości") {
+    return <span className="text-red-500 font-bold">Challange ostrości 🌶️</span>;
+  }
   return (
     <div
       className={`flex gap-1 items-center text-base font-bold ${
         rating === 5 ? "text-primary-500" : color
       }`}
     >
-      <span>
-        {rating >= 1 ? (
-          <FaStar />
-        ) : rating >= 0.5 ? (
-          <FaStarHalfAlt />
-        ) : (
-          <FaRegStar />
-        )}
-      </span>
-      <span>
-        {rating >= 2 ? (
-          <FaStar />
-        ) : rating >= 1.5 ? (
-          <FaStarHalfAlt />
-        ) : (
-          <FaRegStar />
-        )}
-      </span>
-      <span>
-        {rating >= 3 ? (
-          <FaStar />
-        ) : rating >= 2.5 ? (
-          <FaStarHalfAlt />
-        ) : (
-          <FaRegStar />
-        )}
-      </span>
-      <span>
-        {rating >= 4 ? (
-          <FaStar />
-        ) : rating >= 3.5 ? (
-          <FaStarHalfAlt />
-        ) : (
-          <FaRegStar />
-        )}
-      </span>
-      <span>
-        {rating >= 5 ? (
-          <FaStar />
-        ) : rating >= 4.5 ? (
-          <FaStarHalfAlt />
-        ) : (
-          <FaRegStar />
-        )}
-      </span>
+      {typeof rating === "number" && (
+        <Fragment>
+          <span>{rating >= 1 ? <FaStar /> : rating >= 0.5 ? <FaStarHalfAlt /> : <FaRegStar />}</span>
+          <span>{rating >= 2 ? <FaStar /> : rating >= 1.5 ? <FaStarHalfAlt /> : <FaRegStar />}</span>
+          <span>{rating >= 3 ? <FaStar /> : rating >= 2.5 ? <FaStarHalfAlt /> : <FaRegStar />}</span>
+          <span>{rating >= 4 ? <FaStar /> : rating >= 3.5 ? <FaStarHalfAlt /> : <FaRegStar />}</span>
+          <span>{rating >= 5 ? <FaStar /> : rating >= 4.5 ? <FaStarHalfAlt /> : <FaRegStar />}</span>
+        </Fragment>
+      )}
       {isText && (
-        <span
-          className={`mx-1 ${rating === 5 ? "font-loader -mb-1" : "font-sans"}`}
-        >
+        <span className={`mx-1 ${rating === 5 ? "font-loader -mb-1" : "font-sans"}`}>
           {rating === 5 ? "MUALA" : rating}
         </span>
       )}

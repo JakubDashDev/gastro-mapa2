@@ -8,7 +8,7 @@ type HandleFormStateProps = {
   setFormState: React.Dispatch<
     React.SetStateAction<{
       name: string;
-      rating: number | undefined;
+      rating: number | string | undefined;
       youtubeLink: string;
       googleLink: string;
     }>
@@ -29,12 +29,12 @@ type handleSubmitProps = {
   event: React.FormEvent<HTMLFormElement>;
   formState: {
     name: string;
-    rating: number | undefined;
+    rating: number | string | undefined;
     youtubeLink: string;
     googleLink: string;
   };
   setFormState: React.Dispatch<
-    React.SetStateAction<{ name: string; rating: number | undefined; youtubeLink: string; googleLink: string }>
+    React.SetStateAction<{ name: string; rating: number | string | undefined; youtubeLink: string; googleLink: string }>
   >;
   addressState: {
     street: string | undefined;
@@ -64,7 +64,7 @@ export const useHandleSubmit = () => {
   const createRestaurant = async ({ event, formState, setFormState, addressState, setAddressState, category, setIsShow }: handleSubmitProps) => {
     event.preventDefault()
     const name = formState.name
-    const rating = formState.rating 
+    const rating =  formState.rating === "challange ostrości" ? "challange ostrości" : Number(formState.rating)
     const youtubeLink = formState.youtubeLink
     const googleLink = formState.googleLink
     const address = {

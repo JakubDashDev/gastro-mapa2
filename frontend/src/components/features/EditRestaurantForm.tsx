@@ -30,11 +30,12 @@ function EditRestaurantForm({ isShow, setIsShow }: ModalProps) {
     isError: isErrorDelete,
     error: errorDelete,
     isSuccess: isSuccessDelete,
+    reset: resetDelete,
   } = useDeleteRestaurant();
 
   const [showAddressModal, setShowAddressModal] = useState(false);
 
-  const { state, addressState, setAddressState, category, setCategory, setFormState } = handleFormState(
+  const { state, setState, addressState, setAddressState, category, setCategory, setFormState } = handleFormState(
     restaurant!,
     reset
   );
@@ -45,6 +46,21 @@ function EditRestaurantForm({ isShow, setIsShow }: ModalProps) {
     updateRestaurantFunc({ event: e, _id: restaurant?._id, state, addressState, category, setIsShow });
   };
 
+  const setChallange = () => {
+    setState((current) => ({
+      ...current,
+      rating: current.rating === "challange ostrości" ? 0 : "challange ostrości",
+    }));
+  };
+
+  useEffect(() => {
+    setTimeout(() => {
+      reset();
+      resetDelete();
+    }, 1000);
+    isShow ? (document.body.style.overflow = "hidden") : (document.body.style.overflow = "auto");
+  }, [isShow]);
+
   if (!restaurant) {
     return (
       <Modal isShow={isShow} setIsShow={setIsShow}>
@@ -52,6 +68,7 @@ function EditRestaurantForm({ isShow, setIsShow }: ModalProps) {
       </Modal>
     );
   }
+
   return (
     <Fragment>
       <Modal isShow={isShow} setIsShow={setIsShow}>
@@ -65,29 +82,29 @@ function EditRestaurantForm({ isShow, setIsShow }: ModalProps) {
             onChange={(event) => setFormState(event)}
             value={state.name}
             required
-            error={
-              (error &&
-                "data" in error &&
-                error?.data.message === "Restaurant validation failed: name: Restauracja o tej nazwie już istnieje" &&
-                "Restauracja o tej nazwie już istnieje!") ||
-              null
-            }
+            error={error && "data" in error && error.data.fields?.includes("name") ? error.data.message : null}
           />
           <div className="w-full">
-            <Input
-              id="rating"
-              name="rating"
-              type="number"
-              label="Ocena:"
-              value={state.rating}
-              onChange={(event) => setFormState(event)}
-              placeholder={restaurant.rating.toString()}
-              min="0"
-              max="5"
-              step="0.1"
-              required
-            />
-            <span className="text-sm text-gray-400">Zakres ocen: 0 - 5, w tym 5 = MUALA</span>
+            <div>
+              <Input
+                id="rating"
+                name="rating"
+                type="text"
+                label="Ocena:"
+                value={state.rating}
+                onChange={(event) => setFormState(event)}
+                placeholder={restaurant.rating.toString()}
+                disabled={state.rating === "challange ostrości"}
+                required
+                error={error && "data" in error && error.data.fields?.includes("rating") ? error.data.message : null}
+                styles="capitalize"
+              />
+              <span className="text-sm text-gray-400">Zakres ocen: 0 - 5, w tym 5 = MUALA!</span>
+              <div className="flex gap-1 items-center">
+                <input type="checkbox" onChange={setChallange} checked={state.rating === "challange ostrości"} />
+                <label className="text-red-500">Challange Ostrości 🌶️</label>
+              </div>
+            </div>
           </div>
           <div className="relative w-full">
             <Input
@@ -100,7 +117,7 @@ function EditRestaurantForm({ isShow, setIsShow }: ModalProps) {
               onChange={(event) => setFormState(event)}
               required
             />
-            <div className="absolute top-[50%] right-5">
+            <div className="absolute top-[50%] right-4 bg-dashboardSecondary">
               <ActionButtons restaurant={restaurant} isYoutubeIcon isEmbedIcon textColor="text-white/90" />
             </div>
           </div>
@@ -115,7 +132,7 @@ function EditRestaurantForm({ isShow, setIsShow }: ModalProps) {
               value={state.googleLink}
               required
             />
-            <div className="absolute top-[50%] right-5">
+            <div className="absolute top-[50%] right-4 bg-dashboardSecondary">
               <ActionButtons restaurant={restaurant} isLocationIcon textColor="text-white/90" />
             </div>
           </div>
@@ -174,8 +191,8 @@ function EditRestaurantForm({ isShow, setIsShow }: ModalProps) {
 
           {error &&
             "data" in error &&
-            error?.data.message !== "Restaurant validation failed: name: Restauracja o tej nazwie już istnieje" && (
-              <div className="w-full py-5 px-3 border border-red-500 bg-red-500/30 text-white">
+            !error?.data.fields?.every((i) => i.includes("name") || i.includes("rating")) && (
+              <div className="w-full py-2 px-5 border border-red-500 bg-red-500/30 text-white">
                 {error.data.message}
               </div>
             )}
@@ -196,7 +213,9 @@ function EditRestaurantForm({ isShow, setIsShow }: ModalProps) {
               type="button"
               bgColor="red-500"
               hoverColor="red-600"
-              onClick={() => id && deleteR(id, setIsShow)}
+              onClick={() =>
+                window.confirm(`Czy na pewno chcesz usunąć ${restaurant.name}?`) && id && deleteR(id, setIsShow)
+              }
               isSuccess={isSuccessDelete}
               isError={isErrorDelete}
               isLoading={isLoadingDelete}

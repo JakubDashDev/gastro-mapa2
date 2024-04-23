@@ -1,7 +1,7 @@
 import Input from "./Input";
 import Modal, { ModalProps } from "../ui/Modal";
 import Select from "react-select";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import MapGeocoder from "./MapGeocoder";
 import { Result } from "@mapbox/mapbox-gl-geocoder";
 import LaneThrough from "../ui/LaneThrough";
@@ -19,7 +19,7 @@ type addressStateType = {
 
 type formStateType = {
   name: string;
-  rating: number | undefined;
+  rating: number | string | undefined;
   youtubeLink: string;
   googleLink: string;
 };
@@ -28,7 +28,7 @@ function CreateRestaurantForm({ isShow, setIsShow }: ModalProps) {
   const [showAddressModal, setShowAddressModal] = useState(false);
   const [formState, setFormState] = useState<formStateType>({
     name: "",
-    rating: 0,
+    rating: "",
     youtubeLink: "",
     googleLink: "",
   });
@@ -46,6 +46,17 @@ function CreateRestaurantForm({ isShow, setIsShow }: ModalProps) {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     await createRestaurant({ event: e, formState, setFormState, addressState, setAddressState, category, setIsShow });
   };
+  const setChallange = () => {
+    setFormState((current) => ({
+      ...current,
+      rating: current.rating === "challange ostrości" ? 0 : "challange ostrości",
+    }));
+  };
+
+  useEffect(() => {
+    setTimeout(() => reset(), 1000);
+    isShow ? (document.body.style.overflow = "hidden") : (document.body.style.overflow = "auto");
+  }, [isShow]);
 
   return (
     <Fragment>
@@ -59,28 +70,33 @@ function CreateRestaurantForm({ isShow, setIsShow }: ModalProps) {
             value={formState.name}
             onChange={(e) => handleFormState({ event: e, setFormState: setFormState, reset: reset })}
             required
-            error={
-              (error &&
-                "data" in error &&
-                error?.data.message === "Restauracja o tej nazwie już istnieje!" &&
-                error.data?.message) ||
-              null
-            }
+            error={error && "data" in error && error.data.fields?.includes("name") ? error.data.message : null}
           />
           <div>
-            <Input
-              id="rating"
-              name="rating"
-              type="number"
-              label="Ocena"
-              value={formState.rating}
-              onChange={(e) => handleFormState({ event: e, setFormState: setFormState, reset: reset })}
-              min="0"
-              max="5"
-              step="0.1"
-              required
-            />
-            <span className="text-sm text-gray-400">Zakres ocen: 0 - 5, w tym 5 = MUALA</span>
+            <div>
+              <Input
+                id="rating"
+                name="rating"
+                type="text"
+                label="Ocena"
+                value={formState.rating}
+                onChange={(e) => handleFormState({ event: e, setFormState: setFormState, reset: reset })}
+                disabled={formState.rating === "challange ostrości"}
+                required
+                error={error && "data" in error && error.data.fields?.includes("rating") ? error.data.message : null}
+                styles="capitalize"
+              />
+              <span className="text-sm text-gray-400">Zakres ocen: 0 - 5, w tym 5 = MUALA</span>
+              <div className="flex gap-1 items-center">
+                <input
+                  type="checkbox"
+                  className="text-red-500"
+                  onChange={setChallange}
+                  checked={formState.rating === "challange ostrości"}
+                />
+                <label className="text-red-500">Challange Ostrości 🌶️</label>
+              </div>
+            </div>
           </div>
           <Input
             id="youtubeLink"
