@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import useWindowDimensions from "../../hooks/useWindoDimensions";
 import { useTransition, animated, useSpring } from "@react-spring/web";
 import { FaTimes, FaSignInAlt } from "react-icons/fa";
@@ -24,6 +24,10 @@ function SideBar({ showSidebar, setShowSidebar }: SideBarProps) {
       .then(() => dispatch(removeAuth()))
       .catch((err) => alert(err));
   };
+
+  useEffect(() => {
+    showSidebar ? (document.body.style.overflow = "hidden") : (document.body.style.overflow = "auto");
+  }, [showSidebar]);
 
   return (
     <Container showSidebar={showSidebar} setShowSidebar={setShowSidebar}>
@@ -109,7 +113,7 @@ function Container({ showSidebar, setShowSidebar, children }: ContainerProps) {
             </animated.aside>
             <animated.div
               style={backdropAnimation}
-              className="absolute left-0 top-0 w-screen h-screen bg-black/20"
+              className="fixed left-0 top-0 w-screen h-screen bg-black/20 z-10"
               onClick={() => setShowSidebar(false)}
             />
           </Fragment>
