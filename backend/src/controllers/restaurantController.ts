@@ -24,7 +24,7 @@ const getAllRestaurants = asnycHandler(async (req: Request, res: Response) => {
       }
     : {};
 
-  type filterType = { $gte?: number; $lte?: number; category?: string };
+  type filterType = { $gte?: number | string; $lte?: number | string; category?: string };
   const filtersArray: filterType[] = filters && JSON.parse(filters as string);
   const ratings = filtersArray?.filter((item) => item.hasOwnProperty("$gte"));
   const categories = filtersArray?.filter((item) => item.hasOwnProperty("category"));
@@ -35,15 +35,17 @@ const getAllRestaurants = asnycHandler(async (req: Request, res: Response) => {
           ratings.length > 0
             ? {
                 $or: ratings.map((item) => {
+                  //NOTE: handling custom value of rating
+                  if (item.$gte === "challange ostrości" && item.$lte === "challange ostrości") {
+                    return { rating: "challange ostrości" };
+                  }
                   return { rating: item };
                 }),
               }
             : {},
           categories.length > 0
             ? {
-                $or: categories.map((item) => {
-                  return { type: { $regex: item.category, $options: "i" } };
-                }),
+                $or: categories.map((item) => ({ category: { $regex: item.category, $options: "i" } })),
               }
             : {},
         ],
@@ -65,11 +67,18 @@ interface CustomRequest<T> extends Request {
 const createRestaurant = asnycHandler(async (req: CustomRequest<RestaurantType>, res: Response) => {
   const { name, rating, youtubeLink, googleLink, category, address } = req.body;
 
-  const restaurantExists = await Restaurant.findOne({ name });
+  if (typeof rating === "string") {
+    if (rating !== "challange ostrości") {
+      res.status(400);
+      throw new Error("Zakres oceny jest nieprawdidłowy!");
+    }
+  }
 
-  if (restaurantExists) {
-    res.status(400);
-    throw new Error("Restauracja o tej nazwie już istnieje!");
+  if (typeof rating === "number") {
+    if (rating < 0.1 || rating > 5) {
+      res.status(400);
+      throw new Error("Zakres oceny jest nieprawdidłowy!");
+    }
   }
 
   //NOTE: get Id from link to save embed link
@@ -77,7 +86,7 @@ const createRestaurant = asnycHandler(async (req: CustomRequest<RestaurantType>,
 
   const restaurant = new Restaurant({
     name,
-    rating: Number(rating),
+    rating,
     youtubeLink,
     googleLink,
     youtubeEmbed: `https://www.youtube.com/embed/${youtubeId}`,
@@ -105,6 +114,20 @@ const updateRestaurant = asnycHandler(async (req: CustomRequest<RestaurantType>,
     restaurant.googleLink = googleLink,
     restaurant.youtubeLink = youtubeLink,
     restaurant.youtubeEmbed = `https://www.youtube.com/embed/${youtubeId}`
+
+    if(typeof rating === "string"){
+      if(rating !== "challange ostrości"){
+        res.status(400)
+        throw new Error("Zakres oceny jest nieprawdidłowy!")
+      }
+    }
+    
+    if(typeof rating === "number"){
+      if(rating < 0.1 || rating > 5){
+        res.status(400)
+        throw new Error("Zakres oceny jest nieprawdidłowy!")
+      }
+    }
 
     const updatedRestaurant = await restaurant.save()
     res.status(200).json(updatedRestaurant)
