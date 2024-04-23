@@ -25,7 +25,7 @@ function PromiseButton({
   type,
   onClick,
   bgColor,
-  textColor,
+  textColor = "text-white",
   textHover,
   hoverColor,
   children,
