@@ -14,6 +14,7 @@ export const restaurantsApi = apiSlice.injectEndpoints({
         method: "GET",
         params: { keyword, filters },
       }),
+      providesTags: [{ type: "Restaurant", id: "LIST" }],
     }),
     getRestaurantsAdmin: builder.query({
       query: ({ keyword, filters }: QueryType) => ({
@@ -21,6 +22,7 @@ export const restaurantsApi = apiSlice.injectEndpoints({
         method: "GET",
         params: { keyword, filters },
       }),
+      providesTags: [{ type: "Restaurant", id: "LIST" }],
     }),
     createRestaurants: builder.mutation({
       query: (data: any) => ({
@@ -28,6 +30,7 @@ export const restaurantsApi = apiSlice.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: [{ type: "Restaurant", id: "LIST" }],
     }),
     updateRestaurant: builder.mutation({
       query: (data: any) => ({
@@ -35,12 +38,14 @@ export const restaurantsApi = apiSlice.injectEndpoints({
         method: "PUT",
         body: data,
       }),
+      invalidatesTags: [{ type: "Restaurant", id: "LIST" }],
     }),
     deleteRestaurant: builder.mutation({
       query: (_id: string) => ({
         url: `http://localhost:3000/api/restaurants/${_id}`,
         method: "DELETE",
       }),
+      invalidatesTags: [{ type: "Restaurant", id: "LIST" }],
     }),
   }),
 });

@@ -5,6 +5,7 @@ import { removeAuth } from "../redux/authSlice";
 interface CustomError {
   data: {
     message: string;
+    fields?: string[];
     stack: string;
   };
   status: number;
@@ -26,5 +27,6 @@ async function baseQueryWithAuth(args: any, api: any, extra: any) {
 
 export const apiSlice = createApi({
   baseQuery: baseQueryWithAuth as BaseQueryFn<string | FetchArgs, unknown, CustomError, {}>,
+  tagTypes: ["Restaurant", "User"],
   endpoints: () => ({}),
 });
