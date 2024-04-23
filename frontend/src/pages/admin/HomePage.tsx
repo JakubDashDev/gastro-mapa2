@@ -13,9 +13,7 @@ function HomePage() {
 
   return (
     <div className="relative pt-24 container mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-10 grid-flow-row">
-      <h3 className="absolute top-5 font-bold uppercase text-gray-500 text-sm">
-        Szybki Dostęp
-      </h3>
+      <h3 className="absolute top-5 font-bold uppercase text-gray-500 text-sm">Szybki Dostęp</h3>
       <Card>
         <Card.Header>
           <h6>nig</h6>

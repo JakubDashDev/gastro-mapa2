@@ -27,14 +27,16 @@ function RestaurantsPage() {
   return (
     <Fragment>
       <div className="flex flex-col gap-3 container mx-auto px-4 mt-10">
-        <button
-          onClick={() => setShowModal(true)}
-          className="flex items-center justify-center w-[150px] gap-2 py-1 bg-primary-500 hover:bg-primary-400 transition-colors rounded-lg text-white"
-        >
-          <FaPlus /> Dodaj
-        </button>
         <div className="overflow-x-auto bg-neutral-50 dark:bg-neutral-700 rounded-lg shadow-xl">
-          <RestaurantSearch />
+          <div className="flex flex-col lg:flex-row gap-5 items-center my-3 px-4">
+            <button
+              onClick={() => setShowModal(true)}
+              className="flex items-center justify-center w-[150px] gap-2 py-1 bg-primary-500 hover:bg-primary-400 transition-colors rounded-lg text-white"
+            >
+              <FaPlus /> Dodaj
+            </button>
+            <RestaurantSearch />
+          </div>
           <RestaurantList isShow={showEditModal} setIsShow={setShowEditModal} />
         </div>
       </div>

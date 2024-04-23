@@ -47,7 +47,7 @@ function TableRow({ restaurant, onClick }: TableRowProps) {
   return (
     <div
       onClick={onClick}
-      className="lg:text-black/80 group container flex flex-col gap-2 xl:gap-0 px-4 py-5 mx-auto capitalize xl:grid grid-cols-9 grid-rows-1 items-center group odd:bg-white even:bg-neutral-200 hover:bg-blue-900/20 cursor-pointer transition-all"
+      className="lg:text-black/80 group container flex flex-col gap-2 xl:gap-0 px-4 py-5 mx-auto capitalize xl:grid grid-cols-9 grid-rows-1 items-center group odd:bg-white even:bg-neutral-100 hover:bg-blue-900/20 cursor-pointer transition-all"
     >
       <strong className="col-span-2">{restaurant.name}</strong>
       <div className="col-span-2">
