@@ -48,7 +48,11 @@ function ActionButtons({
             isSuccess={isSuccess}
             isLoading={isLoading}
             isError={isError}
-            onClick={(e) => deleteR(e, restaurant)}
+            onClick={(e) =>
+              window.confirm(`Czy na pewno chcesz usunąć ${restaurant.name}?`)
+                ? deleteR(e, restaurant)
+                : e.stopPropagation()
+            }
           >
             <FaTrashAlt />
           </PromiseButton>
