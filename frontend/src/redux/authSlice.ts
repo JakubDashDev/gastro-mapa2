@@ -1,12 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+type UserInfoType = {
+  userInfo: {
+    _id: string;
+    email: string;
+    username: string;
+  } | null;
+};
+
+const initialState: UserInfoType = {
+  userInfo: localStorage.getItem("authInfo") ? JSON.parse(localStorage.getItem("authInfo") || "") : null,
+};
+
 const authSlice = createSlice({
   name: "auth",
-  initialState: {
-    userInfo: localStorage.getItem("authInfo")
-      ? JSON.parse(localStorage.getItem("authInfo") || "")
-      : null,
-  },
+  initialState,
   reducers: {
     setAuth: (state, action) => {
       state.userInfo = action.payload;
