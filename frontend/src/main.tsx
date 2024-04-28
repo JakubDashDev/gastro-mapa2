@@ -10,6 +10,7 @@ import AdminRoute from "./components/RouteLayout";
 import LoginPage from "./pages/admin/LoginPage";
 import HomePage from "./pages/admin/HomePage";
 import RestaurantsPage from "./pages/admin/RestaurantsListPage";
+import UserAccountSettingsPage from "./pages/admin/UserAccountSettingsPage";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,18 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/restaurants/:id?",
         element: <RestaurantsPage />,
+      },
+      {
+        path: "/dashboard/users",
+        element: <span className="mt-5 w-full flex items-center justify-center text-3xl">Strona w budowie 🛠️</span>,
+      },
+      {
+        path: "/dashboard/stats",
+        element: <span className="mt-5 w-full flex items-center justify-center text-3xl">Strona w budowie 🛠️</span>,
+      },
+      {
+        path: "/dashboard/account",
+        element: <UserAccountSettingsPage />,
       },
     ],
   },
