@@ -50,17 +50,6 @@ adminUserSchema.methods.matchPassword = async function (enteredPassword: string)
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
-adminUserSchema.methods.createPasswordResetToken = async function () {
-  const resetToken = crypto.randomBytes(32).toString("hex");
-
-  this.passwordResetToken = crypto.createHash("sha256").update(resetToken).digest("hex");
-  this.passwordResetExpires = Date.now() + 10 * 60 * 1000; //10 minutes
-
-  console.log({ resetToken }, this.passwordResetToken);
-
-  return resetToken;
-};
-
 const AdminUser = mongoose.model("AdminUser", adminUserSchema);
 
 export default AdminUser;
