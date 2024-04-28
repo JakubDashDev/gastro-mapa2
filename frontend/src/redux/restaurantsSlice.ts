@@ -55,7 +55,10 @@ const restaurantSlice = createSlice({
         restaurants: state.restaurants.filter((item) => item._id !== action.payload),
       };
     },
-    sortRestaurants: (state, action: PayloadAction<String>) => {
+    sortRestaurants: (
+      state,
+      action: PayloadAction<"Alfabetycznie (A-Z)" | "Alfabetycznie (Z-A)" | "Ocena: malejąco" | "Ocena: rosnąco">
+    ) => {
       if (action.payload === "Alfabetycznie (A-Z)") {
         state.restaurants = state.restaurants.slice().sort((a, b) => a.name.localeCompare(b.name));
       }
