@@ -1,13 +1,14 @@
 import Rating from "./Rating";
 import { FaPenToSquare } from "react-icons/fa6";
-import { useAppSelector } from "../../redux/store";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
 import useGetRestaurantsAdmin from "../../hooks/useGetRestaurantsAdmin";
 import Loader from "./Loader";
-import { RestaurantType } from "../../redux/restaurantsSlice";
-import { Fragment } from "react";
+import { RestaurantType, sortRestaurants } from "../../redux/restaurantsSlice";
+import { Fragment, useState } from "react";
 import { ModalProps } from "./Modal";
 import { useNavigate } from "react-router-dom";
 import ActionButtons from "../features/ActionButtons";
+import { FaSort } from "react-icons/fa";
 
 function RestaurantList({ isShow, setIsShow }: ModalProps) {
   const navigate = useNavigate();
@@ -21,8 +22,14 @@ function RestaurantList({ isShow, setIsShow }: ModalProps) {
   return (
     <section className="w-full flex flex-col">
       <div className="hidden container px-4 mx-auto xl:grid grid-cols-9 grid-rows-1 font-bold pt-5 pb-3 uppercase text-sm border-b-2 border-neutral-300">
-        <span className="col-span-2">Restauracja</span>
-        <span className="col-span-2">Ocena</span>
+        <SpanSort type="name" className="text-left col-span-2 cursor-pointer flex items-center gap-1 uppercase">
+          Restauracja
+          <FaSort />
+        </SpanSort>
+        <SpanSort type="rating" className="text-left col-span-2 cursor-pointer flex items-center gap-1 uppercase">
+          Ocena
+          <FaSort />
+        </SpanSort>
         <span className=" col-span-2">Adres</span>
         <span className="col-span-2">Kategorie</span>
         <span>Akcje</span>
@@ -63,5 +70,45 @@ function TableRow({ restaurant, onClick }: TableRowProps) {
         <ActionButtons restaurant={restaurant} textSize="text-xl" isEditIcon isTrashIcon />
       </div>
     </div>
+  );
+}
+
+type SpanSortProps = {
+  children: React.ReactNode;
+  type: "name" | "rating";
+  className?: string;
+};
+function SpanSort({ children, type, className }: SpanSortProps) {
+  const dispatch = useAppDispatch();
+
+  const [isAscending, setIsAscending] = useState(false);
+  const [isAlphabetically, setIsAlphabetically] = useState(true);
+
+  const handleSortName = () => {
+    if (isAlphabetically) {
+      dispatch(sortRestaurants("Alfabetycznie (Z-A)"));
+    } else {
+      dispatch(sortRestaurants("Alfabetycznie (A-Z)"));
+    }
+    setIsAlphabetically((current) => !current);
+  };
+
+  const handleSortRating = () => {
+    if (isAscending) {
+      dispatch(sortRestaurants("Ocena: malejąco"));
+    } else {
+      dispatch(sortRestaurants("Ocena: rosnąco"));
+    }
+    setIsAscending((current) => !current);
+  };
+
+  const handleClick = () => {
+    type === "rating" ? handleSortRating() : handleSortName();
+  };
+
+  return (
+    <button className={className} onClick={handleClick}>
+      {children}
+    </button>
   );
 }

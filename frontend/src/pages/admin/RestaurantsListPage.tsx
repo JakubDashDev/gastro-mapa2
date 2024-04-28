@@ -6,6 +6,7 @@ import CreateRestaurantForm from "../../components/features/CreateRestaurantForm
 import useGetRestaurantsAdmin from "../../hooks/useGetRestaurantsAdmin";
 import Loader from "../../components/ui/Loader";
 import EditRestaurantForm from "../../components/features/EditRestaurantForm";
+import Search from "../../components/features/Search";
 
 function RestaurantsPage() {
   const [showModal, setShowModal] = useState(false);
@@ -35,7 +36,7 @@ function RestaurantsPage() {
             >
               <FaPlus /> Dodaj
             </button>
-            <RestaurantSearch />
+            <Search />
           </div>
           <RestaurantList isShow={showEditModal} setIsShow={setShowEditModal} />
         </div>
