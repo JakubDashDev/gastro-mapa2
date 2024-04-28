@@ -3,6 +3,14 @@ import asnycHandler from "../middleware/asyncHandler.js";
 import AdminUser from "../models/adminUserModel.js";
 import generateToken from "../utils/generateToken.js";
 
+interface RequestWithUser extends Request {
+  user: {
+    _id: string;
+    email: string;
+    username: string;
+  };
+}
+
 const authAdmin = asnycHandler(async (req: Request, res: Response) => {
   const { username, email, password } = req.body;
 
@@ -46,8 +54,35 @@ const createAdmin = asnycHandler(async (req: Request, res: Response) => {
 });
 
 const logout = asnycHandler(async (req: Request, res: Response) => {
-  res.clearCookie('jwt')
-  res.status(200).json({message: "Success!"})
+  res.clearCookie("jwt");
+  res.status(200).json({ message: "Success!" });
 });
 
-export { authAdmin, createAdmin, logout };
+const updatePassword = asnycHandler(async (req: RequestWithUser, res: Response) => {
+  const { password, newPassword, passwordConfirm } = req.body;
+
+  const user = await AdminUser.findById(req.user._id).select("+password");
+
+  if (!user) {
+    res.status(404);
+    throw new Error("Nie ma takiego użytkownika!");
+  }
+
+  if (user && (await user.matchPassword(password))) {
+    user.password = newPassword;
+    user.passwordConfirm = passwordConfirm;
+    await user.save();
+    generateToken(res, user._id);
+
+    res.status(200).json({
+      _id: user._id,
+      username: user.username,
+      email: user.email,
+    });
+  } else {
+    res.status(401);
+    throw new Error("Invalid password");
+  }
+});
+
+export { authAdmin, createAdmin, logout, updatePassword };
