@@ -71,6 +71,8 @@ function CreateRestaurantForm({ isShow, setIsShow }: ModalProps) {
             onChange={(e) => handleFormState({ event: e, setFormState: setFormState, reset: reset })}
             required
             error={error && "data" in error && error.data.fields?.includes("name") ? error.data.message : null}
+            styles="bg-dashboardSecondary border-dashboardSecondary"
+            labelClassName="text-white"
           />
           <div>
             <div>
@@ -84,7 +86,8 @@ function CreateRestaurantForm({ isShow, setIsShow }: ModalProps) {
                 disabled={formState.rating === "challange ostrości"}
                 required
                 error={error && "data" in error && error.data.fields?.includes("rating") ? error.data.message : null}
-                styles="capitalize"
+                styles="capitalize bg-dashboardSecondary border-dashboardSecondary"
+                labelClassName="text-white"
               />
               <span className="text-sm text-gray-400">Zakres ocen: 0 - 5, w tym 5 = MUALA</span>
               <div className="flex gap-1 items-center">
@@ -106,6 +109,8 @@ function CreateRestaurantForm({ isShow, setIsShow }: ModalProps) {
             value={formState.youtubeLink}
             onChange={(e) => handleFormState({ event: e, setFormState: setFormState, reset: reset })}
             required
+            styles="bg-dashboardSecondary border-dashboardSecondary"
+            labelClassName="text-white"
           />
           <Input
             id="googleLink"
@@ -115,6 +120,8 @@ function CreateRestaurantForm({ isShow, setIsShow }: ModalProps) {
             value={formState.googleLink}
             onChange={(e) => handleFormState({ event: e, setFormState: setFormState, reset })}
             required
+            styles="bg-dashboardSecondary border-dashboardSecondary"
+            labelClassName="text-white"
           />
           <div className="flex flex-col gap-1 w-full">
             <span className="text-white">Kategorie </span>

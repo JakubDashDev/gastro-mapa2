@@ -83,6 +83,8 @@ function EditRestaurantForm({ isShow, setIsShow }: ModalProps) {
             value={state.name}
             required
             error={error && "data" in error && error.data.fields?.includes("name") ? error.data.message : null}
+            styles="bg-dashboardSecondary border-dashboardSecondary"
+            labelClassName="text-white"
           />
           <div className="w-full">
             <div>
@@ -97,7 +99,8 @@ function EditRestaurantForm({ isShow, setIsShow }: ModalProps) {
                 disabled={state.rating === "challange ostrości"}
                 required
                 error={error && "data" in error && error.data.fields?.includes("rating") ? error.data.message : null}
-                styles="capitalize"
+                styles="capitalize bg-dashboardSecondary border-dashboardSecondary"
+                labelClassName="text-white"
               />
               <span className="text-sm text-gray-400">Zakres ocen: 0 - 5, w tym 5 = MUALA!</span>
               <div className="flex gap-1 items-center">
@@ -116,6 +119,8 @@ function EditRestaurantForm({ isShow, setIsShow }: ModalProps) {
               value={state.youtubeLink}
               onChange={(event) => setFormState(event)}
               required
+              styles="bg-dashboardSecondary border-dashboardSecondary"
+              labelClassName="text-white"
             />
             <div className="absolute top-[50%] right-4 bg-dashboardSecondary">
               <ActionButtons restaurant={restaurant} isYoutubeIcon isEmbedIcon textColor="text-white/90" />
@@ -131,6 +136,8 @@ function EditRestaurantForm({ isShow, setIsShow }: ModalProps) {
               onChange={(event) => setFormState(event)}
               value={state.googleLink}
               required
+              styles="bg-dashboardSecondary border-dashboardSecondary"
+              labelClassName="text-white"
             />
             <div className="absolute top-[50%] right-4 bg-dashboardSecondary">
               <ActionButtons restaurant={restaurant} isLocationIcon textColor="text-white/90" />

@@ -39,12 +39,12 @@ function PromiseButton({
     <button
       type={type}
       disabled={isLoading || disabled}
-      className={`${textColor} w-full py-1 px-2 transition-all flex justify-center rounded-lg cursor-pointer disabled:bg-gray-800 disabled:cursor-not-allowed disabled:text-gray-600 ${
+      className={`${textColor} hover:${hoverColor} hover:${textHover} w-full py-1 px-2 transition-all flex justify-center rounded-lg cursor-pointer disabled:bg-black/50 disabled:cursor-not-allowed disabled:text-gray-500 ${
         isError
           ? "bg-red-500"
           : isSuccess
           ? "bg-green-600 text-white"
-          : `bg-${bgColor} hover:bg-${hoverColor} hover:${textHover}`
+          : `bg-${bgColor}`
       }`}
       onClick={onClick}
     >

@@ -33,7 +33,7 @@ function Search() {
     <form className="relative py-1" onSubmit={handleSearch}>
       <MdOutlineSearch className="absolute top-[50%] left-2 translate-y-[-50%] text-xl text-gray-400" />
       <input
-        className={`w-full bg-gray-200 py-2 px-8 rounded-lg outline-none border focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 ${
+        className={`w-full dark:bg-neutral-600 dark:border-none border py-2 px-8 rounded-lg outline-none focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 ${
           isCustomText
             ? "text-primary-500 font-loader pt-3"
             : "text-black font-sans"

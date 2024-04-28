@@ -66,7 +66,7 @@ function SideBar({ showSidebar, setShowSidebar }: SideBarProps) {
             <span>Ustawienia</span>
           </ActiveLink>
           <button
-            className="w-full flex items-center gap-2 py-3 px-2 rounded-lg hover:bg-white/10 transition-colors text-red-500"
+            className="w-full flex items-center gap-2 py-4 px-5 rounded-lg hover:bg-white/10 transition-colors text-red-500"
             onClick={handleLogout}
           >
             <FaSignInAlt className="text-xl" />
