@@ -6,6 +6,7 @@ import { clearFilterQuery, setIsActive, updateFilterQuery } from "../../redux/fi
 import useGetRestaurantsLazy from "../../hooks/useGetRestaurantsLazy";
 import { useTransition, animated } from "@react-spring/web";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
+import PromiseButton from "../ui/PromiseButton";
 
 type FiltersProps = {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -13,7 +14,7 @@ type FiltersProps = {
 function Filters({ setIsOpen }: FiltersProps) {
   const dispatch = useAppDispatch();
   const { filterQuery } = useAppSelector((state) => state.filters);
-  const { getRestaurants, isLoading, error } = useGetRestaurantsLazy();
+  const { getRestaurants, isLoading, error, isError, isSuccess } = useGetRestaurantsLazy();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -23,8 +24,11 @@ function Filters({ setIsOpen }: FiltersProps) {
     });
 
     filterQuery.length > 0 ? dispatch(setIsActive(true)) : dispatch(setIsActive(false));
-    setIsOpen((current) => !current);
   };
+
+  useEffect(() => {
+    setIsOpen((current) => !current);
+  }, [isSuccess]);
 
   const handleClear = () => {
     dispatch(clearFilterQuery());
@@ -43,9 +47,16 @@ function Filters({ setIsOpen }: FiltersProps) {
       <CategoryFilterSection isLoading={isLoading} />
 
       <div className="flex flex-row gap-3 w-full mt-5">
-        <button type="submit" className="w-full sm:w-1/2 bg-primary-500 py-1 rounded-md text-white">
+        <PromiseButton
+          isLoading={isLoading}
+          isError={isError}
+          isSuccess={isError}
+          disabled={isLoading}
+          type="submit"
+          bgColor="primary-500"
+        >
           Zastosuj
-        </button>
+        </PromiseButton>
         <button
           type="button"
           className="w-full sm:w-1/2 py-1 text-gray-200 disabled:text-gray-600 rounded-md border border-gray-600 dark:border-gray-300 dark:disabled:border-gray-600 transition-colors"

@@ -5,7 +5,7 @@ type LoaderType = {
 };
 
 function Loader({ color }: LoaderType) {
-  return <span id="loader" className={`border-[5px] ${color}`}></span>;
+  return <span id="loader" className={`border-[5px] border-${color}`}></span>;
 }
 
 export default Loader;

@@ -1,8 +1,5 @@
 import React, { FormEvent, useEffect, useState } from "react";
 import { MdOutlineClose, MdOutlineSearch } from "react-icons/md";
-import { useLazyGetRestaurantsQuery } from "../../services/restaurantsApi";
-import { useDispatch } from "react-redux";
-import { setRestaurants } from "../../redux/restaurantsSlice";
 import useGetRestaurantsLazy from "../../hooks/useGetRestaurantsLazy";
 
 function Search() {
@@ -36,7 +33,7 @@ function Search() {
         className={`w-full dark:bg-neutral-600 dark:border-none border py-2 px-8 rounded-lg outline-none focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 ${
           isCustomText
             ? "text-primary-500 font-loader pt-3"
-            : "text-black font-sans"
+            : "text-black dark:text-white font-sans"
         }`}
         placeholder="Wyszukaj..."
         value={inputState}

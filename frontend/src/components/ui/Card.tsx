@@ -1,20 +1,34 @@
 import React from "react";
+import { Link, useLocation } from "react-router-dom";
 
 type CardNode = {
   children: React.ReactNode;
 };
 
-function Card({ children }: CardNode) {
+interface CardProps extends CardNode {
+  linkTo?: string;
+}
+
+function Card({ children, linkTo }: CardProps) {
+  const location = useLocation();
   return (
-    <div className="relative flex flex-col gap-5 w-full h-full bg-white p-4 border border-black/15 rounded-lg shadow-xl">
+    <Link
+      to={linkTo ? linkTo : location}
+      className="relative flex flex-col gap-5 w-full h-full bg-white p-4 border border-black/15 rounded-lg shadow-xl"
+    >
       {children}
-    </div>
+    </Link>
   );
 }
 
-function CardHeader({ children }: CardNode) {
+interface CardHeaderProps extends CardNode {
+  backgroundColor: string;
+}
+function CardHeader({ children, backgroundColor }: CardHeaderProps) {
   return (
-    <div className="-mt-8 bg-red-500 z-10 mx-1 md:mx-3 rounded-lg p-0 shadow-lg">
+    <div
+      className={`${backgroundColor} -mt-8 z-10 h-[50px] mx-1 md:mx-3 rounded-lg shadow-lg flex justify-center items-center`}
+    >
       {children}
     </div>
   );
