@@ -8,21 +8,50 @@ import connectDB from "./config/db.js";
 import { errorHandler } from "./middleware/errorMiddleware.js";
 import restaurantRoutes from "./routes/restaurantsRoutes.js";
 import adminRoutes from "./routes/userRoutes.js";
+import rateLimit from "express-rate-limit";
+import helmet from "helmet";
+import monogoSanitize from "express-mongo-sanitize";
+import hpp from "hpp";
 
 const app = express();
 
-app.use(express.json());
+//Security HTTP headers
+app.use(helmet());
+
+//Body parser
+app.use(express.json({ limit: "10kb" }));
+
+//Data sanitization
+app.use(monogoSanitize());
+
+//DEV dep
 app.use(morgan("dev"));
+
+
+
+//CORS
 app.use(
   cors({
     credentials: true,
     origin: "http://localhost:5173",
   })
 );
+
+//COOKIES
 app.use(cookies());
 
+//Limit request
+const limiter = rateLimit({
+  max: 100,
+  windowMs: 60 * 60 * 1000, // 1 hour
+  message: "Too many request",
+});
+app.use(limiter);
+
+//DB connection
 connectDB();
 
+//App routes
 app.use("/api/restaurants", restaurantRoutes);
 app.use("/api/admin", adminRoutes);
 
@@ -31,6 +60,7 @@ app.get("*", function (req, res) {
   res.status(404).json({ message: "Route not found :(" });
 });
 
+//Error middleware
 app.use(errorHandler);
 
 app.listen(process.env.PORT, () => {
