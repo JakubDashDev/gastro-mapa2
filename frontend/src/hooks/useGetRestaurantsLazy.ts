@@ -1,10 +1,6 @@
 import { useDispatch } from "react-redux";
 import { useLazyGetRestaurantsQuery } from "../services/restaurantsApi";
 import { setRestaurants } from "../redux/restaurantsSlice";
-import {
-  QueryResultSelectorResult,
-  SubscriptionOptions,
-} from "@reduxjs/toolkit/query";
 
 type Credentials = {
   keyword?: string;
@@ -13,13 +9,13 @@ type Credentials = {
 
 function useGetRestaurantsLazy() {
   const dispatch = useDispatch();
-  const [trigger, { isLoading, error }] = useLazyGetRestaurantsQuery();
+  const [trigger, { isLoading, error, isError }] = useLazyGetRestaurantsQuery();
 
   const getRestaurants = (credentials: Credentials) => {
     trigger(credentials).then((res) => dispatch(setRestaurants(res.data)));
   };
 
-  return { getRestaurants, isLoading, error };
+  return { getRestaurants, isLoading, error, isError };
 }
 
 export default useGetRestaurantsLazy;
