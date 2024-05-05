@@ -7,7 +7,15 @@ export interface IUser extends Document {
   username: string;
   email: string;
   password: string;
-  passwordConfirm: string | undefined;
+  confirmPassword: string | undefined;
+  passwordChangeAt: number;
+}
+
+interface User {
+  username: string;
+  email: string;
+  password: string;
+  confirmPassword: string | undefined;
   passwordChangeAt: number;
 }
 
@@ -15,18 +23,7 @@ const adminUserSchema = new mongoose.Schema<IUser>({
   username: { type: String, required: true },
   email: { type: String, required: true, lowercase: true },
   password: { type: String, required: true, minLength: 8, select: false },
-  passwordConfirm: {
-    type: String,
-    required: [true, "Proszę, potwierdź swoje hasło"],
-  },
   passwordChangeAt: Date,
-});
-adminUserSchema.pre("validate", async function (next) {
-  if (this.password !== this.passwordConfirm) {
-    this.invalidate("passwordConfirm", "Hasła nie są identyczne!");
-  }
-
-  next();
 });
 
 adminUserSchema.pre("save", async function (next) {
@@ -42,7 +39,7 @@ adminUserSchema.pre("save", async function (next) {
 
   this.password = await bcrypt.hash(this.password, 12);
 
-  this.passwordConfirm = undefined;
+  this.confirmPassword = undefined;
   next();
 });
 
