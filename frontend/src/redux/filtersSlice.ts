@@ -48,7 +48,7 @@ const filtersSlice = createSlice({
         };
       }
 
-      if (typeof action.payload === "number" && condition) {
+      if ((typeof action.payload === "number" && condition) || (action.payload === "challange ostrości" && condition)) {
         return {
           ...state,
           filterQuery: state.filterQuery.filter((item: any) => item.$gte !== action.payload),

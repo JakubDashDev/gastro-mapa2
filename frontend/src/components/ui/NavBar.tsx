@@ -26,7 +26,7 @@ function NavBar({ setShowSidebar }: NavBarProps) {
           </button>
           <Link to="/dashboard/account" className="flex items-center gap-1">
             <FaUser />
-            <span className="hidden sm:block text-base">{userInfo.email}</span>
+            <span className="hidden sm:block text-base">{userInfo?.email}</span>
           </Link>
         </div>
       </div>
