@@ -26,7 +26,7 @@ const authAdmin = asnycHandler(async (req: Request, res: Response) => {
     });
   } else {
     res.status(401);
-    throw new Error("Invalid email or password");
+    throw new Error("Podane dane są nieprawidłowe!");
   }
 });
 
@@ -59,7 +59,7 @@ const logout = asnycHandler(async (req: Request, res: Response) => {
 });
 
 const updatePassword = asnycHandler(async (req: RequestWithUser, res: Response) => {
-  const { password, newPassword, passwordConfirm } = req.body;
+  const { currentPassword, password, confirmPassword } = req.body;
 
   const user = await AdminUser.findById(req.user._id).select("+password");
 
@@ -68,9 +68,14 @@ const updatePassword = asnycHandler(async (req: RequestWithUser, res: Response) 
     throw new Error("Nie ma takiego użytkownika!");
   }
 
-  if (user && (await user.matchPassword(password))) {
-    user.password = newPassword;
-    user.passwordConfirm = passwordConfirm;
+  if (password !== confirmPassword) {
+    res.status(400);
+    throw new Error("Hasła muszą być takie same!");
+  }
+
+  if (user && (await user.matchPassword(currentPassword))) {
+    user.password = password;
+    user.confirmPassword = confirmPassword;
     await user.save();
     generateToken(res, user._id);
 
@@ -80,9 +85,26 @@ const updatePassword = asnycHandler(async (req: RequestWithUser, res: Response) 
       email: user.email,
     });
   } else {
-    res.status(401);
-    throw new Error("Invalid password");
+    res.status(400);
+    throw new Error("Nieprawidłowe hasło!");
   }
 });
 
-export { authAdmin, createAdmin, logout, updatePassword };
+const updateUser = asnycHandler(async (req: RequestWithUser, res: Response) => {
+  const { username, email, password } = req.body;
+
+  const user = await AdminUser.findOne({ _id: req.user._id }).select("+password");
+
+  if (user && (await user.matchPassword(password))) {
+    user.username = username;
+    user.email = email;
+
+    await user.save();
+    res.status(200).json(user);
+  } else {
+    res.status(400);
+    throw new Error("Podane dane są nieprawidłowe!");
+  }
+});
+
+export { authAdmin, createAdmin, logout, updatePassword, updateUser };

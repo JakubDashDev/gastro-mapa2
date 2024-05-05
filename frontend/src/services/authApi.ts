@@ -15,7 +15,21 @@ export const authApi = apiSlice.injectEndpoints({
         method: "POST",
       }),
     }),
+    updatePassword: builder.mutation({
+      query: (data) => ({
+        url: "/api/admin/updatePassword",
+        method: "PATCH",
+        body: data,
+      }),
+    }),
+    updateMe: builder.mutation({
+      query: (data) => ({
+        url: "/api/admin/updateMe",
+        method: "PATCH",
+        body: data,
+      }),
+    }),
   }),
 });
 
-export const { useLoginMutation, useLogoutMutation } = authApi;
+export const { useLoginMutation, useLogoutMutation, useUpdatePasswordMutation, useUpdateMeMutation } = authApi;
