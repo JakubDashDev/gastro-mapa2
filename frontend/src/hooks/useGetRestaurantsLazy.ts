@@ -9,13 +9,13 @@ type Credentials = {
 
 function useGetRestaurantsLazy() {
   const dispatch = useDispatch();
-  const [trigger, { isLoading, error, isError }] = useLazyGetRestaurantsQuery();
+  const [trigger, { isLoading, error, isError, isSuccess }] = useLazyGetRestaurantsQuery();
 
   const getRestaurants = (credentials: Credentials) => {
     trigger(credentials).then((res) => dispatch(setRestaurants(res.data)));
   };
 
-  return { getRestaurants, isLoading, error, isError };
+  return { getRestaurants, isLoading, error, isError, isSuccess };
 }
 
 export default useGetRestaurantsLazy;
