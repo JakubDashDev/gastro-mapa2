@@ -61,11 +61,13 @@ export const useHandleSubmit = () => {
   const dispatch = useAppDispatch()
   const [trigger, {isLoading, error, isError, isSuccess, reset}] = useCreateRestaurantsMutation()
 
+
   const createRestaurant = async ({ event, formState, setFormState, addressState, setAddressState, category, setIsShow }: handleSubmitProps) => {
     event.preventDefault()
     const name = formState.name
     const rating =  formState.rating === "challange ostrości" ? "challange ostrości" : Number(formState.rating)
     const youtubeLink = formState.youtubeLink
+    const youtubeEmbed = `https://www.youtube.com/embed/${formState.youtubeLink.split("https://youtu.be/").pop()?.split("&")[0]}`
     const googleLink = formState.googleLink
     const address = {
       street: addressState.street!,
@@ -76,7 +78,7 @@ export const useHandleSubmit = () => {
     }
     const categories = category.map((item: {label: string, value:string}) => item.value)
 
-    const data = {name, rating, youtubeLink, googleLink, address, category: categories}
+    const data = {name, rating, youtubeLink, youtubeEmbed, googleLink, address, category: categories}
 
     trigger(data).unwrap()
     .then((res: any) => setTimeout(() => {

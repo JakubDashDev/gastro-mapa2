@@ -65,7 +65,7 @@ interface CustomRequest<T> extends Request {
   body: T;
 }
 const createRestaurant = asnycHandler(async (req: CustomRequest<RestaurantType>, res: Response) => {
-  const { name, rating, youtubeLink, googleLink, category, address } = req.body;
+  const { name, rating, youtubeLink, youtubeEmbed, googleLink, category, address } = req.body;
 
   if (typeof rating === "string") {
     if (rating !== "challange ostrości") {
@@ -81,15 +81,13 @@ const createRestaurant = asnycHandler(async (req: CustomRequest<RestaurantType>,
     }
   }
 
-  //NOTE: get Id from link to save embed link
-  const youtubeId = youtubeLink.split("https://youtu.be/")[1];
 
   const restaurant = new Restaurant({
     name,
     rating,
     youtubeLink,
     googleLink,
-    youtubeEmbed: `https://www.youtube.com/embed/${youtubeId}`,
+    youtubeEmbed,
     category: category,
     address,
   });
