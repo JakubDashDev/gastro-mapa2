@@ -71,7 +71,7 @@ function CreateRestaurantForm({ isShow, setIsShow }: ModalProps) {
             onChange={(e) => handleFormState({ event: e, setFormState: setFormState, reset: reset })}
             required
             error={error && "data" in error && error.data.fields?.includes("name") ? error.data.message : null}
-            styles="bg-dashboardSecondary border-dashboardSecondary"
+            styles="bg-dashboardSecondary border-dashboardSecondary text-white"
             labelClassName="text-white"
           />
           <div>
@@ -86,7 +86,7 @@ function CreateRestaurantForm({ isShow, setIsShow }: ModalProps) {
                 disabled={formState.rating === "challange ostrości"}
                 required
                 error={error && "data" in error && error.data.fields?.includes("rating") ? error.data.message : null}
-                styles="capitalize bg-dashboardSecondary border-dashboardSecondary"
+                styles="capitalize bg-dashboardSecondary border-dashboardSecondary text-white"
                 labelClassName="text-white"
               />
               <span className="text-sm text-gray-400">Zakres ocen: 0 - 5, w tym 5 = MUALA</span>
@@ -109,7 +109,7 @@ function CreateRestaurantForm({ isShow, setIsShow }: ModalProps) {
             value={formState.youtubeLink}
             onChange={(e) => handleFormState({ event: e, setFormState: setFormState, reset: reset })}
             required
-            styles="bg-dashboardSecondary border-dashboardSecondary"
+            styles="bg-dashboardSecondary border-dashboardSecondary text-white"
             labelClassName="text-white"
           />
           <Input
@@ -120,7 +120,7 @@ function CreateRestaurantForm({ isShow, setIsShow }: ModalProps) {
             value={formState.googleLink}
             onChange={(e) => handleFormState({ event: e, setFormState: setFormState, reset })}
             required
-            styles="bg-dashboardSecondary border-dashboardSecondary"
+            styles="bg-dashboardSecondary border-dashboardSecondary text-white"
             labelClassName="text-white"
           />
           <div className="flex flex-col gap-1 w-full">

@@ -40,8 +40,6 @@ function EditRestaurantForm({ isShow, setIsShow }: ModalProps) {
     reset
   );
 
-  const isSubmitDisabled = useIsSubmitDisabled(restaurant, { state, category, addressState });
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     updateRestaurantFunc({ event: e, _id: restaurant?._id, state, addressState, category, setIsShow });
   };
@@ -83,7 +81,7 @@ function EditRestaurantForm({ isShow, setIsShow }: ModalProps) {
             value={state.name}
             required
             error={error && "data" in error && error.data.fields?.includes("name") ? error.data.message : null}
-            styles="bg-dashboardSecondary border-dashboardSecondary"
+            styles="bg-dashboardSecondary border-dashboardSecondary text-white"
             labelClassName="text-white"
           />
           <div className="w-full">
@@ -99,7 +97,7 @@ function EditRestaurantForm({ isShow, setIsShow }: ModalProps) {
                 disabled={state.rating === "challange ostrości"}
                 required
                 error={error && "data" in error && error.data.fields?.includes("rating") ? error.data.message : null}
-                styles="capitalize bg-dashboardSecondary border-dashboardSecondary"
+                styles="capitalize bg-dashboardSecondary border-dashboardSecondary text-white"
                 labelClassName="text-white"
               />
               <span className="text-sm text-gray-400">Zakres ocen: 0 - 5, w tym 5 = MUALA!</span>
@@ -119,7 +117,7 @@ function EditRestaurantForm({ isShow, setIsShow }: ModalProps) {
               value={state.youtubeLink}
               onChange={(event) => setFormState(event)}
               required
-              styles="bg-dashboardSecondary border-dashboardSecondary"
+              styles="bg-dashboardSecondary border-dashboardSecondary text-white"
               labelClassName="text-white"
             />
             <div className="absolute top-[50%] right-4 bg-dashboardSecondary">
@@ -136,7 +134,7 @@ function EditRestaurantForm({ isShow, setIsShow }: ModalProps) {
               onChange={(event) => setFormState(event)}
               value={state.googleLink}
               required
-              styles="bg-dashboardSecondary border-dashboardSecondary"
+              styles="bg-dashboardSecondary border-dashboardSecondary text-white"
               labelClassName="text-white"
             />
             <div className="absolute top-[50%] right-4 bg-dashboardSecondary">
@@ -212,7 +210,7 @@ function EditRestaurantForm({ isShow, setIsShow }: ModalProps) {
               isSuccess={isSuccess}
               isLoading={isLoading}
               isError={isError}
-              disabled={!isSuccess && isSubmitDisabled}
+              disabled={isLoading}
             >
               Zapisz
             </PromiseButton>
