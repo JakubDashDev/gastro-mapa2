@@ -108,3 +108,39 @@
   left: 50%;
   transform: translate(-50%, 0);
 }
+
+#restaurantListSideNav,
+#restaurantListAdmin {
+  --sb-track-color: #bdbcbc;
+  --sb-thumb-color: #e78b12;
+  --sb-size: 7px;
+}
+
+#restaurantListSideNav::-webkit-scrollbar,
+#restaurantListAdmin::-webkit-scrollbar {
+  width: var(--sb-size);
+}
+
+#restaurantListSideNav::-webkit-scrollbar,
+#restaurantListAdmin::-webkit-scrollbar {
+  width: var(--sb-size);
+}
+
+#restaurantListSideNav::-webkit-scrollbar-track,
+#restaurantListAdmin::-webkit-scrollbar-track {
+  background: var(--sb-track-color);
+  border-radius: 3px;
+}
+
+#restaurantListSideNav::-webkit-scrollbar-thumb,
+#restaurantListAdmin::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb-color);
+  border-radius: 3px;
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  #restaurantListSideNav,
+  #restaurantListAdmin {
+    scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
+  }
+}

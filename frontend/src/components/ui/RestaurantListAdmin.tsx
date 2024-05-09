@@ -20,8 +20,8 @@ function RestaurantList({ isShow, setIsShow }: ModalProps) {
   };
 
   return (
-    <section className="w-full flex flex-col">
-      <div className="hidden container px-4 mx-auto xl:grid grid-cols-9 grid-rows-1 font-bold pt-5 pb-3 uppercase text-sm border-b-2 border-neutral-300">
+    <section id="restaurantListAdmin" className="w-full h-[600px] flex flex-col overflow-y-scroll">
+      <div className="hidden container px-4 mx-auto xl:grid grid-cols-9 grid-rows-1 font-bold pt-5 pb-3 uppercase text-sm border-b-2 border-neutral-300 ">
         <SpanSort type="name" className="text-left col-span-2 cursor-pointer flex items-center gap-1 uppercase">
           Restauracja
           <FaSort />
