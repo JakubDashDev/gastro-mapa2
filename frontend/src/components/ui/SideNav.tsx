@@ -51,9 +51,14 @@ function SideNav({ data, darkMode, setDarkMode }: SideNavProps) {
         )}
       </div>
 
-      <div className="p-4 bg-white dark:bg-darkBg w-full border-t border-black/10 dark:border-white/10">
+      <footer className="px-4 py-1 bg-white dark:bg-darkBg w-full border-t border-black/10 dark:border-white/10 flex items-center justify-between">
         <DarkModeButton darkMode={darkMode} setDarkMode={setDarkMode} />
-      </div>
+        <div className="flex flex-col text-gray-500 text-xs font-bold">
+          <span>Author: Jakub Cieślik</span>
+          <span>Contact: jakub.dev@icloud.com</span>
+          <span>Location: Kraków, Poland</span>
+        </div>
+      </footer>
     </Container>
   );
 }
