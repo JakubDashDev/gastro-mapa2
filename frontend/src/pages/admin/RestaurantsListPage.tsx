@@ -1,7 +1,6 @@
 import React, { Fragment, useState } from "react";
 import RestaurantList from "../../components/ui/RestaurantListAdmin";
 import { FaPlus } from "react-icons/fa6";
-import RestaurantSearch from "../../components/features/RestaurantSearch";
 import CreateRestaurantForm from "../../components/features/CreateRestaurantForm";
 import useGetRestaurantsAdmin from "../../hooks/useGetRestaurantsAdmin";
 import Loader from "../../components/ui/Loader";
@@ -20,7 +19,7 @@ function RestaurantsPage() {
   if (isLoading)
     return (
       <div className="w-full h-full flex items-center justify-center">
-        <Loader color="border-primary-500" />
+        <Loader color="primary-500" />
       </div>
     );
   if (error) return <span>error...</span>;
