@@ -64,7 +64,7 @@ function Filters({ setIsOpen }: FiltersProps) {
         </PromiseButton>
         <button
           type="button"
-          className="w-full flex items-center justify-center sm:w-1/2 py-1 rounded-md border border-gray-700 transition-colors"
+          className="w-full flex items-center justify-center sm:w-1/2 py-1 rounded-md border border-gray-700 transition-colors dark:disabled:text-gray-700 disabled:text-gray-300"
           onClick={handleClear}
           disabled={filterQuery.length === 0 || isLoading}
         >
