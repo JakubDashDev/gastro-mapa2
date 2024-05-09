@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { RATING_ARRAY, CATEGORY_ARRAY } from "../../../constatns";
 import Rating from "../ui/Rating";
-import { useDispatch, useSelector } from "react-redux";
 import { clearFilterQuery, setIsActive, updateFilterQuery } from "../../redux/filtersSlice";
 import useGetRestaurantsLazy from "../../hooks/useGetRestaurantsLazy";
 import { useTransition, animated } from "@react-spring/web";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import PromiseButton from "../ui/PromiseButton";
+import Loader from "../ui/Loader";
 
 type FiltersProps = {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -14,7 +14,7 @@ type FiltersProps = {
 function Filters({ setIsOpen }: FiltersProps) {
   const dispatch = useAppDispatch();
   const { filterQuery } = useAppSelector((state) => state.filters);
-  const { getRestaurants, isLoading, error, isError, isSuccess } = useGetRestaurantsLazy();
+  const { getRestaurants, isLoading, error, isError, isSuccess, isFetching } = useGetRestaurantsLazy();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -27,8 +27,10 @@ function Filters({ setIsOpen }: FiltersProps) {
   };
 
   useEffect(() => {
-    setIsOpen((current) => !current);
-  }, [isSuccess]);
+    if (!isLoading && !isError && !isFetching && isSuccess) {
+      setIsOpen((current) => !current);
+    }
+  }, [isSuccess, isLoading, isError, isFetching]);
 
   const handleClear = () => {
     dispatch(clearFilterQuery());
@@ -36,8 +38,6 @@ function Filters({ setIsOpen }: FiltersProps) {
       keyword: undefined,
       filters: undefined,
     });
-
-    dispatch(setIsActive(false));
   };
 
   return (
@@ -46,9 +46,14 @@ function Filters({ setIsOpen }: FiltersProps) {
 
       <CategoryFilterSection isLoading={isLoading} />
 
+      {isError && (
+        <div className="w-full border border-red-500 my-3 p-2 rounded-lg bg-red-900/40">
+          {error && "data" in error ? error.data.message : "Wystąpił nieoczekiwany błąd aplikacji"}
+        </div>
+      )}
       <div className="flex flex-row gap-3 w-full mt-5">
         <PromiseButton
-          isLoading={isLoading}
+          isLoading={isFetching}
           isError={isError}
           isSuccess={isError}
           disabled={isLoading}
@@ -59,11 +64,11 @@ function Filters({ setIsOpen }: FiltersProps) {
         </PromiseButton>
         <button
           type="button"
-          className="w-full sm:w-1/2 py-1 text-gray-200 disabled:text-gray-600 rounded-md border border-gray-600 dark:border-gray-300 dark:disabled:border-gray-600 transition-colors"
+          className="w-full flex items-center justify-center sm:w-1/2 py-1 rounded-md border border-gray-700 transition-colors"
           onClick={handleClear}
-          disabled={filterQuery.length === 0}
+          disabled={filterQuery.length === 0 || isLoading}
         >
-          Wyczyść
+          {isFetching ? <Loader color="gray-500" colorDark="gray-200" /> : "Wyczyść"}
         </button>
       </div>
     </form>
