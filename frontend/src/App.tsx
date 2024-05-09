@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from "react";
 import Map from "./components/features/Map";
-import Loader from "./components/ui/WelcomeLoader";
+import WelcomeLoader from "./components/ui/WelcomeLoader";
 import SideNav from "./components/ui/SideNav";
 import useGetRestaurants from "./hooks/useGetRestaurants";
 import { useAppSelector } from "./redux/store";
@@ -15,13 +15,15 @@ function App() {
   );
   //HANDLING DARK MODE FEATURE
 
-  if (loading) return <Loader />;
+  if (loading) return <WelcomeLoader />;
 
   return (
     <main className={`${darkMode ? "dark flex font-sans" : "flex font-sans"}`}>
       {isError ? (
         error && "data" in error ? (
-          <div className="w-screen h-screen bg-darkBg flex items-center justify-center text-white">{error.data.message}</div>
+          <div className="w-screen h-screen bg-darkBg flex items-center justify-center text-white">
+            {error.data.message}
+          </div>
         ) : (
           <div className="w-screen h-screen bg-darkBg flex items-center justify-center text-white">
             Wystąpił nieoczekiwany błąd aplikacji 💔. Odswież stronę, jeśli to nie pomoże skontaktuj się z
