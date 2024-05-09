@@ -6,7 +6,6 @@ import { Provider } from "react-redux";
 import store from "./redux/store";
 import { MapProvider } from "react-map-gl";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import AdminRoute from "./components/RouteLayout";
 import LoginPage from "./pages/admin/LoginPage";
 import HomePage from "./pages/admin/HomePage";
 import RestaurantsPage from "./pages/admin/RestaurantsListPage";
@@ -20,7 +19,10 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <AdminRoute />,
+    async lazy() {
+      const AdminRoute = (await import("./components/RouteLayout")).default;
+      return { Component: AdminRoute };
+    },
     children: [
       {
         path: "",
