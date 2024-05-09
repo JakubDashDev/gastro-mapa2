@@ -11,6 +11,7 @@ import LoginPage from "./pages/admin/LoginPage";
 import HomePage from "./pages/admin/HomePage";
 import RestaurantsPage from "./pages/admin/RestaurantsListPage";
 import UserAccountSettingsPage from "./pages/admin/UserAccountSettingsPage";
+import ReactErrorBoundary from "./components/ReactErrorBoundary";
 
 const router = createBrowserRouter([
   {
@@ -51,10 +52,12 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <Provider store={store}>
-      <MapProvider>
-        <RouterProvider router={router} />
-      </MapProvider>
-    </Provider>
+    <ReactErrorBoundary>
+      <Provider store={store}>
+        <MapProvider>
+          <RouterProvider router={router} />
+        </MapProvider>
+      </Provider>
+    </ReactErrorBoundary>
   </React.StrictMode>
 );
