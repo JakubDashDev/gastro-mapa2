@@ -10,9 +10,11 @@ type FunctionParameters = {
 
 function useGetRestaurantsAdmin({ keyword, filters }: FunctionParameters) {
   const dispatch = useAppDispatch();
-  const { data, isLoading, isError, error, isSuccess } = useGetRestaurantsAdminQuery({
+  const { data, isLoading, isError, error, isSuccess, isFetching } = useGetRestaurantsAdminQuery({
     keyword,
     filters,
+  }, {
+    
   });
 
   useEffect(() => {
@@ -21,7 +23,7 @@ function useGetRestaurantsAdmin({ keyword, filters }: FunctionParameters) {
     }
   }, [isSuccess]);
 
-  return { isLoading, isError, error };
+  return { isLoading, isError, error, isFetching };
 }
 
 export default useGetRestaurantsAdmin;
