@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useState } from "react";
 import Input from "./Input";
 import PromiseButton from "../ui/PromiseButton";
 import { useHandlePasswordSubmit, useHandleUpdateUser } from "./UserAccountSettingsForms.hooks";
@@ -69,7 +69,9 @@ export function UsernameForm() {
         </Fragment>
       )}
       {error && "data" in error && (
-        <div className="w-full py-2 px-5 border border-red-500 bg-red-500/30 text-black rounded-lg">{error.data.message}</div>
+        <div className="w-full py-2 px-5 border border-red-500 bg-red-500/30 text-black rounded-lg">
+          {error.data.message}
+        </div>
       )}
       <button type="button" className="text-blue-500 self-end" onClick={handleOpen}>
         {isEdit ? "Anuluj" : "Zmień"}
@@ -152,7 +154,9 @@ export function PasswordForm() {
             Zapisz
           </PromiseButton>
           {error && "data" in error && (
-            <div className="w-full py-2 px-5 border border-red-500 bg-red-500/30 text-black rounded-lg">{error.data.message}</div>
+            <div className="w-full py-2 px-5 border border-red-500 bg-red-500/30 text-black rounded-lg">
+              {error.data.message}
+            </div>
           )}
         </div>
       )}
@@ -231,7 +235,9 @@ export function EmailForm() {
         </Fragment>
       )}
       {error && "data" in error && (
-        <div className="w-full py-2 px-5 border border-red-500 bg-red-500/30 text-black rounded-lg">{error.data.message}</div>
+        <div className="w-full py-2 px-5 border border-red-500 bg-red-500/30 text-black rounded-lg">
+          {error.data.message}
+        </div>
       )}
       <button type="button" className="text-blue-500 self-end" onClick={handleOpen}>
         {isEdit ? "Anuluj" : "Zmień"}

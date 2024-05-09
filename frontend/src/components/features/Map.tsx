@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import "mapbox-gl/dist/mapbox-gl.css";
 import {
   GeolocateControl,
@@ -7,11 +6,10 @@ import {
 } from "react-map-gl";
 import MapMarker from "../ui/MapMarker";
 import useWindowDimensions from "../../hooks/useWindoDimensions";
-import { Restaurant } from "../../redux/restaurantsSlice";
-// mapboxgl.accessToken = import.meta.env.VITE_MAP_TOKEN;
+import { RestaurantType } from "../../redux/restaurantsSlice";
 
 type MapProps = {
-  data: Array<Restaurant>;
+  data: Array<RestaurantType>;
   darkMode: boolean;
 };
 

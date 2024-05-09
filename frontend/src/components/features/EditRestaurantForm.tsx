@@ -1,10 +1,7 @@
 import React, { Fragment, useEffect, useState } from "react";
 import Modal, { ModalProps } from "../ui/Modal";
 import { useParams } from "react-router-dom";
-import { useAppSelector } from "../../redux/store";
-import Rating from "../ui/Rating";
 import ActionButtons from "./ActionButtons";
-// import { handleFormState, useHandleSubmit } from "./CreateRestrauantForm.hooks";
 import Input from "./Input";
 import Select from "react-select";
 import { CATEGORY_ARRAY } from "../../../constatns";
@@ -15,7 +12,6 @@ import {
   handleFormState,
   useDeleteRestaurant,
   useIntialRestaurant,
-  useIsSubmitDisabled,
   useUpdateRestaurant,
 } from "./EditRestaurantForm.hooks";
 
@@ -58,6 +54,12 @@ function EditRestaurantForm({ isShow, setIsShow }: ModalProps) {
     }, 1000);
     isShow ? (document.body.style.overflow = "hidden") : (document.body.style.overflow = "auto");
   }, [isShow]);
+
+  useEffect(() => {
+    errorDelete && "data" in errorDelete
+      ? alert(errorDelete.data.message)
+      : alert("Wystąpił nieoczekiwany błąd podczas usuwania restauracji 💔. Proszę odśwież stronę i spróbuj ponownie");
+  }, [isErrorDelete, errorDelete]);
 
   if (!restaurant) {
     return (

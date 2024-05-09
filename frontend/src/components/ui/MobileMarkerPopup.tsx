@@ -4,17 +4,14 @@ import Rating from "./Rating";
 import { BiSolidNavigation } from "react-icons/bi";
 import { IoIosClose } from "react-icons/io";
 import { animated, useSpring, useTransition } from "@react-spring/web";
-import { Restaurant } from "../../redux/restaurantsSlice";
+import { RestaurantType } from "../../redux/restaurantsSlice";
 
 type MobileMarkerPopupProps = {
-  popupInfo: Restaurant | null;
-  setPopupInfo: React.Dispatch<React.SetStateAction<Restaurant | null>>;
+  popupInfo: RestaurantType | null;
+  setPopupInfo: React.Dispatch<React.SetStateAction<RestaurantType | null>>;
 };
 
-function MobileMarkerPopup({
-  popupInfo,
-  setPopupInfo,
-}: MobileMarkerPopupProps) {
+function MobileMarkerPopup({ popupInfo, setPopupInfo }: MobileMarkerPopupProps) {
   const handleClose = (event: React.MouseEvent<HTMLElement>) => {
     if (event.target === event.currentTarget) {
       setPopupInfo(null);
@@ -39,21 +36,11 @@ function MobileMarkerPopup({
             style={styles}
             className="flex flex-col gap-2 p-2 absolute bottom-0 w-screen bg-white dark:bg-darkBg rounded-t-xl border-t-2 border-white dark:border-darkBg dark:text-gray-200 z-20"
           >
-            <button
-              type="button"
-              className="absolute top-1 right-1 text-2xl"
-              onClick={() => setPopupInfo(null)}
-            >
+            <button type="button" className="absolute top-1 right-1 text-2xl" onClick={() => setPopupInfo(null)}>
               <IoIosClose />
             </button>
             <div className="flex justify-center">
-              <iframe
-                id="ytplayer"
-                width={300}
-                height={181}
-                src={popupInfo?.youtubeEmbed}
-                className="rounded-lg"
-              />
+              <iframe id="ytplayer" width={300} height={181} src={popupInfo?.youtubeEmbed} className="rounded-lg" />
             </div>
             <div className="flex flex-col">
               <span className="text-lg">{popupInfo?.name}</span>
@@ -64,8 +51,7 @@ function MobileMarkerPopup({
               ))}
             </div>
             <span className="border-b border-black/5 dark:border-white/15 pb-1">
-              {popupInfo?.address.street}, {popupInfo?.address.zipCode}{" "}
-              {popupInfo?.address.city}{" "}
+              {popupInfo?.address.street}, {popupInfo?.address.zipCode} {popupInfo?.address.city}{" "}
             </span>
             <div className="flex justify-between items-center gap-5 pt-1">
               <span className="pb-1">

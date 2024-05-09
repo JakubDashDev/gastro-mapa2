@@ -1,7 +1,6 @@
 import MapboxGeocoder, { GeocoderOptions, Result } from "@mapbox/mapbox-gl-geocoder";
 import { useState } from "react";
 import { ControlPosition, Map, Marker, MarkerProps, useControl } from "react-map-gl";
-import { MarkerInstance } from "react-map-gl/dist/esm/types";
 
 const TOKEN = import.meta.env.VITE_MAP_TOKEN;
 

@@ -1,6 +1,5 @@
-import { useSpring, animated, useTransition } from "@react-spring/web";
-import React, { useEffect, useState } from "react";
-import { FaCheck, FaX } from "react-icons/fa6";
+import React from "react";
+import { FaCheck } from "react-icons/fa6";
 import Loader from "./Loader";
 
 type PromiseButtonType = {
@@ -40,11 +39,7 @@ function PromiseButton({
       type={type}
       disabled={isLoading || disabled}
       className={`${textColor} hover:${hoverColor} hover:${textHover} w-full py-1 px-2 transition-all flex justify-center rounded-lg cursor-pointer disabled:bg-black/50 disabled:cursor-not-allowed disabled:text-gray-500 ${
-        isError
-          ? "bg-red-500"
-          : isSuccess
-          ? "bg-green-600 text-white"
-          : `bg-${bgColor}`
+        isError ? "bg-red-500" : isSuccess ? "bg-green-600 text-white" : `bg-${bgColor}`
       }`}
       onClick={onClick}
     >

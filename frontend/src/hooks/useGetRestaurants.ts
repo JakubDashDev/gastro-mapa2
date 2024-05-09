@@ -1,7 +1,6 @@
 import { useDispatch } from "react-redux";
 import {
   useGetRestaurantsQuery,
-  useLazyGetRestaurantsQuery,
 } from "../services/restaurantsApi";
 import { setRestaurants } from "../redux/restaurantsSlice";
 import { useEffect } from "react";

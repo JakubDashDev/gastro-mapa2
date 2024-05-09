@@ -2,7 +2,6 @@ import React from "react";
 import { FaBars, FaUser, FaBell } from "react-icons/fa6";
 import Breadcrumbs from "./Breadcrumbs";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { useAppSelector } from "../../redux/store";
 
 type NavBarProps = {

@@ -1,5 +1,5 @@
 import { useTransition, animated, useSpring } from "@react-spring/web";
-import React, { Fragment, useEffect } from "react";
+import React from "react";
 
 export type ModalProps = {
   children?: React.ReactNode;

@@ -7,7 +7,7 @@ function SortDropdown() {
   const dispatch = useAppDispatch();
 
   const handleSort = (event: React.MouseEvent<HTMLButtonElement>) => {
-    dispatch(sortRestaurants(event.currentTarget.value));
+    dispatch(sortRestaurants(event.currentTarget.value as "Alfabetycznie (A-Z)" | "Alfabetycznie (Z-A)" | "Ocena: malejąco" | "Ocena: rosnąco"));
   };
 
   return (

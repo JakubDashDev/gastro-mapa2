@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { useCreateRestaurantsMutation } from "../../services/restaurantsApi";
 import { useAppDispatch } from "../../redux/store";
-import { RestaurantType, updateRestaurants } from "../../redux/restaurantsSlice";
+import { updateRestaurants } from "../../redux/restaurantsSlice";
 
 type HandleFormStateProps = {
   event: React.ChangeEvent<HTMLInputElement>;

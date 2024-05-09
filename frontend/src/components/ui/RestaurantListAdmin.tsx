@@ -1,8 +1,5 @@
 import Rating from "./Rating";
-import { FaPenToSquare } from "react-icons/fa6";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
-import useGetRestaurantsAdmin from "../../hooks/useGetRestaurantsAdmin";
-import Loader from "./Loader";
 import { RestaurantType, sortRestaurants } from "../../redux/restaurantsSlice";
 import { Fragment, useState } from "react";
 import { ModalProps } from "./Modal";

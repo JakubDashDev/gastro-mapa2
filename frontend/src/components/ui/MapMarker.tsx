@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import { Marker } from "react-map-gl";
 import img from "../../assets/logo.png";
 import MarkerPopup from "./MarkerPopup";

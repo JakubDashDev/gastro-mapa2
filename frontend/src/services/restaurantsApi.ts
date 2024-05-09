@@ -1,4 +1,3 @@
-import { RestaurantType } from "../redux/restaurantsSlice";
 import { apiSlice } from "./apiSlice";
 
 type QueryType = {

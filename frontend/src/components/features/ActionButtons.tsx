@@ -1,5 +1,5 @@
 import React from "react";
-import { FaEyeSlash, FaLocationArrow, FaYoutube } from "react-icons/fa6";
+import { FaLocationArrow, FaYoutube } from "react-icons/fa6";
 import { FaCode, FaEdit, FaTrashAlt } from "react-icons/fa";
 import { RestaurantType } from "../../redux/restaurantsSlice";
 import { useDelete } from "./ActionButtons.hooks";
