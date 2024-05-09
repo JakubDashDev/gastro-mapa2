@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import SideBar from "./ui/SideBar";
+import SideBar from "./ui/AdminSideNav";
 import NavBar from "./ui/NavBar";
 import { useAppSelector } from "../redux/store";
 
