@@ -12,7 +12,6 @@ interface CustomError {
 }
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: BASE_URL,
   credentials: "include",
 });
 
