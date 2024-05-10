@@ -29,6 +29,7 @@ app.use(morgan("dev"));
 //CORS
 app.use(
   cors({
+    origin: "https://gastro-mapa2.vercel.app",
     credentials: true,
   })
 );
