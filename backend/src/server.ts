@@ -1,4 +1,4 @@
-import express, { NextFunction, Request, Response } from "express";
+import express from "express";
 import morgan from "morgan";
 import cors from "cors";
 import cookies from "cookie-parser";
@@ -11,7 +11,6 @@ import adminRoutes from "./routes/userRoutes.js";
 import rateLimit from "express-rate-limit";
 import helmet from "helmet";
 import monogoSanitize from "express-mongo-sanitize";
-import hpp from "hpp";
 
 const app = express();
 
@@ -27,13 +26,10 @@ app.use(monogoSanitize());
 //DEV dep
 app.use(morgan("dev"));
 
-
-
 //CORS
 app.use(
   cors({
     credentials: true,
-    origin: "http://localhost:5173",
   })
 );
 

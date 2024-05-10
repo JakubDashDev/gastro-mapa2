@@ -9,7 +9,7 @@ export const restaurantsApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getRestaurants: builder.query({
       query: ({ keyword, filters }: QueryType) => ({
-        url: `http://localhost:3000/api/restaurants`,
+        url: `/api/restaurants`,
         method: "GET",
         params: { keyword, filters },
       }),
@@ -17,7 +17,7 @@ export const restaurantsApi = apiSlice.injectEndpoints({
     }),
     getRestaurantsAdmin: builder.query({
       query: ({ keyword, filters }: QueryType) => ({
-        url: `http://localhost:3000/api/restaurants/admin`,
+        url: `/api/restaurants/admin`,
         method: "GET",
         params: { keyword, filters },
       }),
@@ -25,7 +25,7 @@ export const restaurantsApi = apiSlice.injectEndpoints({
     }),
     createRestaurants: builder.mutation({
       query: (data: any) => ({
-        url: "http://localhost:3000/api/restaurants",
+        url: "/api/restaurants",
         method: "POST",
         body: data,
       }),
@@ -33,7 +33,7 @@ export const restaurantsApi = apiSlice.injectEndpoints({
     }),
     updateRestaurant: builder.mutation({
       query: (data: any) => ({
-        url: `http://localhost:3000/api/restaurants/${data._id}`,
+        url: `/api/restaurants/${data._id}`,
         method: "PUT",
         body: data,
       }),
@@ -41,7 +41,7 @@ export const restaurantsApi = apiSlice.injectEndpoints({
     }),
     deleteRestaurant: builder.mutation({
       query: (_id: string) => ({
-        url: `http://localhost:3000/api/restaurants/${_id}`,
+        url: `/api/restaurants/${_id}`,
         method: "DELETE",
       }),
       invalidatesTags: [{ type: "Restaurant", id: "LIST" }],
