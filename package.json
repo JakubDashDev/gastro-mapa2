@@ -4,6 +4,6 @@
     "client": "cd frontend && npm run dev",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "serverProd": "cd backend && npm install &&  node dist/server.js",
-    "clientProd": "cd frontend && npm install && tsc && vite build"
+    "clientProd": "cd frontend && npm install && npm run build"
   }
 }
