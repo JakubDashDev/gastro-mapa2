@@ -2,7 +2,6 @@ import express from "express";
 import cors from "cors";
 import cookies from "cookie-parser";
 import dotenv from "dotenv";
-dotenv.config({ path: "./.env" });
 import connectDB from "./config/db.js";
 import { errorHandler } from "./middleware/errorMiddleware.js";
 import restaurantRoutes from "./routes/restaurantsRoutes.js";
@@ -11,6 +10,8 @@ import rateLimit from "express-rate-limit";
 import helmet from "helmet";
 import monogoSanitize from "express-mongo-sanitize";
 import path from "path";
+
+dotenv.config({ path: "./.env" });
 
 const app = express();
 
@@ -53,11 +54,9 @@ app.use("/api/restaurants", restaurantRoutes);
 app.use("/api/admin", adminRoutes);
 
 if (process.env.NODE_ENV === "production") {
-  // app.use(express.static(path.join(__dirname, "/frontend/build")));
+  app.use(express.static(path.join(__dirname, "/frontend/build")));
 
-  // app.get("*", (req, res) => res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html")));
-
-  console.log("production")
+  app.get("*", (req, res) => res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html")));
 }
 
 //Error middleware

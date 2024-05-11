@@ -7,7 +7,6 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config({ path: "./.env" });
 const db_js_1 = __importDefault(require("./config/db.js"));
 const errorMiddleware_js_1 = require("./middleware/errorMiddleware.js");
 const restaurantsRoutes_js_1 = __importDefault(require("./routes/restaurantsRoutes.js"));
@@ -15,6 +14,8 @@ const userRoutes_js_1 = __importDefault(require("./routes/userRoutes.js"));
 const express_rate_limit_1 = __importDefault(require("express-rate-limit"));
 const helmet_1 = __importDefault(require("helmet"));
 const express_mongo_sanitize_1 = __importDefault(require("express-mongo-sanitize"));
+const path_1 = __importDefault(require("path"));
+dotenv_1.default.config({ path: "./.env" });
 const app = (0, express_1.default)();
 //Security HTTP headers
 app.use((0, helmet_1.default)());
@@ -45,9 +46,8 @@ app.use(limiter);
 app.use("/api/restaurants", restaurantsRoutes_js_1.default);
 app.use("/api/admin", userRoutes_js_1.default);
 if (process.env.NODE_ENV === "production") {
-    // app.use(express.static(path.join(__dirname, "/frontend/build")));
-    // app.get("*", (req, res) => res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html")));
-    console.log("production");
+    app.use(express_1.default.static(path_1.default.join(__dirname, "/frontend/build")));
+    app.get("*", (req, res) => res.sendFile(path_1.default.resolve(__dirname, "frontend", "build", "index.html")));
 }
 //Error middleware
 app.use(errorMiddleware_js_1.errorHandler);
