@@ -4,7 +4,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const morgan_1 = __importDefault(require("morgan"));
 const cors_1 = __importDefault(require("cors"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const dotenv_1 = __importDefault(require("dotenv"));
@@ -23,8 +22,6 @@ app.use((0, helmet_1.default)());
 app.use(express_1.default.json({ limit: "10kb" }));
 //Data sanitization
 app.use((0, express_mongo_sanitize_1.default)());
-//DEV dep
-app.use((0, morgan_1.default)("dev"));
 //CORS
 app.use((0, cors_1.default)({
     origin: "https://gastro-mapa2.vercel.app/",
