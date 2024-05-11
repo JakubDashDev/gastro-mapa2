@@ -34,6 +34,9 @@ const limiter = (0, express_rate_limit_1.default)({
     max: 100,
     windowMs: 60 * 60 * 1000, // 1 hour
     message: "Too many request",
+    validate: {
+        trustProxy: true
+    }
 });
 app.use(limiter);
 //DB connection

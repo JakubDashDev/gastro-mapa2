@@ -38,6 +38,10 @@ const limiter = rateLimit({
   max: 100,
   windowMs: 60 * 60 * 1000, // 1 hour
   message: "Too many request",
+  validate: {
+    trustProxy: true
+  }
+  
 });
 app.use(limiter);
 
