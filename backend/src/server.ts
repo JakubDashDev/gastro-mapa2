@@ -1,5 +1,4 @@
 import express from "express";
-import morgan from "morgan";
 import cors from "cors";
 import cookies from "cookie-parser";
 import dotenv from "dotenv";
@@ -22,9 +21,6 @@ app.use(express.json({ limit: "10kb" }));
 
 //Data sanitization
 app.use(monogoSanitize());
-
-//DEV dep
-app.use(morgan("dev"));
 
 //CORS
 app.use(
