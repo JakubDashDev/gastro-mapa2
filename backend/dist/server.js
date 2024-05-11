@@ -15,7 +15,7 @@ const express_rate_limit_1 = __importDefault(require("express-rate-limit"));
 const helmet_1 = __importDefault(require("helmet"));
 const express_mongo_sanitize_1 = __importDefault(require("express-mongo-sanitize"));
 const path_1 = __importDefault(require("path"));
-dotenv_1.default.config({ path: "./.env" });
+dotenv_1.default.config({ path: __dirname + "/./../../.env" });
 const app = (0, express_1.default)();
 //Security HTTP headers
 app.use((0, helmet_1.default)());

@@ -11,7 +11,7 @@ import helmet from "helmet";
 import monogoSanitize from "express-mongo-sanitize";
 import path from "path";
 
-dotenv.config({ path: "./.env" });
+dotenv.config({ path: __dirname + "/./../../.env" });
 
 const app = express();
 
