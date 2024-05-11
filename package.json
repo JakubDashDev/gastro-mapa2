@@ -3,7 +3,7 @@
     "server": "cd backend && npm run dev-server",
     "client": "cd frontend && npm run dev",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "serverProduction": "cd backend && dist/server.js",
+    "serverProduction": "cd backend && node dist/server.js",
     "clientProduction": "cd frontend && npm install && npm run build"
   }
 }
