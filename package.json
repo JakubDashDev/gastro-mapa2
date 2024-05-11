@@ -2,6 +2,8 @@
   "scripts": {
     "server": "cd backend && npm run dev-server",
     "client": "cd frontend && npm run dev",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "serverProduction": "cd backend && dist/server.js",
+    "clientProduction": "cd frontend && tsc && vite build"
   }
 }
