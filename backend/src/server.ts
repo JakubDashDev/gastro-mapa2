@@ -10,6 +10,7 @@ import adminRoutes from "./routes/userRoutes.js";
 import rateLimit from "express-rate-limit";
 import helmet from "helmet";
 import monogoSanitize from "express-mongo-sanitize";
+import path from "path";
 
 const app = express();
 
@@ -39,9 +40,8 @@ const limiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hour
   message: "Too many request",
   validate: {
-    trustProxy: true
-  }
-  
+    trustProxy: true,
+  },
 });
 app.use(limiter);
 
@@ -52,10 +52,11 @@ connectDB();
 app.use("/api/restaurants", restaurantRoutes);
 app.use("/api/admin", adminRoutes);
 
-//The 404 Route (ALWAYS Keep this as the last route)
-app.get("*", function (req, res) {
-  res.status(404).json({ message: "Route not found :(" });
-});
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "/frontend/build")));
+
+  app.get("*", (req, res) => res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html")));
+}
 
 //Error middleware
 app.use(errorHandler);

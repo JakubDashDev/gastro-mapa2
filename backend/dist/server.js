@@ -15,6 +15,7 @@ const userRoutes_js_1 = __importDefault(require("./routes/userRoutes.js"));
 const express_rate_limit_1 = __importDefault(require("express-rate-limit"));
 const helmet_1 = __importDefault(require("helmet"));
 const express_mongo_sanitize_1 = __importDefault(require("express-mongo-sanitize"));
+const path_1 = __importDefault(require("path"));
 const app = (0, express_1.default)();
 //Security HTTP headers
 app.use((0, helmet_1.default)());
@@ -35,8 +36,8 @@ const limiter = (0, express_rate_limit_1.default)({
     windowMs: 60 * 60 * 1000, // 1 hour
     message: "Too many request",
     validate: {
-        trustProxy: true
-    }
+        trustProxy: true,
+    },
 });
 app.use(limiter);
 //DB connection
@@ -44,10 +45,10 @@ app.use(limiter);
 //App routes
 app.use("/api/restaurants", restaurantsRoutes_js_1.default);
 app.use("/api/admin", userRoutes_js_1.default);
-//The 404 Route (ALWAYS Keep this as the last route)
-app.get("*", function (req, res) {
-    res.status(404).json({ message: "Route not found :(" });
-});
+if (process.env.NODE_ENV === "production") {
+    app.use(express_1.default.static(path_1.default.join(__dirname, "/frontend/build")));
+    app.get("*", (req, res) => res.sendFile(path_1.default.resolve(__dirname, "frontend", "build", "index.html")));
+}
 //Error middleware
 app.use(errorMiddleware_js_1.errorHandler);
 app.listen(process.env.PORT, () => {
