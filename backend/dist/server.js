@@ -48,7 +48,7 @@ app.use("/api/admin", userRoutes_js_1.default);
 if (process.env.NODE_ENV === "prod") {
     const __dirname = path_1.default.resolve();
     app.use(express_1.default.static(path_1.default.join(__dirname, "../../frontend/build")));
-    app.get("*", (req, res) => res.sendFile(path_1.default.resolve(__dirname, "..", "..", "frontend", "build", "index.html")));
+    app.get("*", (req, res) => res.sendFile(path_1.default.resolve(__dirname, "..", "..", "frontend", "dist", "index.html")));
 }
 //Error middleware
 app.use(errorMiddleware_js_1.errorHandler);
