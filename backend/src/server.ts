@@ -25,7 +25,7 @@ app.use(monogoSanitize());
 //CORS
 app.use(
   cors({
-    origin: "https://gastro-mapa2.vercel.app/",
+    origin: "https://gastro-mapa2-frontend.onrender.com/",
     credentials: true,
   })
 );
