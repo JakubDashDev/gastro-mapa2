@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 function Loader() {
   const { placeholder } = useLoader();
   return (
-    <div className="absolute w-screen h-screen top-0 left-0 flex items-center justify-center bg-darkBg">
+    <div className="absolute w-screen h-[calc(100dvh)] top-0 left-0 flex items-center justify-center bg-darkBg">
       <span className="font-loader text-primary-500 text-center text-5xl mt-24">
         {placeholder}
       </span>

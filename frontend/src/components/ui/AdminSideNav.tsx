@@ -108,19 +108,19 @@ function Container({ showSidebar, setShowSidebar, children }: ContainerProps) {
       (styles, item) =>
         item && (
           <Fragment>
-            <animated.aside style={styles} className="fixed left-0  h-screen w-full max-w-64 z-20">
+            <animated.aside style={styles} className="fixed left-0  h-[calc(100dvh)] w-full max-w-64 z-20">
               {children}
             </animated.aside>
             <animated.div
               style={backdropAnimation}
-              className="fixed left-0 top-0 w-screen h-screen bg-black/20 z-10"
+              className="fixed left-0 top-0 w-screen h-[calc(100dvh)] bg-black/20 z-10"
               onClick={() => setShowSidebar(false)}
             />
           </Fragment>
         )
     );
 
-  return <aside className="h-screen w-full max-w-80">{children}</aside>;
+  return <aside className="h-[calc(100dvh)] w-full max-w-80">{children}</aside>;
 }
 
 type ActiveLinkProps = NavLinkProps & {

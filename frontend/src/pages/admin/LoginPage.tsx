@@ -24,7 +24,7 @@ function LoginPage() {
   if (userInfo) return <Navigate to="/dashboard" replace />;
 
   return (
-    <div className="w-screen h-screen bg-darkBg flex flex-col items-center justify-center gap-5">
+    <div className="w-screen h-[calc(100dvh)] bg-darkBg flex flex-col items-center justify-center gap-5">
       <h1 className="text-primary-500 text-3xl font-loader">Gastro Mapa</h1>
 
       <form
@@ -60,9 +60,7 @@ function LoginPage() {
         />
 
         {error && (
-          <div className="px-2 py-3 bg-red-300 border border-red-600 rounded-lg">
-            {(error as any).data.message}
-          </div>
+          <div className="px-2 py-3 bg-red-300 border border-red-600 rounded-lg">{(error as any).data.message}</div>
         )}
 
         <button

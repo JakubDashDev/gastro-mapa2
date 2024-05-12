@@ -69,7 +69,7 @@ function MobileMarkerPopup({ popupInfo, setPopupInfo }: MobileMarkerPopupProps) 
           </animated.div>
           <animated.div
             style={backdropAnimation}
-            className="absolute top-0 left-0 w-screen h-screen z-10 bg-black/50"
+            className="absolute top-0 left-0 w-screen h-[calc(100dvh)] z-10 bg-black/50"
             onClick={handleClose}
           />
         </Fragment>

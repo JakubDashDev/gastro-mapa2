@@ -99,13 +99,13 @@ function Container({ children, showSidebar, setShowSidebar }: ContainerProps) {
               <Fragment>
                 <animated.aside
                   style={styles}
-                  className="fixed left-0 h-screen w-screen md:w-[420px] z-20 flex flex-col gap-3 bg-white dark:bg-darkBg text-gray-600 dark:text-darkText"
+                  className="fixed left-0 h-[calc(100dvh)] w-screen md:w-[420px] z-20 flex flex-col gap-3 bg-white dark:bg-darkBg text-gray-600 dark:text-darkText"
                 >
                   {children}
                 </animated.aside>
                 <animated.div
                   style={backdropAnimation}
-                  className="fixed left-0 top-0 w-screen h-screen bg-black/20 z-10"
+                  className="fixed left-0 top-0 w-screen h-[calc(100dvh)] bg-black/20 z-10"
                   onClick={() => setShowSidebar(false)}
                 />
               </Fragment>
@@ -115,7 +115,7 @@ function Container({ children, showSidebar, setShowSidebar }: ContainerProps) {
     );
 
   return (
-    <aside className="w-[420px] flex flex-col gap-3 bg-white dark:bg-darkBg h-screen overflow-x-auto relative text-gray-600 dark:text-darkText">
+    <aside className="w-[420px] flex flex-col gap-3 bg-white dark:bg-darkBg h-[calc(100dvh)] overflow-x-auto relative text-gray-600 dark:text-darkText">
       {children}
     </aside>
   );

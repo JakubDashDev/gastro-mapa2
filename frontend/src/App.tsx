@@ -18,14 +18,14 @@ function App() {
   if (loading) return <WelcomeLoader />;
 
   return (
-    <main className={`max-h-screen ${darkMode ? "dark flex font-sans" : "flex font-sans"}`}>
+    <main className={`h-[calc(100dvh)] ${darkMode ? "dark flex font-sans" : "flex font-sans"}`}>
       {isError ? (
         error && "data" in error ? (
-          <div className="w-screen h-screen bg-darkBg flex items-center justify-center text-white">
+          <div className="w-screen h-[calc(100dvh)] bg-darkBg flex items-center justify-center text-white">
             {error.data.message}
           </div>
         ) : (
-          <div className="w-screen h-screen bg-darkBg flex items-center justify-center text-white">
+          <div className="w-screen hh-[calc(100dvh)] bg-darkBg flex items-center justify-center text-white">
             Wystąpił nieoczekiwany błąd aplikacji 💔. Odswież stronę, jeśli to nie pomoże skontaktuj się z
             administratorem.
           </div>
@@ -33,7 +33,7 @@ function App() {
       ) : (
         <Fragment>
           <SideNav data={restaurants} darkMode={darkMode} setDarkMode={setDarkMode} />
-          <div className="flex-1 h-screen border-none xl:border-y-4 xl:border-x-4 border-white">
+          <div className="flex-1 h-[calc(100dvh)] border-none xl:border-y-4 xl:border-x-4 border-white">
             <Map data={restaurants} darkMode={darkMode} />
           </div>
         </Fragment>
