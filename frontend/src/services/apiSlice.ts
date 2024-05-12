@@ -12,7 +12,7 @@ interface CustomError {
 }
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "https://gastro-mapa2-backend.onrender.com/",
+  baseUrl: "",
   credentials: "include",
 });
 
