@@ -32,6 +32,7 @@ app.use(
         connectSrc: ["'self'", ...connectSrcUrls],
         scriptSrc: ["'self'", ...scriptSrcUrls],
         styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
+        frameElement: ["self", "https://www.youtube.com/"],
         workerSrc: ["'self'", "blob:"],
         objectSrc: [],
         imgSrc: ["'self'", "blob:", "data:"],
