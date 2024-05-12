@@ -34,7 +34,7 @@ function MobileMarkerPopup({ popupInfo, setPopupInfo }: MobileMarkerPopupProps) 
         <Fragment>
           <animated.div
             style={styles}
-            className="flex flex-col gap-2 p-2 fixed bottom-[86px] left-0 w-screen bg-white dark:bg-darkBg rounded-t-xl border-t-2 border-white dark:border-darkBg dark:text-gray-200 z-20"
+            className="flex flex-col gap-2 p-2 fixed bottom-0 left-0 w-screen bg-white dark:bg-darkBg rounded-t-xl border-t-2 border-white dark:border-darkBg dark:text-gray-200 z-20"
           >
             <button type="button" className="absolute top-1 right-1 text-2xl" onClick={() => setPopupInfo(null)}>
               <IoIosClose />

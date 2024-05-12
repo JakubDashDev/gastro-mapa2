@@ -18,7 +18,7 @@ function App() {
   if (loading) return <WelcomeLoader />;
 
   return (
-    <main className={`${darkMode ? "dark flex font-sans" : "flex font-sans"}`}>
+    <main className={`max-h-screen ${darkMode ? "dark flex font-sans" : "flex font-sans"}`}>
       {isError ? (
         error && "data" in error ? (
           <div className="w-screen h-screen bg-darkBg flex items-center justify-center text-white">
