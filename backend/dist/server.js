@@ -25,12 +25,14 @@ const connectSrcUrls = [
     "https://a.tiles.mapbox.com/",
     "https://b.tiles.mapbox.com/",
     "https://events.mapbox.com/",
+    "https://www.youtube.com/",
 ];
 const fontSrcUrls = ["fonts.googleapis.com", "fonts.gstatic.com"];
 app.use((0, helmet_1.default)({
     contentSecurityPolicy: {
         directives: {
             defaultSrc: [],
+            frameSrc: ["self", "https://www.youtube.com/"],
             connectSrc: ["'self'", ...connectSrcUrls],
             scriptSrc: ["'self'", ...scriptSrcUrls],
             styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
