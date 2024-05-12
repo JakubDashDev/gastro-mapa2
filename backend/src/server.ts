@@ -15,16 +15,7 @@ import path from "path";
 const app = express();
 
 //Security HTTP headers
-app.use(
-  helmet({
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"],
-        connectSrc: ["'self'", "http://127.0.0.1:3001", "ws://localhost:42877/"],
-      },
-    },
-  })
-);
+app.use(helmet());
 
 //Body parser
 app.use(express.json({ limit: "10kb" }));
