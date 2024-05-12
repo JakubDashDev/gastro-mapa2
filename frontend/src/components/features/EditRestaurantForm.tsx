@@ -55,12 +55,6 @@ function EditRestaurantForm({ isShow, setIsShow }: ModalProps) {
     isShow ? (document.body.style.overflow = "hidden") : (document.body.style.overflow = "auto");
   }, [isShow]);
 
-  useEffect(() => {
-    isErrorDelete && errorDelete && "data" in errorDelete
-      ? alert(errorDelete.data.message)
-      : alert("Wystąpił nieoczekiwany błąd podczas usuwania restauracji 💔. Proszę odśwież stronę i spróbuj ponownie");
-  }, [isErrorDelete, errorDelete]);
-
   if (!restaurant) {
     return (
       <Modal isShow={isShow} setIsShow={setIsShow}>
