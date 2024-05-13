@@ -61,7 +61,7 @@ function CreateRestaurantForm({ isShow, setIsShow }: ModalProps) {
   return (
     <Fragment>
       <Modal isShow={isShow} setIsShow={setIsShow}>
-        <form className="w-full h-full lg:w-2/3 flex flex-col justify-center gap-5" onSubmit={handleSubmit}>
+        <form className="w-full h-full lg:w-2/3 flex flex-col items-center gap-5" onSubmit={handleSubmit}>
           <Input
             id="name"
             name="name"
