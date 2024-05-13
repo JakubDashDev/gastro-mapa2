@@ -44,24 +44,24 @@ function SideBar({ showSidebar, setShowSidebar }: SideBarProps) {
         </div>
 
         <nav className="flex-1 flex flex-col gap-4 px-2 py-3">
-          <ActiveLink to="/dashboard" end>
+          <ActiveLink to="/dashboard" setShowSidebar={setShowSidebar} end>
             <MdSpaceDashboard className="text-xl" />
             <span>Panel</span>
           </ActiveLink>
-          <ActiveLink to="/dashboard/restaurants">
+          <ActiveLink setShowSidebar={setShowSidebar} to="/dashboard/restaurants">
             <FaBuilding className="text-xl" />
             <span>Restaruacje</span>
           </ActiveLink>
-          <ActiveLink to="/dashboard/users">
+          <ActiveLink setShowSidebar={setShowSidebar} to="/dashboard/users">
             <FaUsers className="text-xl" />
             <span>Użytkownicy</span>
           </ActiveLink>
-          <ActiveLink to="/dashboard/stats">
+          <ActiveLink setShowSidebar={setShowSidebar} to="/dashboard/stats">
             <FaChartLine className="text-xl" />
             <span>Statystyki</span>
           </ActiveLink>
           <span className="mt-4 px-4 text-white/70 font-bold uppercase text-sm ">Konto</span>
-          <ActiveLink to="/dashboard/account">
+          <ActiveLink setShowSidebar={setShowSidebar} to="/dashboard/account">
             <FaGear className="text-xl" />
             <span>Ustawienia</span>
           </ActiveLink>
@@ -108,7 +108,7 @@ function Container({ showSidebar, setShowSidebar, children }: ContainerProps) {
       (styles, item) =>
         item && (
           <Fragment>
-            <animated.aside style={styles} className="fixed left-0  h-[calc(100dvh)] w-full max-w-64 z-20">
+            <animated.aside style={styles} className="fixed left-0 h-[calc(100dvh)] w-[75%] z-20">
               {children}
             </animated.aside>
             <animated.div
@@ -125,12 +125,14 @@ function Container({ showSidebar, setShowSidebar, children }: ContainerProps) {
 
 type ActiveLinkProps = NavLinkProps & {
   children: React.ReactNode;
+  setShowSidebar: React.Dispatch<React.SetStateAction<boolean>>;
 };
-function ActiveLink({ to, children, end }: ActiveLinkProps) {
+function ActiveLink({ to, children, end, setShowSidebar }: ActiveLinkProps) {
   return (
     <NavLink
       end={end}
       to={to}
+      onClick={() => setShowSidebar(false)}
       className={({ isActive }) =>
         `w-full flex items-center gap-2 py-4 px-5 rounded-lg ${
           isActive ? "bg-[#1c2129] text-white" : "hover:bg-white/10 transition-colors"

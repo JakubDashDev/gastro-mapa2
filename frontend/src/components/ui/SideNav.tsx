@@ -24,7 +24,7 @@ function SideNav({ data, darkMode, setDarkMode }: SideNavProps) {
         <h1 className="text-center text-xl font-extrabold my-5 col-span-2">Gastro Mapa</h1>
         <button
           type="button"
-          className="block lg:hidden text-gray-600 dark:text-white/80 text-xl absolute top-2 right-2"
+          className="block lg:hidden text-gray-600 dark:text-white/80 text-xl absolute top-1 right-1 p-2"
           onClick={() => setShowSidebar((current) => !current)}
         >
           <FaTimes />
@@ -53,10 +53,9 @@ function SideNav({ data, darkMode, setDarkMode }: SideNavProps) {
 
       <footer className="px-4 py-1 mt-auto bg-white dark:bg-darkBg w-full border-t border-black/10 dark:border-white/10 flex items-center justify-between">
         <DarkModeButton darkMode={darkMode} setDarkMode={setDarkMode} />
-        <div className="flex flex-col text-gray-500 text-xs font-bold">
-          <span>Author: Jakub Cieślik</span>
-          <span>Contact: jakub.dev@icloud.com</span>
-          <span>Location: Kraków, Poland</span>
+        <div className="flex flex-col text-gray-500 text-[10px] font-bold ">
+          <span>Jakub Cieślik</span>
+          <span>jakub.dev@icloud.com</span>
         </div>
       </footer>
     </Container>

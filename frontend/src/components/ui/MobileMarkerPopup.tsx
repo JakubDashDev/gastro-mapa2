@@ -58,12 +58,20 @@ function MobileMarkerPopup({ popupInfo, setPopupInfo }: MobileMarkerPopupProps) 
                 <Rating rating={popupInfo?.rating || 0} isText />
               </span>
               <div className="flex items-center gap-3">
-                <button className="flex justify-center items-center border border-red-500 p-2 text-xl text-red-500  rounded-full  ">
+                <a
+                  href={popupInfo?.youtubeLink}
+                  target="_blank"
+                  className="flex justify-center items-center border border-red-500  p-2 text-xl text-red-500  rounded-full transition-all hover:scale-105 "
+                >
                   <FaYoutube />
-                </button>
-                <button className="flex justify-center items-center border border-gray-500 dark:border-gray-200 text-gray-500 dark:text-gray-200 p-2 text-xl rounded-full ">
+                </a>
+                <a
+                  href={popupInfo?.googleLink}
+                  target="_blank"
+                  className="flex justify-center items-center border border-gray-500 text-gray-500 p-2 text-xl rounded-full transition-all hover:scale-105"
+                >
                   <BiSolidNavigation />
-                </button>
+                </a>
               </div>
             </div>
           </animated.div>

@@ -25,7 +25,7 @@ function Modal({ children, isShow, setIsShow }: ModalProps) {
         <div className="fixed top-0 left-0 w-screen h-[calc(100dvh)] flex items-center justify-center">
           <animated.div
             style={style}
-            className="z-10 container px-4 py-5 flex flex-col gap-5 items-center w-[90%] lg:w-[40%] h-[95%] rounded-lg border border-white/70 bg-darkBg overflow-x-auto"
+            className="z-10 container px-4 py-5 flex flex-col gap-5 items-center w-[90%] lg:w-[40%] h-[98%] rounded-lg border border-white/70 bg-darkBg overflow-x-auto"
           >
             {children}
           </animated.div>
