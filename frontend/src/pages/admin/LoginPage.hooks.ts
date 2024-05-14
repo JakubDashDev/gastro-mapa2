@@ -10,7 +10,7 @@ type State = {
 
 export function useHandleSubmit(state: State) {
   const dispatch = useAppDispatch();
-  const [login, { isLoading, error }] = useLoginMutation();
+  const [login, { isLoading, error, isError }] = useLoginMutation();
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -19,5 +19,5 @@ export function useHandleSubmit(state: State) {
       .then((res) => dispatch(setAuth(res)));
   };
 
-  return { handleSubmit, isLoading, error };
+  return { handleSubmit, isLoading, error, isError };
 }

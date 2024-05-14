@@ -3,6 +3,7 @@ import InputField from "../../components/features/InputField";
 import { useHandleSubmit } from "./LoginPage.hooks";
 import { Navigate } from "react-router-dom";
 import { useAppSelector } from "../../redux/store";
+import PromiseButton from "../../components/ui/PromiseButton";
 
 function LoginPage() {
   const { userInfo } = useAppSelector((state) => state.auth);
@@ -19,7 +20,7 @@ function LoginPage() {
     }));
   };
 
-  const { handleSubmit, isLoading, error } = useHandleSubmit(state);
+  const { handleSubmit, isLoading, error, isError } = useHandleSubmit(state);
 
   if (userInfo) return <Navigate to="/dashboard" replace />;
 
@@ -58,17 +59,26 @@ function LoginPage() {
           placeholder="Enter password"
           required
         />
-
-        {error && (
-          <div className="px-2 py-3 bg-red-300 border border-red-600 rounded-lg">{(error as any).data.message}</div>
+        {isError && (
+          <div className="border border-red-500 bg-red-900/40 text-white p-2 rounded-lg">
+            {error && "data" in error
+              ? error.data.message
+              : "Wystąpił nieoczekiwany błąd 💔. Spróbuj ponownie, jeśli błąd nadal będzie występować skontakuj się z administratorem."}
+          </div>
         )}
 
-        <button
-          type="submit"
-          className=" text-white px-10 py-2 rounded-full bg-primary hover:bg-primary-400 transition-colors"
-        >
-          Zaloguj
-        </button>
+        <div className="w-1/2">
+          <PromiseButton
+            type="submit"
+            isLoading={isLoading}
+            isError={false}
+            isSuccess={false}
+            disabled={isLoading}
+            bgColor="primary-500"
+          >
+            Zaloguj
+          </PromiseButton>
+        </div>
       </form>
     </div>
   );
