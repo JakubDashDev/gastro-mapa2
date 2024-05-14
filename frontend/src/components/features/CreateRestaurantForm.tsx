@@ -74,7 +74,7 @@ function CreateRestaurantForm({ isShow, setIsShow }: ModalProps) {
             styles="bg-dashboardSecondary border-dashboardSecondary text-white"
             labelClassName="text-white"
           />
-          <div>
+          <div className="w-full">
             <div>
               <Input
                 id="rating"
@@ -148,7 +148,7 @@ function CreateRestaurantForm({ isShow, setIsShow }: ModalProps) {
               }}
             />
           </div>
-          <div className="flex flex-col gap-5">
+          <div className="w-full flex flex-col gap-5">
             <LaneThrough title="Adres i mapa" />
             <button
               type="button"

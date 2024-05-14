@@ -6,10 +6,10 @@ import { RestaurantType } from "../../redux/restaurantsSlice";
 
 type RestaurantListComponentProps = {
   restaurant: RestaurantType;
-  handleClose?: React.Dispatch<React.SetStateAction<boolean>>; //NOTE: close navigation on Restaurant click on Mobile view
+  setShowSidebar: React.Dispatch<React.SetStateAction<boolean>>; //NOTE: close navigation on Restaurant click on Mobile view
 };
 
-function RestaurantListComponent({ restaurant, handleClose }: RestaurantListComponentProps) {
+function RestaurantListComponent({ restaurant, setShowSidebar }: RestaurantListComponentProps) {
   const { name, address, category, rating } = restaurant;
   const { mapMain } = useMap();
 
@@ -18,7 +18,7 @@ function RestaurantListComponent({ restaurant, handleClose }: RestaurantListComp
       center: [address.lngLat[0], address.lngLat[1]],
       zoom: 13,
     });
-    handleClose && handleClose(false)
+    setShowSidebar(false);
   };
 
   return (
@@ -29,7 +29,7 @@ function RestaurantListComponent({ restaurant, handleClose }: RestaurantListComp
       <img src={img} alt="placeholeder image" className="rounded-full h-[50px]" />
 
       <div className="flex flex-col ">
-        <span className="font-extrabold tracking-wide">
+        <span className="tracking-wide">
           {name} - {address.city}
         </span>
 

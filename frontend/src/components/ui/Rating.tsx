@@ -9,14 +9,10 @@ type RatingProps = {
 
 function Rating({ rating, isText, color }: RatingProps) {
   if (rating === "challange ostrości") {
-    return <span className="text-red-500 font-bold">Challange ostrości 🌶️</span>;
+    return <span className="text-red-500">Challange ostrości 🌶️</span>;
   }
   return (
-    <div
-      className={`flex gap-1 items-center text-base font-bold ${
-        rating === 5 ? "text-primary-500" : color
-      }`}
-    >
+    <div className={`flex gap-1 items-center text-base ${rating === 5 ? "text-primary-500" : color}`}>
       {typeof rating === "number" && (
         <Fragment>
           <span>{rating >= 1 ? <FaStar /> : rating >= 0.5 ? <FaStarHalfAlt /> : <FaRegStar />}</span>

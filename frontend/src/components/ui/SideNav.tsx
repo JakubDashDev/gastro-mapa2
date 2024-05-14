@@ -46,7 +46,7 @@ function SideNav({ data, darkMode, setDarkMode }: SideNavProps) {
           </div>
         ) : (
           data.map((restaurant: RestaurantType) => {
-            return <RestaurantListComponent key={restaurant._id} restaurant={restaurant} />;
+            return <RestaurantListComponent key={restaurant._id} restaurant={restaurant} setShowSidebar={setShowSidebar} />;
           })
         )}
       </div>
