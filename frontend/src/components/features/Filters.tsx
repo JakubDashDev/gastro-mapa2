@@ -100,7 +100,7 @@ function FilterButton({ value, disabled }: FilterButtonType) {
   return (
     <label
       htmlFor={value.toString()}
-      className="flex items-center gap-2 my-1 w-fit cursor-pointer accent-black-100 dark:accent-white border-white capitalize "
+      className="flex items-center gap-2 my-1 w-fit cursor-pointer accent-black-100 border-white capitalize "
     >
       <input
         type="checkbox"

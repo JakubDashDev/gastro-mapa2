@@ -10,8 +10,10 @@ function FilterButton() {
   return (
     <div className="flex flex-col justify-center items-center gap-1">
       <button onClick={() => setIsOpen((prev) => !prev)} className="flex flex-col items-center gap-1">
-        <span className="text-gray-500 dark:text-gray-300 ">Filtry</span>
-        {isActive && <span className="text-red-600">({filterQuery.length})</span>}
+        <div className="flex items-center gap-1">
+          <span className="text-gray-500 dark:text-gray-300 ">Filtry</span>
+          {isActive && <span className="text-red-600">({filterQuery.length})</span>}
+        </div>
         <FaFilter />
       </button>
 

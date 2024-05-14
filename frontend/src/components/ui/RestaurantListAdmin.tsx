@@ -17,7 +17,10 @@ function RestaurantList({ isShow, setIsShow }: ModalProps) {
   };
 
   return (
-    <section id="restaurantListAdmin" className="w-full h-[600px] flex flex-col overflow-y-scroll">
+    <section
+      id="restaurantListAdmin"
+      className="w-full h-auto lg:h-[600px] flex flex-col overflow-y-hidden lg:flex-y-scroll"
+    >
       <div className="hidden container px-4 mx-auto xl:grid grid-cols-9 grid-rows-1 font-bold pt-5 pb-3 uppercase text-sm border-b-2 border-neutral-300 ">
         <SpanSort type="name" className="text-left col-span-2 cursor-pointer flex items-center gap-1 uppercase">
           Restauracja
@@ -51,7 +54,7 @@ function TableRow({ restaurant, onClick }: TableRowProps) {
   return (
     <div
       onClick={onClick}
-      className="lg:text-black/80 group container flex flex-col gap-2 xl:gap-0 px-4 py-5 mx-auto capitalize xl:grid grid-cols-9 grid-rows-1 items-center group odd:bg-white even:bg-neutral-100 hover:bg-blue-900/20 cursor-pointer transition-all"
+      className="lg:text-black/80 group container flex flex-col items-center gap-2 xl:gap-0 px-4 py-5 mx-auto capitalize xl:grid grid-cols-9 grid-rows-1  group odd:bg-white even:bg-neutral-100 hover:bg-blue-900/20 cursor-pointer transition-all"
     >
       <strong className="col-span-2">{restaurant.name}</strong>
       <div className="col-span-2">

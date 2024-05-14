@@ -39,9 +39,9 @@ function SideNav({ data, darkMode, setDarkMode }: SideNavProps) {
         <FilterButton />
       </div>
 
-      <div id="restaurantListSideNav" className="overflow-x-auto">
+      <div id="restaurantListSideNav" className="overflow-y-auto h-full">
         {data.length === 0 ? (
-          <div className="flex flex-col flex-grow text-gray-400 dark:text-gray-500 text-3xl font-bold px-4 justify-center ">
+          <div className="flex flex-col h-full text-gray-400 dark:text-gray-500 text-3xl font-bold px-4 justify-center items-center ">
             <span>Nie ma restauracji o podanych kryteriach 💔</span>
           </div>
         ) : (
@@ -53,8 +53,8 @@ function SideNav({ data, darkMode, setDarkMode }: SideNavProps) {
 
       <footer className="px-4 py-1 mt-auto bg-white dark:bg-darkBg w-full border-t border-black/10 dark:border-white/10 flex items-center justify-between">
         <DarkModeButton darkMode={darkMode} setDarkMode={setDarkMode} />
-        <div className="flex flex-col text-gray-500 text-[10px] font-bold ">
-          <span>Jakub Cieślik</span>
+        <div className="flex flex-col text-gray-500 text-[10px] font-thin ">
+          <span>© Jakub Cieślik</span>
           <span>jakub.dev@icloud.com</span>
         </div>
       </footer>

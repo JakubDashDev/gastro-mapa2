@@ -13,7 +13,7 @@ const AdminRoute = () => {
   return (
     <div className="flex flex-col lg:flex-row bg-[#eff2f7]">
       <SideBar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
-      <div className="flex-1">
+      <div className="flex-grow min-h-[calc(100dvh)]">
         <NavBar setShowSidebar={setShowSidebar} />
         <Outlet />
       </div>
