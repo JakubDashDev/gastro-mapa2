@@ -12,7 +12,7 @@ const getAllRestaurants = asnycHandler(async (req: Request, res: Response) => {
             name: { $regex: req.query.keyword, $options: "i" },
           },
           {
-            type: { $regex: req.query.keyword, $options: "i" },
+            category: { $regex: req.query.keyword, $options: "i" },
           },
           {
             "address.city": { $regex: req.query.keyword, $options: "i" },
