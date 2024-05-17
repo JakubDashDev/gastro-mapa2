@@ -3,7 +3,7 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 export type RestaurantType = {
   _id?: string;
   name: string;
-  rating: number;
+  rating: number | string;
   address: {
     street: string;
     zipCode: string;
@@ -66,10 +66,26 @@ const restaurantSlice = createSlice({
         state.restaurants = state.restaurants.slice().sort((a, b) => -1 * a.name.localeCompare(b.name));
       }
       if (action.payload === "Ocena: malejąco") {
-        state.restaurants = state.restaurants.slice().sort((a, b) => b.rating - a.rating);
+        state.restaurants = state.restaurants.slice().sort((a, b) => {
+          if (a.rating === "challange ostrości") {
+            return 1;
+          } else if (b.rating === "challange ostrości") {
+            return -1;
+          } else {
+            return (b.rating as any) - (a.rating as any);
+          }
+        });
       }
       if (action.payload === "Ocena: rosnąco") {
-        state.restaurants = state.restaurants.slice().sort((a, b) => a.rating - b.rating);
+        state.restaurants = state.restaurants.slice().sort((a, b) => {
+          if (a.rating === "challange ostrości") {
+            return 1;
+          } else if (b.rating === "challange ostrości") {
+            return -1;
+          } else {
+            return (a.rating as any) - (b.rating as any);
+          }
+        });
       }
     },
   },
