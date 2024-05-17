@@ -25,7 +25,7 @@ const getAllRestaurants = (0, asyncHandler_js_1.default)((req, res) => __awaiter
                     name: { $regex: req.query.keyword, $options: "i" },
                 },
                 {
-                    type: { $regex: req.query.keyword, $options: "i" },
+                    category: { $regex: req.query.keyword, $options: "i" },
                 },
                 {
                     "address.city": { $regex: req.query.keyword, $options: "i" },
