@@ -1,244 +1,185 @@
 import React, { Fragment, useEffect, useState } from "react";
 import Modal, { ModalProps } from "../ui/Modal";
 import { useParams } from "react-router-dom";
-import ActionButtons from "./ActionButtons";
-import Input from "./Input";
-import Select from "react-select";
-import { CATEGORY_ARRAY } from "../../../constatns";
 import LaneThrough from "../ui/LaneThrough";
-import { AddressModal } from "./CreateRestaurantForm";
 import PromiseButton from "../ui/PromiseButton";
-import {
-  handleFormState,
-  useDeleteRestaurant,
-  useIntialRestaurant,
-  useUpdateRestaurant,
-} from "./EditRestaurantForm.hooks";
+import { useDelete, useFormState, useSubmit } from "./EditRestaurantForm.hooks";
+import AdminSetAddressModal from "./AdminSetAddressModal";
+import AdminInput from "./AdminInput";
+import { useAppSelector } from "../../redux/store";
+import AdminRatingInput from "./AdminRatingInput";
+import AdminCategorySelect from "./AdminCategorySelect";
+import AdminAddressInput from "./AdminAddressInput";
+import { useUpdateRestaurantMutation } from "../../services/restaurantsApi";
+import { RestaurantType } from "../../redux/restaurantsSlice";
+import { FaTrash } from "react-icons/fa";
+import { googleValidation, nameFormValidation } from "./CreateRestrauantForm.hooks";
+
+interface IAddressState {
+  street: string | undefined;
+  zipCode: string | undefined;
+  city: string | undefined;
+  country: string | undefined;
+  coordinates: [number, number] | undefined;
+}
 
 function EditRestaurantForm({ isShow, setIsShow }: ModalProps) {
   const { id } = useParams();
-  const { restaurant } = useIntialRestaurant(id, isShow);
-
-  const { updateRestaurantFunc, isLoading, isError, error, isSuccess, reset } = useUpdateRestaurant();
+  const {
+    name,
+    setName,
+    rating,
+    setRating,
+    isCustomRating,
+    setIsCustiomRating,
+    youtubeLink,
+    setYoutubeLink,
+    googleLink,
+    setGoogleLink,
+    category,
+    setCategory,
+    addressState,
+    setAddressState,
+  } = useFormState(id);
+  const { submit, isLoading, isError, error, isSuccess } = useSubmit();
   const {
     deleteR,
-    isLoading: isLoadingDelete,
-    isError: isErrorDelete,
-    error: errorDelete,
-    isSuccess: isSuccessDelete,
-    reset: resetDelete,
-  } = useDeleteRestaurant();
+    isLoading: deleteLoading,
+    isError: deleteIsError,
+    error: deleteError,
+    isSuccess: deleteIsSuccess,
+    reset,
+  } = useDelete();
 
-  const [showAddressModal, setShowAddressModal] = useState(false);
-
-  const { state, setState, addressState, setAddressState, category, setCategory, setFormState } = handleFormState(
-    restaurant!,
-    reset
-  );
+  const [showSetAddressModal, setShowSetAddressModal] = useState(false);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    updateRestaurantFunc({ event: e, _id: restaurant?._id, state, addressState, category, setIsShow });
-  };
+    e.preventDefault();
 
-  const setChallange = () => {
-    setState((current) => ({
-      ...current,
-      rating: current.rating === "challange ostrości" ? 0 : "challange ostrości",
-    }));
+    const data: RestaurantType = {
+      _id: id,
+      name,
+      rating: isCustomRating ? "challange ostrości" : (rating as number),
+      youtubeLink,
+      youtubeEmbed: `https://www.youtube.com/embed/${youtubeLink.split("https://youtu.be/").pop()?.split("&")[0]}`,
+      googleLink,
+      category: category.map((item: any) => item.value),
+      address: {
+        street: addressState.city!,
+        zipCode: addressState.zipCode!,
+        city: addressState.city!,
+        country: addressState.country!,
+      },
+      geometry: {
+        coordinates: addressState.coordinates!,
+      },
+    };
+
+    submit(data);
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      reset();
-      resetDelete();
-    }, 1000);
-    isShow ? (document.body.style.overflow = "hidden") : (document.body.style.overflow = "auto");
-  }, [isShow]);
-
-  if (!restaurant) {
-    return (
-      <Modal isShow={isShow} setIsShow={setIsShow}>
-        <span className="text-red-500">Nie udało się załadować wybranej restauracji :(</span>
-      </Modal>
-    );
-  }
+    if (isSuccess && !isError && !isLoading) setTimeout(() => setIsShow(false), 1000);
+    if (deleteIsSuccess && !deleteError && !deleteLoading)
+      setTimeout(() => {
+        setIsShow(false);
+      }, 1000);
+  }, [isSuccess, deleteIsSuccess]);
 
   return (
     <Fragment>
       <Modal isShow={isShow} setIsShow={setIsShow}>
-        <form className="w-full h-full lg:w-2/3 flex flex-col items-center gap-5" onSubmit={handleSubmit}>
-          <Input
-            id="name"
-            name="name"
+        <form className="flex flex-col gap-8 w-full h-full lg:w-2/3" onSubmit={handleSubmit}>
+          <AdminInput
+            labelStyles="bg-darkBg text-gray-300"
+            label="Nazwa"
+            id="editname"
+            name="editname"
             type="text"
-            label="Nazwa restauracji:"
-            placeholder={restaurant.name}
-            onChange={(event) => setFormState(event)}
-            value={state.name}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             required
-            error={error && "data" in error && error.data.fields?.includes("name") ? error.data.message : null}
-            styles="bg-dashboardSecondary border-dashboardSecondary text-white"
-            labelClassName="text-white"
+            autoComplete="off"
           />
-          <div className="w-full">
-            <div>
-              <Input
-                id="rating"
-                name="rating"
-                type="text"
-                label="Ocena:"
-                value={state.rating}
-                onChange={(event) => setFormState(event)}
-                placeholder={restaurant.rating.toString()}
-                disabled={state.rating === "challange ostrości"}
-                required
-                error={error && "data" in error && error.data.fields?.includes("rating") ? error.data.message : null}
-                styles="capitalize bg-dashboardSecondary border-dashboardSecondary text-white"
-                labelClassName="text-white"
-              />
-              <span className="text-sm text-gray-400">Zakres ocen: 0 - 5, w tym 5 = MUALA!</span>
-              <div className="flex gap-1 items-center">
-                <input type="checkbox" onChange={setChallange} checked={state.rating === "challange ostrości"} />
-                <label className="text-red-500">Challange Ostrości 🌶️</label>
-              </div>
-            </div>
-          </div>
-          <div className="relative w-full">
-            <Input
-              id="youtubeLink"
-              name="youtubeLink"
-              type="text"
-              label="YouTube link:"
-              placeholder={restaurant.youtubeLink}
-              value={state.youtubeLink}
-              onChange={(event) => setFormState(event)}
-              required
-              styles="bg-dashboardSecondary border-dashboardSecondary text-white"
-              labelClassName="text-white"
-            />
-            <div className="absolute top-[50%] right-4 bg-dashboardSecondary">
-              <ActionButtons restaurant={restaurant} isYoutubeIcon isEmbedIcon textColor="text-white/90" />
-            </div>
-          </div>
-          <div className="relative w-full">
-            <Input
-              id="googleLink"
-              name="googleLink"
-              type="text"
-              label="Google link:"
-              placeholder={restaurant.googleLink}
-              onChange={(event) => setFormState(event)}
-              value={state.googleLink}
-              required
-              styles="bg-dashboardSecondary border-dashboardSecondary text-white"
-              labelClassName="text-white"
-            />
-            <div className="absolute top-[50%] right-4 bg-dashboardSecondary">
-              <ActionButtons restaurant={restaurant} isLocationIcon textColor="text-white/90" />
-            </div>
-          </div>
-          <div className="flex flex-col gap-1 w-full">
-            <span className="text-white">Kategorie </span>
-            <Select
-              defaultValue={restaurant.category.map((item) => ({ label: item, value: item }))}
-              onChange={setCategory}
-              options={
-                CATEGORY_ARRAY.map((item) => ({
-                  value: item,
-                  label: item,
-                })) as any
-              }
-              isMulti
-              placeholder="Wybierz..."
-              isOptionDisabled={() => category?.length! >= 3}
-              required
-              classNames={{
-                control: () => "!border-dashboardSecondary !rounded-lg",
-                valueContainer: () => "bg-dashboardSecondary ",
-                placeholder: () => "!text-gray-300",
-                indicatorsContainer: () => "bg-dashboardSecondary !text-gray-500",
-                clearIndicator: () => "bg-dashboardSecondary !text-gray-300",
-              }}
-            />
-          </div>
-          <div className="w-full flex flex-col gap-5">
-            <LaneThrough title="Adres i mapa" />
-            <button
-              type="button"
-              className="text-white bg-gray-700 py-1 rounded-lg hover:bg-gray-500 transition-all"
-              onClick={() => setShowAddressModal((current) => !current)}
-            >
-              Ustaw Adres
-            </button>
-            <div className="flex flex-col gap-1 text-white/70">
-              <div className="flex items-center gap-1">
-                <span className="text-white/50">Ulica:</span>
-                <span className="text-white">{restaurant.address.street || "-"}</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <span className="text-white/50">Kod pocztowy:</span>
-                <span className="text-white">{restaurant.address.zipCode || "-"}</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <span className="text-white/50">Miato:</span>
-                <span className="text-white">{restaurant.address.city || "-"}</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <span className="text-white/50">Kraj:</span>
-                <span className="text-white">{restaurant.address.country || "-"}</span>
-              </div>
-            </div>
-          </div>
+          <AdminRatingInput
+            rating={rating}
+            setRating={setRating}
+            setIsCustomRating={setIsCustiomRating}
+            isCustomRating={isCustomRating}
+          />
+          <AdminInput
+            labelStyles="bg-darkBg text-gray-300"
+            label="Youtube"
+            id="edityt"
+            name="edityt"
+            type="text"
+            value={youtubeLink}
+            onChange={(e) => setYoutubeLink(e.target.value)}
+            required
+            autoComplete="off"
+          />
+          <AdminInput
+            labelStyles="bg-darkBg text-gray-300"
+            label="Google"
+            id="editgoogle"
+            name="editgoogle"
+            type="text"
+            value={googleLink}
+            onChange={(e) => setGoogleLink(e.target.value)}
+            required
+            autoComplete="off"
+          />
+          <AdminCategorySelect category={category} setCategory={setCategory} />
+          <LaneThrough title="Adres" />
+          <AdminAddressInput addressState={addressState} setShowSetAddressModal={setShowSetAddressModal} />
 
-          {error &&
-            "data" in error &&
-            !error?.data.fields?.every((i) => i.includes("name") || i.includes("rating")) && (
-              <div className="w-full py-2 px-5 border border-red-500 bg-red-500/30 text-white">
-                {error.data.message}
-              </div>
-            )}
+          {isError && (
+            <div className="w-full bg-red-900/50 border border-red-500 rounded-md flex items-center justify-center text-white px-4 py-2">
+              {error && "data" in error ? error.data.message : "Wystąpił nieoczekiwany błąd 💔. Odśwież stronę."}
+            </div>
+          )}
+          {deleteIsError && (
+            <div className="w-full bg-red-900/50 border border-red-500 rounded-md flex items-center justify-center text-white px-4 py-2">
+              {deleteError && "data" in deleteError
+                ? deleteError.data.message
+                : "Wystąpił nieoczekiwany błąd 💔. Odśwież stronę."}
+            </div>
+          )}
 
-          <div className="w-full mt-auto flex  gap-4">
+          <div className="mt-auto w-full flex gap-2 text-white">
             <PromiseButton
+              status={isLoading ? "loading" : isError ? "error" : isSuccess ? "success" : null}
               type="submit"
-              bgColor="primary-500"
-              hoverColor="primary-300"
-              isSuccess={isSuccess}
-              isLoading={isLoading}
-              isError={isError}
-              disabled={isLoading}
+              // disabled={
+              //   Object.values(addressState).some((value) => value === undefined) ||
+              //   [validationStatus, youtubeValidateStatus, googleValidationStatus].some((el) => el === "error")
+              // }
+              className="bg-primary-500 hover:bg-primary-400 rounded-md"
             >
               Zapisz
             </PromiseButton>
             <PromiseButton
+              status={deleteLoading ? "loading" : deleteIsSuccess ? "success" : null}
               type="button"
-              bgColor="red-500"
-              hoverColor="red-600"
-              onClick={() =>
-                window.confirm(`Czy na pewno chcesz usunąć ${restaurant.name}?`) && id && deleteR(id, setIsShow)
-              }
-              isSuccess={isSuccessDelete}
-              isError={isErrorDelete}
-              isLoading={isLoadingDelete}
+              onClick={() => deleteR(id!)}
+              className="bg-red-700 hover:bg-red-600 rounded-md"
             >
-              Usuń
+              <FaTrash />
             </PromiseButton>
             <button
-              type="button"
-              className="border border-primary-400 hover:border-primary-500 transition-colors w-full py-1 rounded-lg text-white"
               onClick={() => setIsShow(false)}
+              type="button"
+              className="border border-gray-500 py-2 w-full rounded-md hover:text-primary-600 transition-colors"
             >
               Anuluj
             </button>
           </div>
         </form>
       </Modal>
-      <AddressModal
-        isShow={showAddressModal}
-        setIsShow={setShowAddressModal}
+      <AdminSetAddressModal
         setAddressState={setAddressState}
-        initalMarker={{ lat: restaurant.address.lngLat[1], lng: restaurant.address.lngLat[0] }}
-        center={{ lat: restaurant.address.lngLat[1], lng: restaurant.address.lngLat[0] }}
+        isShow={showSetAddressModal}
+        setIsShow={setShowSetAddressModal}
       />
     </Fragment>
   );
