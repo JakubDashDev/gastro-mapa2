@@ -1,9 +1,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Varela+Round&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Nosifer&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: "customFont";
+  src: url("./assets/font/shlop.otf") format("truetype") ;
+}
+
 
 /*PAGE LOADER*/
 .loader-container {
@@ -110,37 +115,50 @@
 }
 
 #restaurantListSideNav,
-#restaurantListAdmin {
+#restaurantListAdmin,
+#modal {
   --sb-track-color: #bdbcbc;
   --sb-thumb-color: #e78b12;
   --sb-size: 7px;
 }
 
 #restaurantListSideNav::-webkit-scrollbar,
-#restaurantListAdmin::-webkit-scrollbar {
+#restaurantListAdmin::-webkit-scrollbar,
+#modal::-webkit-scrollbar {
   width: var(--sb-size);
 }
 
 #restaurantListSideNav::-webkit-scrollbar,
-#restaurantListAdmin::-webkit-scrollbar {
+#restaurantListAdmin::-webkit-scrollbar,
+#modal::-webkit-scrollbar {
   width: var(--sb-size);
 }
 
 #restaurantListSideNav::-webkit-scrollbar-track,
-#restaurantListAdmin::-webkit-scrollbar-track {
+#restaurantListAdmin::-webkit-scrollbar-track,
+#modal::-webkit-scrollbar-track {
   background: var(--sb-track-color);
   border-radius: 3px;
 }
 
 #restaurantListSideNav::-webkit-scrollbar-thumb,
-#restaurantListAdmin::-webkit-scrollbar-thumb {
+#restaurantListAdmin::-webkit-scrollbar-thumb,
+#modal::-webkit-scrollbar-thumb {
   background: var(--sb-thumb-color);
   border-radius: 3px;
 }
 
 @supports not selector(::-webkit-scrollbar) {
   #restaurantListSideNav,
-  #restaurantListAdmin {
+  #restaurantListAdmin,
+  #modal {
     scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
   }
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
