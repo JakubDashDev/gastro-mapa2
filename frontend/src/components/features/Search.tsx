@@ -2,24 +2,39 @@ import React, { FormEvent, Fragment, useEffect, useState } from "react";
 import { MdOutlineClose, MdOutlineSearch } from "react-icons/md";
 import useGetRestaurantsLazy from "../../hooks/useGetRestaurantsLazy";
 import Loader from "../ui/Loader";
+import setParams from "../../utils/setUrlParams";
+import { useNavigate } from "react-router-dom";
+import deleteUrlParams from "../../utils/deleteUrlParams";
 
 function Search() {
   //prettier-ignore
   const savedValue = localStorage.getItem('searchInput') ? JSON.parse(localStorage.getItem('searchInput') || "") : ""
   const [inputState, setInputState] = useState<string>(savedValue);
 
+  const navigate = useNavigate();
+
   const { isCustomText } = useCustomText(inputState);
   const { getRestaurants, error, isError, isFetching } = useGetRestaurantsLazy();
 
-
   const handleSearch = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    getRestaurants({ keyword: inputState, filters: undefined });
+    if (inputState.length === 0) {
+      const params = deleteUrlParams("keyword");
+      navigate({ search: params });
+    } else {
+      const params = setParams("keyword", inputState);
+      navigate({ search: params });
+    }
+
+    getRestaurants(location.search);
   };
 
   const handleClearInput = () => {
+    const params = deleteUrlParams("keyword");
+    navigate({ search: params });
+
     setInputState("");
-    getRestaurants({ keyword: undefined, filters: undefined });
+    getRestaurants(location.search);
     localStorage.removeItem("searchInput");
   };
 
