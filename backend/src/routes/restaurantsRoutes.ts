@@ -9,7 +9,7 @@ import { protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.route("/").get(getAllRestaurants).post(protect, createRestaurant);
+router.route("/:query?").get(getAllRestaurants).post(protect, createRestaurant);
 router.route("/admin").get(protect, getAllRestaurants);
 router.route("/:id").put(protect, updateRestaurant).delete(protect, deleteRestuarant);
 
