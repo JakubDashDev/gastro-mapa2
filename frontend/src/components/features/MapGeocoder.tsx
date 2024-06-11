@@ -1,37 +1,36 @@
 import MapboxGeocoder, { GeocoderOptions, Result } from "@mapbox/mapbox-gl-geocoder";
-import { useState } from "react";
-import { ControlPosition, Map, Marker, MarkerProps, useControl } from "react-map-gl";
+import { useCallback, useEffect, useState } from "react";
+import { ControlPosition, LngLat, Map, Marker, MarkerDragEvent, MarkerProps, useControl, useMap } from "react-map-gl";
 
 const TOKEN = import.meta.env.VITE_MAP_TOKEN;
 
-type MapGeocoderProps = {
-  setResult: React.Dispatch<React.SetStateAction<Result | null>>;
-  initalMarker?: {
-    lat: number;
-    lng: number;
-  };
-  center?: {
-    lat: number;
-    lng: number;
-  };
-};
+interface IAddressState {
+  street: string | undefined;
+  zipCode: string | undefined;
+  city: string | undefined;
+  country: string | undefined;
+  coordinates: number[] | undefined;
+}
 
-function MapGeocoder({ setResult, initalMarker, center }: MapGeocoderProps) {
+interface MapGeocoderProps {
+  setResult: React.Dispatch<React.SetStateAction<IAddressState>>;
+}
+
+function MapGeocoder({ setResult }: MapGeocoderProps) {
   return (
-    <>
+    <div className="w-full h-full border-2 border-blue-500 rounded-md p-1">
       <Map
         initialViewState={{
-          longitude: center?.lng || 21.01223,
-          latitude: center?.lat || 52.229675,
+          longitude: 21.01223,
+          latitude: 52.229675,
           zoom: 10,
         }}
         mapStyle="mapbox://styles/mapbox/streets-v9"
         mapboxAccessToken={TOKEN}
       >
-        <GeocoderControl mapboxAccessToken={TOKEN} position="top-left" onResult={(res: any) => setResult(res.result)} />
-        {initalMarker && <Marker latitude={initalMarker.lat} longitude={initalMarker.lng} />}
+        <GeocoderControl mapboxAccessToken={TOKEN} position="top-left" onResult={setResult} />
       </Map>
-    </>
+    </div>
   );
 }
 
@@ -45,7 +44,7 @@ type GeocoderControlProps = Omit<GeocoderOptions, "accessToken" | "mapboxgl" | "
 
   onLoading?: (e: object) => void;
   onResults?: (e: object) => void;
-  onResult?: (e: Result) => void;
+  onResult?: any;
   onError?: (e: object) => void;
 };
 
@@ -58,11 +57,16 @@ function GeocoderControl(props: GeocoderControlProps) {
         ...props,
         marker: false,
         accessToken: props.mapboxAccessToken,
+        flyTo: {
+          speed: 3,
+          bearing: 0,
+          curve: 1,
+        },
       });
       ctrl.on("loading", props.onLoading!);
       ctrl.on("results", props.onResults!);
       ctrl.on("result", (evt) => {
-        props.onResult!(evt);
+        props.onResult(evt.result);
 
         const { result } = evt;
         const location =
