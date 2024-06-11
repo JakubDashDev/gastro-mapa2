@@ -33,7 +33,7 @@ const router = createBrowserRouter([
         errorElement: <RouteError />,
       },
       {
-        path: "/dashboard/restaurants/:id?",
+        path: "/dashboard/restaurants/:id?/:query?",
         element: <RestaurantsPage />,
         errorElement: <RouteError />,
       },

@@ -8,6 +8,6 @@ const restaurantController_js_1 = require("../controllers/restaurantController.j
 const authMiddleware_js_1 = require("../middleware/authMiddleware.js");
 const router = express_1.default.Router();
 router.route("/:query?").get(restaurantController_js_1.getAllRestaurants).post(authMiddleware_js_1.protect, restaurantController_js_1.createRestaurant);
-router.route("/admin").get(authMiddleware_js_1.protect, restaurantController_js_1.getAllRestaurants);
+router.route("/admin/:query?").get(authMiddleware_js_1.protect, restaurantController_js_1.getAllRestaurants);
 router.route("/:id").put(authMiddleware_js_1.protect, restaurantController_js_1.updateRestaurant).delete(authMiddleware_js_1.protect, restaurantController_js_1.deleteRestuarant);
 exports.default = router;
