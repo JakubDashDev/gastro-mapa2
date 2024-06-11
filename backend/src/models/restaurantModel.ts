@@ -9,7 +9,9 @@ export type RestaurantType = {
     zipCode: string;
     city: string;
     country: string;
-    lngLat: number[];
+  };
+  geometry: {
+    coordinates: number[];
   };
   category: string[];
   youtubeEmbed: string;
@@ -27,8 +29,10 @@ const RestaurantSchema = new mongoose.Schema<RestaurantType>(
       city: { type: String, required: true },
       zipCode: { type: String, required: true },
       country: { type: String, required: true },
-      lngLat: { type: [Number], required: true },
       _id: false,
+    },
+    geometry: {
+      coordinates: { type: [Number], required: true },
     },
     category: { type: [String], required: true },
     rating: { type: Schema.Types.Mixed, required: [true, "To pole nie może być puste!"] },
@@ -38,6 +42,8 @@ const RestaurantSchema = new mongoose.Schema<RestaurantType>(
   },
   { timestamps: true }
 );
+
+RestaurantSchema.index({ name: "text", "address.city": "text", category: "text" });
 
 const Restaurant = mongoose.model("Restaurant", RestaurantSchema);
 
