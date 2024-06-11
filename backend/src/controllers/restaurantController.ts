@@ -3,61 +3,55 @@ import asnycHandler from "../middleware/asyncHandler.js";
 import Restaurant, { RestaurantType } from "../models/restaurantModel.js";
 
 const getAllRestaurants = asnycHandler(async (req: Request, res: Response) => {
-  const keyword = req.query.keyword;
-  const filters = req.query.filters;
-  const find = keyword
-    ? {
-        $or: [
-          {
-            name: { $regex: req.query.keyword, $options: "i" },
-          },
-          {
-            category: { $regex: req.query.keyword, $options: "i" },
-          },
-          {
-            "address.city": { $regex: req.query.keyword, $options: "i" },
-          },
-          {
-            rating: keyword === "muala" && 5,
-          },
-        ],
-      }
-    : {};
+  const keywordQuery = req.query.keyword as string;
+  const filtersQuery = req.query.filters as string;
+  const sort = req.query.sort ? JSON.parse(req.query.sort as string) : "Od: najnowszych";
 
-  type filterType = { $gte?: number | string; $lte?: number | string; category?: string };
-  const filtersArray: filterType[] = filters && JSON.parse(filters as string);
-  const ratings = filtersArray?.filter((item) => item.hasOwnProperty("$gte"));
-  const categories = filtersArray?.filter((item) => item.hasOwnProperty("category"));
+  let sortFinal = {};
+  if (sort === "Alfabetycznie (A-Z)") sortFinal = { name: 1 };
+  if (sort === "Alfabetycznie (Z-A)") sortFinal = { name: -1 };
+  if (sort === "Ocena: malejąco") sortFinal = { rating: -1 };
+  if (sort === "Ocena: rosnąco") sortFinal = { rating: 1 };
+  if (sort === "Od: najnowszych") sortFinal = { createdAt: -1 };
+  if (sort === "Od: najstarszych") sortFinal = { createdAt: 1 };
 
-  const filter = filtersArray
-    ? {
-        $and: [
-          ratings.length > 0
-            ? {
-                $or: ratings.map((item) => {
-                  //NOTE: handling custom value of rating
-                  if (item.$gte === "challange ostrości" && item.$lte === "challange ostrości") {
-                    return { rating: "challange ostrości" };
-                  }
-                  return { rating: item };
-                }),
-              }
-            : {},
-          categories.length > 0
-            ? {
-                $or: categories.map((item) => ({ category: { $regex: item.category, $options: "i" } })),
-              }
-            : {},
-        ],
-      }
-    : {};
+  const keywords = keywordQuery
+    ?.split(/\s+/)
+    .map((kw) => `"${kw}"`)
+    .join(" ");
 
-  const restaurants = keyword
-    ? await Restaurant.find(find)
-    : filters
-    ? await Restaurant.find(filter)
-    : await Restaurant.find();
-  //
+  const filters = filtersQuery && JSON.parse(filtersQuery as string);
+  const ratings = filters?.filter((item: any) => item.hasOwnProperty("$gte"));
+  const categories = filters?.filter((item: any) => item.hasOwnProperty("category"));
+
+  let finalQuery = {};
+  if ((keywordQuery && filtersQuery) || filtersQuery)
+    finalQuery = {
+      ...finalQuery,
+      $and: [
+        ratings.length > 0
+          ? {
+              $or: ratings.map((item: any) => {
+                //NOTE: handling custom value of rating
+                if (item.$gte === "challange ostrości" && item.$lte === "challange ostrości") {
+                  return { rating: "challange ostrości" };
+                }
+                return { rating: item };
+              }),
+            }
+          : {},
+        categories.length > 0
+          ? {
+              $or: categories.map((item: any) => ({ category: item.category })),
+            }
+          : {},
+      ],
+    };
+  if (keywordQuery) finalQuery = { ...finalQuery, $text: { $search: keywords, $caseSensitive: false } };
+  if (!keywordQuery && !filtersQuery) finalQuery = {};
+
+  const restaurants = await Restaurant.find(finalQuery).sort(sortFinal).lean();
+
   res.json(restaurants);
 });
 
@@ -80,7 +74,6 @@ const createRestaurant = asnycHandler(async (req: CustomRequest<RestaurantType>,
       throw new Error("Zakres oceny jest nieprawdidłowy!");
     }
   }
-
 
   const restaurant = new Restaurant({
     name,
