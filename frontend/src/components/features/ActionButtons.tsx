@@ -43,18 +43,15 @@ function ActionButtons({
         <div>
           <PromiseButton
             type="button"
-            textColor="text-red-500"
-            textHover="text-blue-500"
-            isSuccess={isSuccess}
-            isLoading={isLoading}
-            isError={isError}
+            status={isLoading ? "loading" : isError ? "error" : isSuccess ? "success" : null}
+            className="p-1 rounded-lg"
             onClick={(e) =>
               window.confirm(`Czy na pewno chcesz usunąć ${restaurant.name}?`)
                 ? deleteR(e, restaurant)
                 : e.stopPropagation()
             }
           >
-            <FaTrashAlt />
+            <FaTrashAlt className="text-red-500 hover:text-red-600" />
           </PromiseButton>
         </div>
       )}

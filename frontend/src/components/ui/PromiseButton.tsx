@@ -1,49 +1,38 @@
-import React from "react";
-import { FaCheck } from "react-icons/fa6";
+import React, { HTMLAttributes } from "react";
 import Loader from "./Loader";
+import { FaCheck } from "react-icons/fa";
 
-type PromiseButtonType = {
-  isSuccess: boolean;
-  isError?: boolean;
-  isLoading?: boolean;
+interface ButtonHTMLAttributes<T> extends HTMLAttributes<T> {
+  autoFocus?: boolean;
   disabled?: boolean;
-  type: "submit" | "reset" | "button" | undefined;
-  onClick?: (...args: any) => void;
-  bgColor?: string;
-  textColor?: string;
-  textHover?: string;
-  hoverColor?: string;
+  name?: string;
+  type?: "submit" | "reset" | "button";
+}
+
+interface PromiseButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
-};
+  status: "loading" | "error" | "success" | null;
+  className: string;
+}
 
-function PromiseButton({
-  isSuccess,
-  isError,
-  isLoading,
-  disabled,
-  type,
-  onClick,
-  bgColor,
-  textColor = "text-white",
-  textHover,
-  hoverColor,
-  children,
-}: PromiseButtonType) {
-  //??? idk for what it is
-  // useEffect(() => {
-  //   setTimeout(() => (isError = false), 1000);
-  // }, [isError]);
-
+function PromiseButton({ children, status, className, ...props }: PromiseButtonProps) {
+  const successStyles = status === "success" ? "!bg-green-500" : undefined;
+  const errorStyles = status === "error" ? "!bg-red-500" : undefined;
   return (
     <button
-      type={type}
-      disabled={isLoading || disabled}
-      className={`${textColor} hover:${hoverColor} hover:${textHover} w-full py-1 px-2 transition-all flex justify-center rounded-lg cursor-pointer disabled:bg-black/50 disabled:cursor-not-allowed disabled:text-gray-500 ${
-        isError ? "bg-red-500" : isSuccess ? "bg-green-600 text-white" : `bg-${bgColor}`
-      }`}
-      onClick={onClick}
+      {...props}
+      disabled={status === "loading" || props.disabled}
+      className={`transition-all flex items-center justify-center text-white disabled:bg-gray-100/30 disabled:text-black-100/20 disabled:dark:bg-gray-800 disabled:dark:text-gray-700 ${className} ${successStyles} ${errorStyles}  `}
     >
-      {isLoading ? <Loader /> : isError ? <span>:(</span> : isSuccess ? <FaCheck className="text-2xl" /> : children}
+      {status === "loading" ? (
+        <Loader color="white" />
+      ) : status === "error" ? (
+        ":("
+      ) : status === "success" ? (
+        <FaCheck className="text-2xl" />
+      ) : (
+        children
+      )}
     </button>
   );
 }
