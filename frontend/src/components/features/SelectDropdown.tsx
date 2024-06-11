@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState } from "react";
 import { IoMdArrowDropdown } from "react-icons/io";
+import getParams from "../../utils/getUrlParams";
 
 type SelectContexType = {
   activeOption: string;
@@ -14,6 +15,7 @@ type SelectType = {
 };
 
 function Select({ children, className, defaultValue }: SelectType) {
+  const { sort } = getParams(location);
   const [activeOption, setActiveOption] = useState(defaultValue);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -24,11 +26,7 @@ function Select({ children, className, defaultValue }: SelectType) {
   return (
     <SelectContext.Provider value={{ activeOption, setActiveOption }}>
       <div className="w-full h-full relative">
-        <button
-          type="button"
-          className={`flex items-center justify-between ${className} w-full`}
-          onClick={handleOpen}
-        >
+        <button type="button" className={`flex items-center justify-between ${className} w-full`} onClick={handleOpen}>
           <span className="overflow-hidden text-nowrap">{activeOption}</span>
           <IoMdArrowDropdown />
         </button>
@@ -48,32 +46,24 @@ function Select({ children, className, defaultValue }: SelectType) {
 type OptionType = {
   value: string;
   children: React.ReactNode;
-  handleSort?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  handleClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
-function Option({ value, children, handleSort }: OptionType) {
+function Option({ value, children, handleClick }: OptionType) {
   const { activeOption, setActiveOption } = useSelectContext();
 
   const isActive = activeOption === value;
   const className = `border-b border-gray-200 py-1 text-gray-500 dark:text-gray-700 ${
-    isActive
-      ? "bg-primary/80 text-black-500 disabled:cursor-not-allowed"
-      : "bg-none hover:bg-gray-200 transition-color"
+    isActive ? "bg-primary/80 text-black-500 disabled:cursor-not-allowed" : "bg-none hover:bg-gray-200 transition-color"
   }`;
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const onClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setActiveOption(value);
-    handleSort && handleSort(event);
+    handleClick && handleClick(event);
   };
 
   return (
-    <button
-      type="button"
-      className={className}
-      value={value}
-      onClick={handleClick}
-      disabled={activeOption === value}
-    >
+    <button type="button" className={className} value={value} onClick={onClick} disabled={activeOption === value}>
       {children}
     </button>
   );
@@ -87,9 +77,7 @@ const useSelectContext = () => {
   const context = useContext(SelectContext);
 
   if (!context) {
-    throw new Error(
-      "useSelectContext should be used within the scope of a Select component"
-    );
+    throw new Error("useSelectContext should be used within the scope of a Select component");
   }
 
   return context;
