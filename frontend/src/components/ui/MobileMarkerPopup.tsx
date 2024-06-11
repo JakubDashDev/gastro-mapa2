@@ -40,7 +40,7 @@ function MobileMarkerPopup({ popupInfo, setPopupInfo }: MobileMarkerPopupProps) 
               <IoIosClose />
             </button>
             <div className="flex justify-center">
-              <iframe id="ytplayer" width={300} height={181} src={popupInfo?.youtubeEmbed} className="rounded-lg" />
+              <iframe id="ytplayer" width={310} height={181} src={popupInfo?.youtubeEmbed} className="rounded-lg" />
             </div>
             <div className="flex flex-col">
               <span className="text-lg">{popupInfo?.name}</span>
@@ -77,7 +77,7 @@ function MobileMarkerPopup({ popupInfo, setPopupInfo }: MobileMarkerPopupProps) 
           </animated.div>
           <animated.div
             style={backdropAnimation}
-            className="absolute top-0 left-0 w-screen h-[calc(100dvh)] z-10 bg-black/50"
+            className="fixed top-0 left-0 w-screen h-[calc(100dvh)] z-10 bg-black/50"
             onClick={handleClose}
           />
         </Fragment>

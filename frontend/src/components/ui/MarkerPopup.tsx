@@ -14,10 +14,11 @@ function MarkerPopup({ popupInfo, setPopupInfo }: MarkerPopupProps) {
   return (
     <Popup
       offset={25}
-      longitude={Number(popupInfo?.address.lngLat[0])}
-      latitude={Number(popupInfo?.address.lngLat[1])}
+      longitude={Number(popupInfo?.geometry.coordinates[0])}
+      latitude={Number(popupInfo?.geometry.coordinates[1])}
       onClose={() => setPopupInfo(null)}
       closeButton
+      className="z-20"
     >
       <div className="flex flex-col gap-2 font-sans">
         <iframe id="ytplayer" width="360" height="203" src={popupInfo?.youtubeEmbed} className="rounded-lg" />

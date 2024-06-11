@@ -17,8 +17,8 @@ function MapMarker({ data }: MapMarkerProps) {
   const markers = data.map((restaurant, index) => (
     <Marker
       key={index}
-      longitude={restaurant.address.lngLat[0]}
-      latitude={restaurant.address.lngLat[1]}
+      longitude={restaurant.geometry.coordinates[0]}
+      latitude={restaurant.geometry.coordinates[1]}
       onClick={(e) => {
         // If we let the click event propagates to the map, it will immediately close the popup
         // with `closeOnClick: true`
@@ -34,7 +34,7 @@ function MapMarker({ data }: MapMarkerProps) {
     <>
       {markers}
       {popupInfo && width >= 640 && <MarkerPopup popupInfo={popupInfo} setPopupInfo={setPopupInfo} />}
-      {width < 640 && <MobileMarkerPopup popupInfo={popupInfo} setPopupInfo={setPopupInfo} />}
+      {popupInfo && width < 640 && <MobileMarkerPopup popupInfo={popupInfo} setPopupInfo={setPopupInfo} />}
     </>
   );
 }
