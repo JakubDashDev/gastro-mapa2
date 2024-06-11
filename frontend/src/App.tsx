@@ -1,9 +1,11 @@
 import { Fragment, useEffect, useState } from "react";
-import Map from "./components/features/Map";
 import WelcomeLoader from "./components/ui/WelcomeLoader";
 import SideNav from "./components/ui/SideNav";
-import useGetRestaurants from "./hooks/useGetRestaurants";
 import { useAppSelector } from "./redux/store";
+import MainMap from "./components/features/Map";
+import { useGetRestaurantsQuery } from "./services/restaurantsApi";
+import { useDispatch } from "react-redux";
+import { setRestaurants } from "./redux/restaurantsSlice";
 
 function App() {
   const { loading, error, isError } = useGetData();
@@ -34,7 +36,7 @@ function App() {
         <Fragment>
           <SideNav data={restaurants} darkMode={darkMode} setDarkMode={setDarkMode} />
           <div className="flex-1 h-[calc(100dvh)] border-none xl:border-y-4 xl:border-x-4 border-white">
-            <Map data={restaurants} darkMode={darkMode} />
+            <MainMap data={restaurants} darkMode={darkMode} />
           </div>
         </Fragment>
       )}
@@ -45,10 +47,12 @@ function App() {
 export default App;
 
 function useGetData() {
-  const { isLoading, error, isError } = useGetRestaurants({
-    keyword: undefined,
-    filters: undefined,
-  });
+  const dispatch = useDispatch();
+  const { data, isLoading, isError, error } = useGetRestaurantsQuery(location.search);
+
+  useEffect(() => {
+    dispatch(setRestaurants(data));
+  }, [data]);
 
   const [loading, setLoading] = useState(true);
 

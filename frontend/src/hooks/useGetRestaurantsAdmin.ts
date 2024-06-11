@@ -3,19 +3,9 @@ import { setRestaurants } from "../redux/restaurantsSlice";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../redux/store";
 
-type FunctionParameters = {
-  keyword?: string;
-  filters?: string;
-};
-
-function useGetRestaurantsAdmin({ keyword, filters }: FunctionParameters) {
+function useGetRestaurantsAdmin() {
   const dispatch = useAppDispatch();
-  const { data, isLoading, isError, error, isSuccess, isFetching } = useGetRestaurantsAdminQuery({
-    keyword,
-    filters,
-  }, {
-    
-  });
+  const { data, isLoading, isError, error, isSuccess, isFetching } = useGetRestaurantsAdminQuery(location.search);
 
   useEffect(() => {
     if (isSuccess) {
