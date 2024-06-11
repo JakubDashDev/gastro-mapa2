@@ -10,7 +10,7 @@ export default {
     extend: {
       fontFamily: {
         sans: ['Varela Round', ...defaultTheme.fontFamily.sans],
-        loader: ['Nosifer'],
+        loader: ['customFont'],
       },
       colors: {
         primary: {
