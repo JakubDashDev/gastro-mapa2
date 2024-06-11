@@ -1,24 +1,22 @@
-import Input from "./Input";
 import Modal, { ModalProps } from "../ui/Modal";
-import Select from "react-select";
-import { Fragment, forwardRef, useEffect, useRef, useState } from "react";
-import MapGeocoder from "./MapGeocoder";
+import { Fragment, useState } from "react";
 import LaneThrough from "../ui/LaneThrough";
 import { CATEGORY_ARRAY } from "../../../constatns";
 import PromiseButton from "../ui/PromiseButton";
-import AdminInput from "./AdminInput";
-import AdminRatingInput from "./AdminRatingInput";
-import AdminCategorySelect from "./AdminCategorySelect";
-import AdminAddressInput from "./AdminAddressInput";
 import AdminSetAddressModal from "./AdminSetAddressModal";
-import {
-  googleValidation,
-  nameFormValidation,
-  ratingValidation,
-  useCreateNewRestaurant,
-  youtubeFormValdation,
-} from "./CreateRestrauantForm.hooks";
-import { useAppSelector } from "../../redux/store";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import AdminInput from "./AdminInput";
+import Select from "react-select";
+import { useCreateNewRestaurant } from "./CreateRestrauantForm.hooks";
+
+interface IFormInput {
+  name: string;
+  rating: number | null;
+  isCustomRating: boolean;
+  youtubeLink: string;
+  googleLink: string;
+  category: string[];
+}
 
 interface IAddressState {
   street: string | undefined;
@@ -29,23 +27,22 @@ interface IAddressState {
 }
 
 function CreateRestaurantForm({ isShow, setIsShow }: ModalProps) {
-  const { createNewRestaurant, isLoading, isError, error, isSuccess, reset } = useCreateNewRestaurant();
+  const { register, handleSubmit, watch, control, formState } = useForm<IFormInput>({
+    defaultValues: {
+      isCustomRating: false,
+    },
+  });
 
-  //name input
-  const [name, setName] = useState("");
+  const { createNewRestaurant, isLoading, isError, error, isSuccess } = useCreateNewRestaurant();
+  const options = CATEGORY_ARRAY.map((item) => ({ value: item, label: item }));
 
-  //rating input
-  const [rating, setRating] = useState<number | null>(2.5);
-  const [isCustomRating, setIsCustiomRating] = useState(false);
-
-  //youtube input
-  const [youtubeLink, setYoutubeLink] = useState("");
-
-  //google input
-  const [googleLink, setGoogleLink] = useState("");
-
-  //category input
-  const [category, setCategory] = useState<any>([]);
+  const onSubmit: SubmitHandler<IFormInput> = (data) => {
+    const completeData = {
+      addressState,
+      ...data,
+    };
+    createNewRestaurant(completeData);
+  };
 
   //address input
   const [addressState, setAddressState] = useState<IAddressState>({
@@ -57,98 +54,149 @@ function CreateRestaurantForm({ isShow, setIsShow }: ModalProps) {
   });
   const [showSetAddressModal, setShowSetAddressModal] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const data = {
-      name,
-      rating,
-      isCustomRating,
-      youtubeLink,
-      googleLink,
-      category: category.map((item: any) => item.value),
-      addressState,
-    };
-
-    createNewRestaurant(data);
-  };
-
-  useEffect(() => {
-    if (isSuccess) {
-      setTimeout(() => {
-        setIsShow(false);
-        reset();
-      }, 1000);
-    }
-  }, [isSuccess]);
-
   return (
     <Fragment>
       <Modal isShow={isShow} setIsShow={setIsShow}>
-        <form className="flex flex-col gap-8 w-full h-full lg:w-2/3" onSubmit={(e) => handleSubmit(e)}>
+        <form className="flex flex-col gap-6 w-full h-full lg:w-2/3" onSubmit={handleSubmit(onSubmit)}>
           <AdminInput
-            labelStyles="bg-darkBg text-white"
-            label="Nazwa"
-            id="name"
-            name="name"
+            field="name"
+            label="Nazwa restauracji"
             type="text"
-            value={name}
-            onChange={(e) => {
-              setName(e.target.value), reset();
-            }}
-            required
-            validation="name"
+            placeholder="Nazwa restauracji"
+            register={register}
+            options={{ required: { value: true, message: "To jest wymagane!" } }}
+            error={
+              formState.errors.googleLink?.message ||
+              (error && "data" in error
+                ? error.data.fields?.includes("name")
+                  ? error.data.message
+                  : undefined
+                : undefined)
+            }
           />
-          <AdminRatingInput
-            rating={rating}
-            setRating={setRating}
-            setIsCustomRating={setIsCustiomRating}
-            isCustomRating={isCustomRating}
-          />
+          <div>
+            <AdminInput
+              field="rating"
+              label="Ocena"
+              type="number"
+              placeholder="Od 0.1 do 5.0"
+              register={register}
+              options={{
+                required: { value: true, message: "To jest wymagane!" },
+                valueAsNumber: true,
+                max: { value: 5, message: "Ocena nie jest w skali" },
+                min: { value: 0.1, message: "Ocena nie jest w skali" },
+                disabled: watch("isCustomRating"),
+              }}
+              error={formState.errors.rating?.message}
+            />
+            <div className="flex items-center gap-1 text-black mt-1 px-1">
+              <input id="isCustomRating" type="checkbox" {...register("isCustomRating")} />
+              <label htmlFor="isCustomRating">Challange ostrości 🌶️</label>
+            </div>
+          </div>
           <AdminInput
-            labelStyles="bg-darkBg text-white"
+            field="youtubeLink"
             label="Youtube"
-            id="yt"
-            name="yt"
             type="text"
-            value={youtubeLink}
-            onChange={(e) => {
-              setYoutubeLink(e.target.value), reset();
+            placeholder="https://youtu.be/exampleid"
+            register={register}
+            options={{
+              required: { value: true, message: "To jest wymagane!" },
+              pattern: { value: /[a-z]+:\/\/[a-z]+\.[a-z]+\//i, message: "Link niepoprawny!" }, // test if link is correct
             }}
-            required
+            error={formState.errors.youtubeLink?.message}
           />
           <AdminInput
-            labelStyles="bg-darkBg text-white"
+            field="googleLink"
             label="Google"
-            id="google"
-            name="google"
             type="text"
-            value={googleLink}
-            onChange={(e) => setGoogleLink(e.target.value)}
-            required
+            placeholder="https://maps.app.goo.gl/exampleid"
+            register={register}
+            options={{
+              required: { value: true, message: "To jest wymagane!" },
+              pattern: {
+                value: /[a-z]+:\/\/([a-z]+(\.[a-z]+)+)\//i, //test if link is correct
+                message: "Link niepoprawny!",
+              },
+            }}
+            error={formState.errors.googleLink?.message}
           />
-          <AdminCategorySelect category={category} setCategory={setCategory} />
-          <LaneThrough title="Adres" />
-          <AdminAddressInput addressState={addressState} setShowSetAddressModal={setShowSetAddressModal} />
+          <div>
+            <span className="text-gray-700">Kategorie:</span>
+            <Controller
+              control={control}
+              name="category"
+              render={({ field }) => (
+                <Select
+                  id="category"
+                  required
+                  options={options}
+                  onChange={(val) => field.onChange(val.map((c) => c.value))}
+                  isMulti={true}
+                  onBlur={field.onBlur}
+                  value={options.filter((el) => field.value?.includes(el.value)) || undefined}
+                  name={field.name}
+                  ref={field.ref}
+                  placeholder="Wybierz do trzech kategorii"
+                  isOptionDisabled={() => field.value && field.value.length === 3}
+                  className="capitalize"
+                  styles={{
+                    control: (baseStyles, state) => ({
+                      ...baseStyles,
+                      borderColor: "#9CA3AF",
+                      background: "transparent",
+                    }),
+                  }}
+                />
+              )}
+            />
+          </div>
 
+          <LaneThrough title="Adres" />
+          <div className="flex flex-col gap-2">
+            <button
+              type="button"
+              onClick={() => setShowSetAddressModal(true)}
+              className="w-full border border-gray-500 hover:border-primary-500 hover:bg-primary-600 transition-colors py-1 rounded-md"
+            >
+              Ustaw adres
+            </button>
+            <div className="flex gap-1 items-center mt-5">
+              <span className="text-gray-600">Ulica:</span>
+              <span className="text-lg">{addressState?.street || "-"}</span>
+            </div>
+            <div className="flex gap-1 items-center">
+              <span className="text-gray-600">Miasto:</span>
+              <span className="text-lg">{addressState?.city || "-"}</span>
+            </div>
+            <div className="flex gap-1 items-center">
+              <span className="text-gray-600">Miasto:</span>
+              <span className="text-lg">{addressState?.zipCode || "-"}</span>
+            </div>
+            <div className="flex gap-1 items-center">
+              <span className="text-gray-600">Kraj:</span>
+              <span className="text-lg">{addressState?.country || "-"}</span>
+            </div>
+          </div>
           {isError && (
-            <div className="w-full bg-red-900/50 border border-red-500 rounded-md flex items-center justify-center text-white px-4 py-2">
-              {error && "data" in error ? error.data.message : "Wystąpił nieoczekiwany błąd 💔. Odśwież stronę."}
+            <div className="w-full bg-red-300 text-gray-900 flex items-center justify-center gap-2 py-2 rounded-md">
+              <span>{error && "data" in error && error.data.message}</span>
             </div>
           )}
-
-          <div className="mt-auto w-full flex gap-2 text-white">
+          <div className="w-full flex items-center gap-3 mt-auto">
             <PromiseButton
-              status={isLoading ? "loading" : isError ? "error" : isSuccess ? "success" : null}
               type="submit"
-              className="bg-primary-500 hover:bg-primary-400 rounded-md"
+              status={isLoading ? "loading" : isSuccess ? "success" : null}
+              disabled={Object.values(addressState).some((x) => x === undefined)}
+              className="w-1/2 bg-primary-500 py-1 rounded-md disabled:bg-gray-300"
             >
               Zapisz
             </PromiseButton>
             <button
               onClick={() => setIsShow(false)}
               type="button"
-              className="border border-gray-500 py-2 w-full rounded-md hover:text-primary-600 transition-colors"
+              className="w-1/2 border border-primary-500 py-1 rounded-md"
             >
               Anuluj
             </button>

@@ -11,11 +11,41 @@ interface IAddressState {
   coordinates: [number, number] | undefined;
 }
 
+interface UpdateNewRestaurantProps {
+  _id: string;
+  name: string;
+  rating: number | null; // rating can be null if isCustomRating is true
+  isCustomRating: boolean; //custom rating = challange ostrości
+  youtubeLink: string;
+  googleLink: string;
+  category: string[];
+  addressState: IAddressState;
+}
+
 export const useSubmit = () => {
   const dispatch = useAppDispatch();
   const [trigger, { isLoading, isError, error, isSuccess }] = useUpdateRestaurantMutation();
 
-  const submit = (data: RestaurantType) => {
+  const submit = (props: UpdateNewRestaurantProps) => {
+    const { _id, name, rating, isCustomRating, youtubeLink, googleLink, category, addressState } = props;
+    const data = {
+      _id,
+      name,
+      rating: isCustomRating ? ("challange ostrości" as "challange ostrości") : Number(rating),
+      youtubeLink,
+      youtubeEmbed: `https://www.youtube.com/embed/${youtubeLink.split("https://youtu.be/").pop()?.split("&")[0]}`,
+      googleLink,
+      category,
+      address: {
+        street: addressState.street!,
+        city: addressState.city!,
+        zipCode: addressState.zipCode!,
+        country: addressState.country!,
+      },
+      geometry: {
+        coordinates: addressState.coordinates!,
+      },
+    };
     trigger(data)
       .unwrap()
       .then((res) => dispatch(updateRestaurant(res)));
@@ -37,69 +67,4 @@ export const useDelete = () => {
   };
 
   return { deleteR, isLoading, isError, error, isSuccess, reset };
-};
-
-export const useFormState = (id: string | undefined) => {
-  const { restaurants } = useAppSelector((state) => state.restaurants);
-  const currentRestaurant = restaurants.find((item) => item._id === id);
-
-  useEffect(() => {
-    if (currentRestaurant) {
-      setName(currentRestaurant.name);
-      setRating(currentRestaurant.rating === "challange ostrości" ? 0 : (currentRestaurant.rating as number));
-      setIsCustiomRating(currentRestaurant.rating === "challange ostrości");
-      setYoutubeLink(currentRestaurant.youtubeLink);
-      setGoogleLink(currentRestaurant.googleLink);
-      setCategory(currentRestaurant.category.map((item) => ({ label: item, value: item })));
-      setAddressState({
-        street: currentRestaurant.address.street,
-        zipCode: currentRestaurant.address.zipCode,
-        city: currentRestaurant.address.city,
-        country: currentRestaurant.address.country,
-        coordinates: currentRestaurant.geometry.coordinates,
-      });
-    }
-  }, [currentRestaurant]);
-
-  //name input
-  const [name, setName] = useState("");
-
-  //rating input
-  const [rating, setRating] = useState<number | null>(2.5);
-  const [isCustomRating, setIsCustiomRating] = useState(false);
-
-  //youtube input
-  const [youtubeLink, setYoutubeLink] = useState("");
-
-  //google input
-  const [googleLink, setGoogleLink] = useState("");
-
-  //category input
-  const [category, setCategory] = useState<any>([]);
-
-  //address input
-  const [addressState, setAddressState] = useState<IAddressState>({
-    street: undefined,
-    zipCode: undefined,
-    city: undefined,
-    country: undefined,
-    coordinates: undefined,
-  });
-
-  return {
-    name,
-    setName,
-    rating,
-    setRating,
-    isCustomRating,
-    setIsCustiomRating,
-    youtubeLink,
-    setYoutubeLink,
-    googleLink,
-    setGoogleLink,
-    category,
-    setCategory,
-    addressState,
-    setAddressState,
-  };
 };
