@@ -31,8 +31,10 @@ const RestaurantSchema = new mongoose_1.default.Schema({
         city: { type: String, required: true },
         zipCode: { type: String, required: true },
         country: { type: String, required: true },
-        lngLat: { type: [Number], required: true },
         _id: false,
+    },
+    geometry: {
+        coordinates: { type: [Number], required: true },
     },
     category: { type: [String], required: true },
     rating: { type: mongoose_1.Schema.Types.Mixed, required: [true, "To pole nie może być puste!"] },
@@ -40,5 +42,6 @@ const RestaurantSchema = new mongoose_1.default.Schema({
     youtubeLink: { type: String, required: true },
     googleLink: { type: String, required: true },
 }, { timestamps: true });
+RestaurantSchema.index({ name: "text", "address.city": "text", category: "text" });
 const Restaurant = mongoose_1.default.model("Restaurant", RestaurantSchema);
 exports.default = Restaurant;

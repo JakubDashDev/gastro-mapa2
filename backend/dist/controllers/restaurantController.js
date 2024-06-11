@@ -16,32 +16,29 @@ exports.deleteRestuarant = exports.updateRestaurant = exports.createRestaurant =
 const asyncHandler_js_1 = __importDefault(require("../middleware/asyncHandler.js"));
 const restaurantModel_js_1 = __importDefault(require("../models/restaurantModel.js"));
 const getAllRestaurants = (0, asyncHandler_js_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const keyword = req.query.keyword;
-    const filters = req.query.filters;
-    const find = keyword
-        ? {
-            $or: [
-                {
-                    name: { $regex: req.query.keyword, $options: "i" },
-                },
-                {
-                    category: { $regex: req.query.keyword, $options: "i" },
-                },
-                {
-                    "address.city": { $regex: req.query.keyword, $options: "i" },
-                },
-                {
-                    rating: keyword === "muala" && 5,
-                },
-            ],
-        }
-        : {};
-    const filtersArray = filters && JSON.parse(filters);
-    const ratings = filtersArray === null || filtersArray === void 0 ? void 0 : filtersArray.filter((item) => item.hasOwnProperty("$gte"));
-    const categories = filtersArray === null || filtersArray === void 0 ? void 0 : filtersArray.filter((item) => item.hasOwnProperty("category"));
-    const filter = filtersArray
-        ? {
-            $and: [
+    const keywordQuery = req.query.keyword;
+    const filtersQuery = req.query.filters;
+    const sort = req.query.sort ? JSON.parse(req.query.sort) : "Od: najnowszych";
+    let sortFinal = {};
+    if (sort === "Alfabetycznie (A-Z)")
+        sortFinal = { name: 1 };
+    if (sort === "Alfabetycznie (Z-A)")
+        sortFinal = { name: -1 };
+    if (sort === "Ocena: malejąco")
+        sortFinal = { rating: -1 };
+    if (sort === "Ocena: rosnąco")
+        sortFinal = { rating: 1 };
+    if (sort === "Od: najnowszych")
+        sortFinal = { createdAt: -1 };
+    if (sort === "Od: najstarszych")
+        sortFinal = { createdAt: 1 };
+    const keywords = keywordQuery === null || keywordQuery === void 0 ? void 0 : keywordQuery.split(/\s+/).map((kw) => `"${kw}"`).join(" ");
+    const filters = filtersQuery && JSON.parse(filtersQuery);
+    const ratings = filters === null || filters === void 0 ? void 0 : filters.filter((item) => item.hasOwnProperty("$gte"));
+    const categories = filters === null || filters === void 0 ? void 0 : filters.filter((item) => item.hasOwnProperty("category"));
+    let finalQuery = {};
+    if ((keywordQuery && filtersQuery) || filtersQuery)
+        finalQuery = Object.assign(Object.assign({}, finalQuery), { $and: [
                 ratings.length > 0
                     ? {
                         $or: ratings.map((item) => {
@@ -55,18 +52,15 @@ const getAllRestaurants = (0, asyncHandler_js_1.default)((req, res) => __awaiter
                     : {},
                 categories.length > 0
                     ? {
-                        $or: categories.map((item) => ({ category: { $regex: item.category, $options: "i" } })),
+                        $or: categories.map((item) => ({ category: item.category })),
                     }
                     : {},
-            ],
-        }
-        : {};
-    const restaurants = keyword
-        ? yield restaurantModel_js_1.default.find(find)
-        : filters
-            ? yield restaurantModel_js_1.default.find(filter)
-            : yield restaurantModel_js_1.default.find();
-    //
+            ] });
+    if (keywordQuery)
+        finalQuery = Object.assign(Object.assign({}, finalQuery), { $text: { $search: keywords, $caseSensitive: false } });
+    if (!keywordQuery && !filtersQuery)
+        finalQuery = {};
+    const restaurants = yield restaurantModel_js_1.default.find(finalQuery).sort(sortFinal).lean();
     res.json(restaurants);
 }));
 exports.getAllRestaurants = getAllRestaurants;
