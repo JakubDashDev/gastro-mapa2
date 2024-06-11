@@ -1,3 +1,4 @@
+import { RestaurantType } from "../redux/restaurantsSlice";
 import { apiSlice } from "./apiSlice";
 
 type QueryType = {
@@ -8,23 +9,21 @@ type QueryType = {
 export const restaurantsApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getRestaurants: builder.query({
-      query: ({ keyword, filters }: QueryType) => ({
-        url: `/api/restaurants`,
+      query: (query: string) => ({
+        url: `/api/restaurants/${query}`,
         method: "GET",
-        params: { keyword, filters },
       }),
       providesTags: [{ type: "Restaurant", id: "LIST" }],
     }),
     getRestaurantsAdmin: builder.query({
-      query: ({ keyword, filters }: QueryType) => ({
-        url: `/api/restaurants/admin`,
+      query: (query: string) => ({
+        url: `/api/restaurants/admin/${query}`,
         method: "GET",
-        params: { keyword, filters },
       }),
       providesTags: [{ type: "Restaurant", id: "LIST" }],
     }),
     createRestaurants: builder.mutation({
-      query: (data: any) => ({
+      query: (data: RestaurantType) => ({
         url: "/api/restaurants",
         method: "POST",
         body: data,
