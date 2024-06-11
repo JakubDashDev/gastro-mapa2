@@ -11,10 +11,8 @@ function RestaurantsPage() {
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
 
-  const { isLoading, error } = useGetRestaurantsAdmin({
-    keyword: undefined,
-    filters: undefined,
-  });
+  const { isLoading, error } = useGetRestaurantsAdmin()
+ 
 
   if (isLoading)
     return (
@@ -40,8 +38,12 @@ function RestaurantsPage() {
           <RestaurantList isShow={showEditModal} setIsShow={setShowEditModal} />
         </div>
       </div>
-      <CreateRestaurantForm isShow={showModal} setIsShow={setShowModal} />
-      <EditRestaurantForm isShow={showEditModal} setIsShow={setShowEditModal} />
+      <CreateRestaurantForm isShow={showModal} setIsShow={setShowModal} key={showModal ? "key" : undefined} />
+      <EditRestaurantForm
+        isShow={showEditModal}
+        setIsShow={setShowEditModal}
+        key={showEditModal ? "key2" : undefined}
+      />
     </Fragment>
   );
 }

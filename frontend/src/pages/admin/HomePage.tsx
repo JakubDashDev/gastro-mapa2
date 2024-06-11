@@ -4,10 +4,7 @@ import { useAppSelector } from "../../redux/store";
 import Loader from "../../components/ui/Loader";
 
 function HomePage() {
-  const { isLoading, error } = useGetRestaurantsAdmin({
-    keyword: undefined,
-    filters: undefined,
-  });
+  const { isLoading, error } = useGetRestaurantsAdmin();
 
   const { restaurants } = useAppSelector((state) => state.restaurants);
 
