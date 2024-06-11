@@ -2,7 +2,7 @@ import React, { Fragment, useState } from "react";
 import RestaurantListComponent from "./RestaurantListComponent";
 import Search from "../features/Search";
 import SortDropdown from "../features/SortDropdown";
-import FilterButton from "../features/FilterButton";
+import FiltersContainer from "../features/FiltersContainer";
 import useWindowDimensions from "../../hooks/useWindoDimensions";
 import { MdMenuOpen } from "react-icons/md";
 import { FaTimes } from "react-icons/fa";
@@ -36,7 +36,7 @@ function SideNav({ data, darkMode, setDarkMode }: SideNavProps) {
       </div>
       <div className="container mx-auto px-4  flex justify-between items-center">
         <SortDropdown />
-        <FilterButton />
+        <FiltersContainer />
       </div>
 
       <div id="restaurantListSideNav" className="overflow-y-auto h-full">
@@ -46,7 +46,9 @@ function SideNav({ data, darkMode, setDarkMode }: SideNavProps) {
           </div>
         ) : (
           data.map((restaurant: RestaurantType) => {
-            return <RestaurantListComponent key={restaurant._id} restaurant={restaurant} setShowSidebar={setShowSidebar} />;
+            return (
+              <RestaurantListComponent key={restaurant._id} restaurant={restaurant} setShowSidebar={setShowSidebar} />
+            );
           })
         )}
       </div>

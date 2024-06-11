@@ -11,6 +11,10 @@ function Rating({ rating, isText, color }: RatingProps) {
   if (rating === "challange ostrości") {
     return <span className="text-red-500">Challange ostrości 🌶️</span>;
   }
+
+  if (rating === 5) {
+    return <span className="font-loader text-primary-500 -mb-1 text-2xl tracking-widest">{rating === 5 ? "MUALA" : rating}</span>;
+  }
   return (
     <div className={`flex gap-1 items-center text-base ${rating === 5 ? "text-primary-500" : color}`}>
       {typeof rating === "number" && (
@@ -23,7 +27,7 @@ function Rating({ rating, isText, color }: RatingProps) {
         </Fragment>
       )}
       {isText && (
-        <span className={`mx-1 ${rating === 5 ? "font-loader -mb-1" : "font-sans"}`}>
+        <span className={`mx-1 ${rating === 5 ? "font-loader text-3xl tracking-wider -mb-1" : "font-sans"}`}>
           {rating === 5 ? "MUALA" : rating}
         </span>
       )}
