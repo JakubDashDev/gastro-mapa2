@@ -10,13 +10,14 @@ type RestaurantListComponentProps = {
 };
 
 function RestaurantListComponent({ restaurant, setShowSidebar }: RestaurantListComponentProps) {
-  const { name, address, category, rating } = restaurant;
+  const { name, address, category, rating, geometry } = restaurant;
   const { mapMain } = useMap();
 
   const handleClick = () => {
     mapMain?.flyTo({
-      center: [address.lngLat[0], address.lngLat[1]],
-      zoom: 13,
+      center: [geometry.coordinates[0], geometry.coordinates[1]],
+      zoom: 16,
+      duration: 2000,
     });
     setShowSidebar(false);
   };

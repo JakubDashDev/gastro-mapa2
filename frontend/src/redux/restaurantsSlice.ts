@@ -3,13 +3,15 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 export type RestaurantType = {
   _id?: string;
   name: string;
-  rating: number | string;
+  rating: number | "challange ostrości";
   address: {
     street: string;
     zipCode: string;
     city: string;
     country: string;
-    lngLat: number[];
+  };
+  geometry: {
+    coordinates: [number, number];
   };
   category: string[];
   youtubeEmbed?: string;
@@ -40,7 +42,7 @@ const restaurantSlice = createSlice({
     updateRestaurants: (state, action: PayloadAction<RestaurantType>) => {
       return {
         ...state,
-        restaurants: [...state.restaurants, action.payload],
+        restaurants: [action.payload, ...state.restaurants],
       };
     },
     updateRestaurant: (state, action: PayloadAction<RestaurantType>) => {
