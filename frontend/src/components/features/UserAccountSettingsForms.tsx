@@ -55,24 +55,22 @@ export function UsernameForm() {
             autoComplete="off"
             required
           />
+          {isError && (
+            <div className="w-full bg-red-300 text-gray-900 flex items-center justify-center gap-2 py-2 rounded-md">
+              <span>{error && "data" in error && error.data.message}</span>
+            </div>
+          )}
           <PromiseButton
-            isSuccess={isSuccess}
-            isError={isError}
-            isLoading={isLoading}
             type="submit"
-            bgColor="primary-500"
-            hoverColor="bg-primary-400"
+            status={isLoading ? "loading" : isSuccess ? "success" : isError ? "error" : null}
+            className="bg-primary-500 rounded-lg py-1"
             disabled={username === userInfo?.username && !isSuccess}
           >
             Zapisz
           </PromiseButton>
         </Fragment>
       )}
-      {error && "data" in error && (
-        <div className="w-full py-2 px-5 border border-red-500 bg-red-500/30 text-black rounded-lg">
-          {error.data.message}
-        </div>
-      )}
+
       <button type="button" className="text-blue-500 self-end" onClick={handleOpen}>
         {isEdit ? "Anuluj" : "Zmień"}
       </button>
@@ -143,21 +141,18 @@ export function PasswordForm() {
             autoComplete="off"
             required
           />
+          {isError && (
+            <div className="w-full bg-red-300 text-gray-900 flex items-center justify-center gap-2 py-2 rounded-md">
+              <span>{error && "data" in error && error.data.message}</span>
+            </div>
+          )}
           <PromiseButton
-            isSuccess={isSuccess}
-            isError={isError}
-            isLoading={isLoading}
             type="submit"
-            bgColor="primary-500"
-            hoverColor="bg-primary-400"
+            status={isLoading ? "loading" : isSuccess ? "success" : isError ? "error" : null}
+            className="bg-primary-500 rounded-lg py-1"
           >
             Zapisz
           </PromiseButton>
-          {error && "data" in error && (
-            <div className="w-full py-2 px-5 border border-red-500 bg-red-500/30 text-black rounded-lg">
-              {error.data.message}
-            </div>
-          )}
         </div>
       )}
       <button type="button" className="text-blue-500 self-end" onClick={handlePasswordEdit}>
@@ -221,23 +216,20 @@ export function EmailForm() {
             autoComplete="off"
             required
           />
+          {isError && (
+            <div className="w-full bg-red-300 text-gray-900 flex items-center justify-center gap-2 py-2 rounded-md">
+              <span>{error && "data" in error && error.data.message}</span>
+            </div>
+          )}
           <PromiseButton
-            isSuccess={isSuccess}
-            isError={isError}
-            isLoading={isLoading}
             type="submit"
-            bgColor="primary-500"
-            hoverColor="bg-primary-400"
-            disabled={email === userInfo?.email && !isSuccess}
+            status={isLoading ? "loading" : isSuccess ? "success" : isError ? "error" : null}
+            className="bg-primary-500 rounded-lg py-1"
+            disabled={userInfo?.email === email}
           >
             Zapisz
           </PromiseButton>
         </Fragment>
-      )}
-      {error && "data" in error && (
-        <div className="w-full py-2 px-5 border border-red-500 bg-red-500/30 text-black rounded-lg">
-          {error.data.message}
-        </div>
       )}
       <button type="button" className="text-blue-500 self-end" onClick={handleOpen}>
         {isEdit ? "Anuluj" : "Zmień"}
