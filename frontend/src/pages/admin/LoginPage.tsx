@@ -1,80 +1,87 @@
 import React, { useState } from "react";
 import InputField from "../../components/features/InputField";
+import AdminInput from "../../components/features/AdminInput";
 import { useHandleSubmit } from "./LoginPage.hooks";
 import { Navigate } from "react-router-dom";
-import { useAppSelector } from "../../redux/store";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
 import PromiseButton from "../../components/ui/PromiseButton";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useLoginMutation } from "../../services/authApi";
+import { setAuth } from "../../redux/authSlice";
+import { FaBan, FaExclamationCircle, FaExclamationTriangle, FaInfo } from "react-icons/fa";
+
+interface IFormInput {
+  username: string;
+  email: string;
+  password: string;
+}
 
 function LoginPage() {
+  const dispatch = useAppDispatch();
   const { userInfo } = useAppSelector((state) => state.auth);
+  const { register, handleSubmit, formState } = useForm<IFormInput>();
+  const [login, { isLoading, isSuccess, isError, error }] = useLoginMutation();
 
-  const [state, setState] = useState({
-    username: "",
-    email: "",
-    password: "",
-  });
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setState((current) => ({
-      ...current,
-      [event.target.id]: event.target.value,
-    }));
+  const onSubmit: SubmitHandler<IFormInput> = (data) => {
+    login(data)
+      .unwrap()
+      .then((res) => dispatch(setAuth(res)));
   };
 
-  const { handleSubmit, isLoading, error, isError } = useHandleSubmit(state);
-
   if (userInfo) return <Navigate to="/dashboard" replace />;
-
   return (
-    <div className="w-screen h-[calc(100dvh)] bg-darkBg flex flex-col items-center justify-center gap-5">
+    <div className="w-screen h-[calc(100dvh)] bg-darkBg flex flex-col items-center justify-center gap-5 border border-gray-500">
       <h1 className="text-primary-500 text-3xl font-loader">Gastro Mapa</h1>
 
       <form
-        className="w-full sm:w-1/2 lg:w-1/3 shadow-lg rounded-md p-6 flex flex-col items-center justify-center gap-5 bg-white/20"
-        onSubmit={(event) => handleSubmit(event)}
+        className="w-full sm:w-1/2 lg:w-1/3 shadow-lg rounded-md p-6 flex flex-col justify-center gap-5 bg-neutral-200 "
+        onSubmit={handleSubmit(onSubmit)}
       >
-        <InputField
+        <AdminInput
+          field="username"
+          label="Nazwa użytkownika"
+          placeholder="Nazwa użytkownika"
           id="username"
           name="username"
           type="text"
-          value={state.username}
-          onChange={handleChange}
-          placeholder="Enter username"
-          required
+          register={register}
+          options={{ required: { value: true, message: "To pole jest wymagane!" } }}
+          error={formState.errors.username?.message}
         />
-        <InputField
+        <AdminInput
+          field="email"
+          label="Email"
+          placeholder="email@email.com"
           id="email"
           name="email"
           type="email"
-          value={state.email}
-          onChange={handleChange}
-          placeholder="Enter email"
-          required
+          register={register}
+          options={{ required: { value: true, message: "To pole jest wymagane!" } }}
+          error={formState.errors.email?.message}
         />
-        <InputField
+        <AdminInput
+          field="password"
+          label="Hasło"
+          placeholder="Hasło"
           id="password"
           name="password"
           type="password"
-          value={state.password}
-          onChange={handleChange}
-          placeholder="Enter password"
-          required
+          register={register}
+          options={{ required: { value: true, message: "To pole jest wymagane!" } }}
+          error={formState.errors.password?.message}
         />
         {isError && (
-          <div className="border border-red-500 bg-red-900/40 text-white p-2 rounded-lg">
-            {error && "data" in error
-              ? error.data.message
-              : "Wystąpił nieoczekiwany błąd 💔. Spróbuj ponownie, jeśli błąd nadal będzie występować skontakuj się z administratorem."}
+          <div className="w-full bg-red-300 text-gray-900 flex items-center justify-center gap-2 py-2 rounded-md">
+            <FaBan className="text-xl" />
+            <span>{error && "data" in error && error.data.message}</span>
           </div>
         )}
 
-        <div className="w-1/2">
+        <div className="w-full flex items-center justify-center">
           <PromiseButton
+            status={isLoading ? "loading" : isSuccess ? "success" : null}
             type="submit"
-            isLoading={isLoading}
-            isError={false}
-            isSuccess={false}
-            disabled={isLoading}
-            bgColor="primary-500"
+            className="bg-primary-500 hover:bg-primary-400 rounded-lg py-2 w-1/2"
           >
             Zaloguj
           </PromiseButton>
