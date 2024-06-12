@@ -66,12 +66,11 @@ function CreateRestaurantForm({ isShow, setIsShow }: ModalProps) {
             register={register}
             options={{ required: { value: true, message: "To jest wymagane!" } }}
             error={
-              formState.errors.googleLink?.message ||
-              (error && "data" in error
+              error && "data" in error
                 ? error.data.fields?.includes("name")
                   ? error.data.message
                   : undefined
-                : undefined)
+                : undefined
             }
           />
           <div>
@@ -81,6 +80,7 @@ function CreateRestaurantForm({ isShow, setIsShow }: ModalProps) {
               type="number"
               placeholder="Od 0.1 do 5.0"
               register={register}
+              step={0.1}
               options={{
                 required: { value: true, message: "To jest wymagane!" },
                 valueAsNumber: true,
