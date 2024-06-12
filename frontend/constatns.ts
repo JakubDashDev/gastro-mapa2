@@ -14,12 +14,13 @@ export const CATEGORY_ARRAY = [
   "chińczyk",
   "bar mleczny",
   "hot-dog",
-  "meksykańska",
-  "ostre 🌶️",
+  "kuchnia meksykańska",
   "tortilla",
-  "japońska",
+  "kuchnia japońska",
   "fast-food",
   "bar",
+  "burrito",
+  "kuchnia polska"
 ].sort((a, b) => a.localeCompare(b));
 
 export const RATING_ARRAY = [5, 4, 3, 2, 1, 0, "challange ostrości"];
