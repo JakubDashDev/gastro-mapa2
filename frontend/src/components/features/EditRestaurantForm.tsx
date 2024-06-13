@@ -66,6 +66,10 @@ function EditRestaurantForm({ isShow, setIsShow }: ModalProps) {
     submit(completeData);
   };
 
+  useEffect(() => {
+    if (isSuccess) setTimeout(() => setIsShow(false), 1000);
+  }, [isSuccess]);
+
   return (
     <Fragment>
       <Modal isShow={isShow} setIsShow={setIsShow}>

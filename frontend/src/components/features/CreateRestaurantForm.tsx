@@ -1,5 +1,5 @@
 import Modal, { ModalProps } from "../ui/Modal";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import LaneThrough from "../ui/LaneThrough";
 import { CATEGORY_ARRAY } from "../../../constatns";
 import PromiseButton from "../ui/PromiseButton";
@@ -53,6 +53,10 @@ function CreateRestaurantForm({ isShow, setIsShow }: ModalProps) {
     coordinates: undefined,
   });
   const [showSetAddressModal, setShowSetAddressModal] = useState(false);
+
+  useEffect(() => {
+    if (isSuccess) setTimeout(() => setIsShow(false), 1000);
+  }, [isSuccess]);
 
   return (
     <Fragment>
