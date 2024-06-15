@@ -175,7 +175,7 @@ function CreateRestaurantForm({ isShow, setIsShow }: ModalProps) {
               <span className="text-lg">{addressState?.city || "-"}</span>
             </div>
             <div className="flex gap-1 items-center">
-              <span className="text-gray-600">Miasto:</span>
+              <span className="text-gray-600">Kod pocztowy: </span>
               <span className="text-lg">{addressState?.zipCode || "-"}</span>
             </div>
             <div className="flex gap-1 items-center">
