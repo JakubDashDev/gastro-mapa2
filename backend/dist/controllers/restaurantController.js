@@ -65,7 +65,7 @@ const getAllRestaurants = (0, asyncHandler_js_1.default)((req, res) => __awaiter
 }));
 exports.getAllRestaurants = getAllRestaurants;
 const createRestaurant = (0, asyncHandler_js_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { name, rating, youtubeLink, youtubeEmbed, googleLink, category, address } = req.body;
+    const { name, rating, youtubeLink, youtubeEmbed, googleLink, category, address, geometry } = req.body;
     if (typeof rating === "string") {
         if (rating !== "challange ostrości") {
             res.status(400);
@@ -86,13 +86,14 @@ const createRestaurant = (0, asyncHandler_js_1.default)((req, res) => __awaiter(
         youtubeEmbed,
         category: category,
         address,
+        geometry,
     });
     const createdRestaurant = yield restaurant.save();
     res.status(201).json(createdRestaurant);
 }));
 exports.createRestaurant = createRestaurant;
 const updateRestaurant = (0, asyncHandler_js_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { name, rating, address, category, googleLink, youtubeLink, youtubeEmbed } = req.body;
+    const { name, rating, address, category, googleLink, youtubeLink, geometry } = req.body;
     const restaurant = yield restaurantModel_js_1.default.findById(req.params.id);
     const youtubeId = youtubeLink.split("https://youtu.be/")[1];
     //prettier-ignore
@@ -104,6 +105,7 @@ const updateRestaurant = (0, asyncHandler_js_1.default)((req, res) => __awaiter(
             restaurant.googleLink = googleLink,
             restaurant.youtubeLink = youtubeLink,
             restaurant.youtubeEmbed = `https://www.youtube.com/embed/${youtubeId}`;
+        restaurant.geometry = geometry;
         if (typeof rating === "string") {
             if (rating !== "challange ostrości") {
                 res.status(400);

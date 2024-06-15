@@ -59,7 +59,7 @@ interface CustomRequest<T> extends Request {
   body: T;
 }
 const createRestaurant = asnycHandler(async (req: CustomRequest<RestaurantType>, res: Response) => {
-  const { name, rating, youtubeLink, youtubeEmbed, googleLink, category, address } = req.body;
+  const { name, rating, youtubeLink, youtubeEmbed, googleLink, category, address, geometry } = req.body;
 
   if (typeof rating === "string") {
     if (rating !== "challange ostrości") {
@@ -83,6 +83,7 @@ const createRestaurant = asnycHandler(async (req: CustomRequest<RestaurantType>,
     youtubeEmbed,
     category: category,
     address,
+    geometry,
   });
 
   const createdRestaurant = await restaurant.save();
@@ -90,7 +91,7 @@ const createRestaurant = asnycHandler(async (req: CustomRequest<RestaurantType>,
 });
 
 const updateRestaurant = asnycHandler(async (req: CustomRequest<RestaurantType>, res: Response) => {
-  const { name, rating, address, category, googleLink, youtubeLink, youtubeEmbed } = req.body;
+  const { name, rating, address, category, googleLink, youtubeLink, geometry } = req.body;
 
   const restaurant = await Restaurant.findById(req.params.id);
 
@@ -105,6 +106,7 @@ const updateRestaurant = asnycHandler(async (req: CustomRequest<RestaurantType>,
     restaurant.googleLink = googleLink,
     restaurant.youtubeLink = youtubeLink,
     restaurant.youtubeEmbed = `https://www.youtube.com/embed/${youtubeId}`
+    restaurant.geometry = geometry
 
     if(typeof rating === "string"){
       if(rating !== "challange ostrości"){
