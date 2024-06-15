@@ -20,7 +20,8 @@ export const CATEGORY_ARRAY = [
   "fast-food",
   "bar",
   "burrito",
-  "kuchnia polska"
+  "kuchnia polska",
+  "inne"
 ].sort((a, b) => a.localeCompare(b));
 
 export const RATING_ARRAY = [5, 4, 3, 2, 1, 0, "challange ostrości"];
