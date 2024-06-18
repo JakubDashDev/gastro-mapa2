@@ -96,7 +96,7 @@ function EditRestaurantForm({ isShow, setIsShow }: ModalProps) {
               type="number"
               placeholder="Od 0.1 do 5.0"
               register={register}
-              step={0.1}
+              step={0.01}
               options={{
                 required: { value: true, message: "To jest wymagane!" },
                 valueAsNumber: true,
