@@ -11,6 +11,7 @@ import useWindowDimensions from "../../hooks/useWindoDimensions";
 
 interface INewMarker {
   zoom: number;
+  bounds: [number, number, number, number] | undefined;
   setClusterLeaves: React.Dispatch<
     React.SetStateAction<
       | Supercluster.PointFeature<{
@@ -23,7 +24,7 @@ interface INewMarker {
   >;
 }
 
-function NewMarkers({ zoom, setClusterLeaves }: INewMarker) {
+function NewMarkers({ zoom, setClusterLeaves, bounds }: INewMarker) {
   const { restaurants } = useAppSelector((state) => state.restaurants);
   const { width } = useWindowDimensions();
   const { mapMain } = useMap();
@@ -39,10 +40,8 @@ function NewMarkers({ zoom, setClusterLeaves }: INewMarker) {
     geometry: { type: "Point", coordinates: restaurant.geometry.coordinates },
   }));
 
-  const bounds = mapMain?.getBounds().toArray().flat() as [number, number, number, number];
-
   const { clusters, supercluster } = useSupercluster({
-    //@ts-ignore
+    //@ts-ignored
     points,
     bounds,
     zoom: zoom,
@@ -57,7 +56,7 @@ function NewMarkers({ zoom, setClusterLeaves }: INewMarker) {
     const hadnleClusterClick = (e: any) => {
       e.originalEvent.stopPropagation();
 
-      if (mapMain!.getZoom() < 13) {
+      if (zoom < 13) {
         mapMain?.flyTo({
           center: [coordinates[0], coordinates[1]],
           zoom: 13,
@@ -71,7 +70,7 @@ function NewMarkers({ zoom, setClusterLeaves }: INewMarker) {
     const handleMarkerClick = (e: any) => {
       e.originalEvent.stopPropagation();
 
-      if (mapMain!.getZoom() < 10) {
+      if (zoom < 10) {
         mapMain?.flyTo({
           center: [coordinates[0], coordinates[1]],
           zoom: 16,

@@ -1,5 +1,5 @@
 import "mapbox-gl/dist/mapbox-gl.css";
-import { GeolocateControl, Map as MapGL, Marker, NavigationControl, useMap } from "react-map-gl";
+import { GeolocateControl, Map as MapGL, Marker, NavigationControl, ViewStateChangeEvent, useMap } from "react-map-gl";
 import MapMarker from "../ui/MapMarker";
 import useWindowDimensions from "../../hooks/useWindoDimensions";
 import { RestaurantType } from "../../redux/restaurantsSlice";
@@ -14,10 +14,12 @@ type MapProps = {
   darkMode: boolean;
 };
 
-function Map({ data, darkMode }: MapProps) {
+function Map({ darkMode }: MapProps) {
   const { width } = useWindowDimensions();
   const [zoom, setZoom] = useState<number>(5);
-  const [popupInfo, setPopupInfo] = useState<RestaurantType | null>();
+  const [bounds, setBounds] = useState<[number, number, number, number] | undefined>([
+    16.469192156250813, 45.793379427951976, 25.565871843751097, 57.86447746933567,
+  ]); // hard coded bounds according to initial view
   const [clusterLeaves, setClusterLeaves] = useState<
     | Supercluster.PointFeature<{
         cluster: boolean;
@@ -26,6 +28,15 @@ function Map({ data, darkMode }: MapProps) {
       }>[]
     | undefined
   >(undefined);
+
+  const onZoom = (e: ViewStateChangeEvent) => {
+    setZoom(e.viewState.zoom);
+    setBounds(e.target.getBounds().toArray().flat() as [number, number, number, number]);
+  };
+
+  const onDrag = (e: ViewStateChangeEvent) => {
+    setBounds(e.target.getBounds().toArray().flat() as [number, number, number, number]);
+  };
 
   return (
     <MapGL
@@ -43,9 +54,10 @@ function Map({ data, darkMode }: MapProps) {
         border: width >= 1280 ? "2px solid #d3d3d3" : "",
         borderRadius: width >= 1280 ? "0.5rem" : "",
       }}
-      onZoom={(e) => setZoom(e.viewState.zoom)}
+      onZoom={onZoom}
+      onDrag={onDrag}
     >
-      <NewMarkers zoom={zoom} setClusterLeaves={setClusterLeaves} />
+      <NewMarkers zoom={zoom} setClusterLeaves={setClusterLeaves} bounds={bounds} />
       <ClusterLeavesModal clusterLeaves={clusterLeaves} setClusterLeaves={setClusterLeaves} />
 
       <GeolocateControl
