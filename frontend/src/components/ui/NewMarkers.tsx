@@ -24,7 +24,7 @@ interface INewMarker {
   >;
 }
 
-function NewMarkers({ zoom, setClusterLeaves, bounds }: INewMarker) {
+function NewMarkers({ zoom, setClusterLeaves }: INewMarker) {
   const { restaurants } = useAppSelector((state) => state.restaurants);
   const { width } = useWindowDimensions();
   const { mapMain } = useMap();
@@ -40,12 +40,14 @@ function NewMarkers({ zoom, setClusterLeaves, bounds }: INewMarker) {
     geometry: { type: "Point", coordinates: restaurant.geometry.coordinates },
   }));
 
+  const bounds = mapMain?.getBounds().toArray().flat() as [number, number, number, number];
+
   const { clusters, supercluster } = useSupercluster({
     //@ts-ignored
     points,
     bounds,
     zoom: zoom,
-    options: { radius: 1, maxZoom: 30 },
+    options: { radius: 0.5, maxZoom: 30 },
   });
 
   return clusters.map((cluster) => {
@@ -95,16 +97,11 @@ function NewMarkers({ zoom, setClusterLeaves, bounds }: INewMarker) {
           style={{ zIndex: 10 }}
         >
           <div className="relative cursor-pointer">
-            <img
-              src={img}
-              alt="marker"
-              width={50 + (pointCount / points.length) * 20}
-              height={50 + (pointCount / points.length) * 20}
-            />
+            <img src={img} alt="marker" width={50} height={50} />
             <div
               style={{
-                width: `${45 + (pointCount / points.length) * 20}px`,
-                height: `${45 + (pointCount / points.length) * 20}px`,
+                width: `${45}px`,
+                height: `${45}px`,
               }}
               className="absolute top-0 left-[51%] bg-black/30 rounded-full translate-x-[-50%] tranlsate-y-[50%]"
             ></div>
@@ -117,9 +114,9 @@ function NewMarkers({ zoom, setClusterLeaves, bounds }: INewMarker) {
     }
 
     return (
-      <Fragment>
+      <Fragment key={cluster.properties.restaurant._id}>
         <Marker
-          key={cluster.properties.restaurantId}
+          key={cluster.properties.restaurant._id}
           latitude={coordinates[1]}
           longitude={coordinates[0]}
           onClick={(e) => {

@@ -16,7 +16,7 @@ type MapProps = {
 
 function Map({ darkMode }: MapProps) {
   const { width } = useWindowDimensions();
-  const [zoom, setZoom] = useState<number>(5);
+  const [zoom, setZoom] = useState<number>(10);
   const [bounds, setBounds] = useState<[number, number, number, number] | undefined>([
     16.469192156250813, 45.793379427951976, 25.565871843751097, 57.86447746933567,
   ]); // hard coded bounds according to initial view
@@ -45,7 +45,7 @@ function Map({ darkMode }: MapProps) {
       initialViewState={{
         longitude: 21.017532,
         latitude: 52.237049,
-        zoom: 5,
+        zoom: 10,
       }}
       mapStyle={darkMode ? "mapbox://styles/mapbox/navigation-night-v1" : "mapbox://styles/mapbox/navigation-day-v1"}
       style={{
