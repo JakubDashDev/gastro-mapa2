@@ -10,6 +10,7 @@ import getParams from "../../utils/getUrlParams";
 function Search() {
   const { keywordQuery } = getParams(location);
   const [inputState, setInputState] = useState<string>(keywordQuery);
+  const [timer, setTimer] = useState<any>(null); //setTimeout on handleChange
 
   const navigate = useNavigate();
 
@@ -29,6 +30,26 @@ function Search() {
     getRestaurants(location.search);
   };
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputState(e.target.value);
+
+    clearTimeout(timer);
+
+    const newTimer = setTimeout(() => {
+      if (inputState.length === 0) {
+        const params = deleteUrlParams("keyword");
+        navigate({ search: params });
+      } else {
+        const params = setParams("keyword", e.target.value);
+        navigate({ search: params });
+      }
+
+      getRestaurants(location.search);
+    }, 750);
+
+    setTimer(newTimer);
+  };
+
   const handleClearInput = () => {
     const params = deleteUrlParams("keyword");
     navigate({ search: params });
@@ -36,14 +57,6 @@ function Search() {
     setInputState("");
     getRestaurants(location.search);
   };
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      handleSearch();
-    }, 1000);
-
-    return () => clearTimeout(timer);
-  }, [inputState]);
 
   return (
     <Fragment>
@@ -61,8 +74,8 @@ function Search() {
           }`}
           placeholder="Wyszukaj..."
           value={inputState}
-          onChange={(e) => setInputState(e.currentTarget.value)}
-        />
+          onChange={handleChange}
+        />{" "}
         {inputState.length > 0 && (
           <button
             type="button"
@@ -71,7 +84,7 @@ function Search() {
           >
             <MdOutlineClose />
           </button>
-        )}
+        )}{" "}
       </form>
       {isError && (
         <div className="border border-red-500 bg-red-900/40 p-2 rounded-lg">
