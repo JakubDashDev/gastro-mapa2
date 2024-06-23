@@ -9,7 +9,7 @@ export const CATEGORY_ARRAY = [
   "jarmark",
   "dziadkowie bizensu",
   "restauracja",
-  "słodycz",
+  "słodkości",
   "zapiekanka",
   "chińczyk",
   "bar mleczny",
@@ -21,7 +21,11 @@ export const CATEGORY_ARRAY = [
   "bar",
   "burrito",
   "kuchnia polska",
-  "inne"
+  "inne",
+  "kuchnia turecka",
+  "kuchnia włoska",
+  "dworzec type",
+  "cukiernia / pierkania",
 ].sort((a, b) => a.localeCompare(b));
 
 export const RATING_ARRAY = [5, 4, 3, 2, 1, 0, "challange ostrości"];
