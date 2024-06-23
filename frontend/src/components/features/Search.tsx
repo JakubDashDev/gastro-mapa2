@@ -5,19 +5,19 @@ import Loader from "../ui/Loader";
 import setParams from "../../utils/setUrlParams";
 import { useNavigate } from "react-router-dom";
 import deleteUrlParams from "../../utils/deleteUrlParams";
+import getParams from "../../utils/getUrlParams";
 
 function Search() {
-  //prettier-ignore
-  const savedValue = localStorage.getItem('searchInput') ? JSON.parse(localStorage.getItem('searchInput') || "") : ""
-  const [inputState, setInputState] = useState<string>(savedValue);
+  const { keywordQuery } = getParams(location);
+  const [inputState, setInputState] = useState<string>(keywordQuery);
 
   const navigate = useNavigate();
 
   const { isCustomText } = useCustomText(inputState);
   const { getRestaurants, error, isError, isFetching } = useGetRestaurantsLazy();
 
-  const handleSearch = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const handleSearch = (event?: FormEvent<HTMLFormElement>) => {
+    event?.preventDefault();
     if (inputState.length === 0) {
       const params = deleteUrlParams("keyword");
       navigate({ search: params });
@@ -35,13 +35,15 @@ function Search() {
 
     setInputState("");
     getRestaurants(location.search);
-    localStorage.removeItem("searchInput");
   };
 
-  const handleInput = (event: React.FormEvent<HTMLInputElement>) => {
-    setInputState(event.currentTarget.value);
-    localStorage.setItem("searchInput", JSON.stringify(inputState));
-  };
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      handleSearch();
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [inputState]);
 
   return (
     <Fragment>
@@ -59,7 +61,7 @@ function Search() {
           }`}
           placeholder="Wyszukaj..."
           value={inputState}
-          onChange={handleInput}
+          onChange={(e) => setInputState(e.currentTarget.value)}
         />
         {inputState.length > 0 && (
           <button
