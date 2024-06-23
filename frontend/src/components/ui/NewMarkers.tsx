@@ -72,10 +72,10 @@ function NewMarkers({ zoom, setClusterLeaves }: INewMarker) {
     const handleMarkerClick = (e: any) => {
       e.originalEvent.stopPropagation();
 
-      if (zoom < 10) {
+      if (zoom < 16) {
         mapMain?.flyTo({
           center: [coordinates[0], coordinates[1]],
-          zoom: 16,
+          zoom: 17,
           duration: 2000,
         });
 

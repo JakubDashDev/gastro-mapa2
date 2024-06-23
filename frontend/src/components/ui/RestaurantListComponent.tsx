@@ -16,7 +16,7 @@ function RestaurantListComponent({ restaurant, setShowSidebar }: RestaurantListC
   const handleClick = () => {
     mapMain?.flyTo({
       center: [geometry.coordinates[0], geometry.coordinates[1]],
-      zoom: 16,
+      zoom: 17,
       duration: 2000,
     });
     setShowSidebar(false);
