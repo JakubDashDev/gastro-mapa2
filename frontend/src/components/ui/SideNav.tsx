@@ -8,6 +8,7 @@ import { MdMenuOpen } from "react-icons/md";
 import { FaTimes } from "react-icons/fa";
 import { useSpring, animated, useTransition } from "@react-spring/web";
 import { RestaurantType } from "../../redux/restaurantsSlice";
+import getParams from "../../utils/getUrlParams";
 
 type SideNavProps = {
   data: RestaurantType[];
@@ -73,6 +74,8 @@ type ContainerProps = {
 };
 function Container({ children, showSidebar, setShowSidebar }: ContainerProps) {
   const { width } = useWindowDimensions();
+  const { filtersQuery, keywordQuery } = getParams(location);
+  const paramsTogheter = { filtersQuery, keywordQuery };
 
   const transition = useTransition(showSidebar, {
     from: { transform: "translateX(-100%)" },
@@ -93,6 +96,11 @@ function Container({ children, showSidebar, setShowSidebar }: ContainerProps) {
           onClick={() => setShowSidebar((current) => !current)}
         >
           <MdMenuOpen />
+          {Object.values(paramsTogheter).filter((e) => e.length > 0).length > 0 && (
+            <span className="absolute -top-2 -right-1 bg-red-500 text-sm w-[20px] rounded-full">
+              {Object.values(paramsTogheter).filter((e) => e.length > 0).length}
+            </span>
+          )}
         </button>
         {transition(
           (styles, item) =>
