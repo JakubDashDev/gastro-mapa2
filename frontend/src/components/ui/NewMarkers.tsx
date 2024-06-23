@@ -94,7 +94,6 @@ function NewMarkers({ zoom, setClusterLeaves }: INewMarker) {
           latitude={coordinates[1]}
           longitude={coordinates[0]}
           onClick={(e) => hadnleClusterClick(e)}
-          style={{ zIndex: 10 }}
         >
           <div className="relative cursor-pointer">
             <img src={img} alt="marker" width={50} height={50} />
