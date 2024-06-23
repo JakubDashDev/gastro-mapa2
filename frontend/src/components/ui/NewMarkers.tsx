@@ -102,7 +102,7 @@ function NewMarkers({ zoom, setClusterLeaves }: INewMarker) {
                 width: `${45}px`,
                 height: `${45}px`,
               }}
-              className="absolute top-0 left-[51%] bg-black/30 rounded-full translate-x-[-50%] tranlsate-y-[50%]"
+              className="absolute top-[2%] left-[51%] bg-black/30 rounded-full translate-x-[-50.25%] translate-y-[-1%]"
             ></div>
             <span className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-[50px] h-[50px] flex items-center justify-center text-primary-900 text-lg">
               {pointCount}

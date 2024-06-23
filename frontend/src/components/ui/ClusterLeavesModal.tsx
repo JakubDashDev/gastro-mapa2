@@ -31,7 +31,7 @@ function ClusterLeavesModal({ clusterLeaves, setClusterLeaves }: IClusterLeavesM
     <Modal isShow={clusterLeaves === undefined ? false : true} setIsShow={() => setClusterLeaves(undefined)}>
       <button
         type="button"
-        className="absolute top-0 right-2 text-white text-xl p-2"
+        className="absolute top-0 right-2 text-black dark:text-white text-xl p-2"
         onClick={() => setClusterLeaves(undefined)}
       >
         <FaTimes />
