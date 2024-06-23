@@ -49,7 +49,7 @@ export default ClusterLeavesModal;
 
 function SingleClusterLeaf({ clusterLeaf }: { clusterLeaf: RestaurantType }) {
   return (
-    <div className="flex flex-col gap-2 font-sans text-white pb-4">
+    <div className="flex flex-col gap-2 font-sans text-black dark:text-white pb-4">
       <iframe id="ytplayer" width="350" height="200" src={clusterLeaf?.youtubeEmbed} className="rounded-lg" />
       <div className="flex flex-col pb-1">
         <span className="text-lg">{clusterLeaf?.name}</span>
@@ -78,7 +78,7 @@ function SingleClusterLeaf({ clusterLeaf }: { clusterLeaf: RestaurantType }) {
           <a
             href={clusterLeaf?.googleLink}
             target="_blank"
-            className="flex justify-center items-center border border-gray-300 text-gray-300 p-2 text-xl rounded-full transition-all hover:scale-105"
+            className="flex justify-center items-center border border-gray-500 dark:border-gray-200 text-gray-500 dark:text-gray-200 p-2 text-xl rounded-full transition-all hover:scale-105"
           >
             <BiSolidNavigation />
           </a>
