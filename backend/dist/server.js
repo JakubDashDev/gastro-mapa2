@@ -48,6 +48,8 @@ app.use(express_1.default.json({ limit: "10kb" }));
 app.use((0, express_mongo_sanitize_1.default)());
 //CORS
 app.use((0, cors_1.default)({
+    origin: "https://gastro-mapa2-frontend-3q8xjf7ok-jakubdotdevs-projects.vercel.app/",
+    methods: ["POST", "GET"],
     credentials: true,
 }));
 //COOKIES
