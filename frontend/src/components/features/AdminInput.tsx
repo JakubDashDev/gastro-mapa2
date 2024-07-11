@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, InputHTMLAttributes } from "react";
+import React, { InputHTMLAttributes } from "react";
 import { FaLock } from "react-icons/fa";
 import { FieldPath, FieldValues, Path, RegisterOptions, UseFormRegister } from "react-hook-form";
 

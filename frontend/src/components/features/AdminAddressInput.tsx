@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import AdminSetAddressModal from "./AdminSetAddressModal";
+import React from "react";
 
 interface IAddressState {
   street: string | undefined;

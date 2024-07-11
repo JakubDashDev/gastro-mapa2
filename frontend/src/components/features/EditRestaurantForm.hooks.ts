@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
-import { RestaurantType, deleteRestaurant, updateRestaurant } from "../../redux/restaurantsSlice";
-import { useAppDispatch, useAppSelector } from "../../redux/store";
+import { deleteRestaurant, updateRestaurant } from "../../redux/restaurantsSlice";
+import { useAppDispatch } from "../../redux/store";
 import { useDeleteRestaurantMutation, useUpdateRestaurantMutation } from "../../services/restaurantsApi";
 
 interface IAddressState {

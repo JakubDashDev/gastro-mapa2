@@ -1,11 +1,9 @@
 import "mapbox-gl/dist/mapbox-gl.css";
-import { GeolocateControl, Map as MapGL, Marker, NavigationControl, ViewStateChangeEvent, useMap } from "react-map-gl";
-import MapMarker from "../ui/MapMarker";
+import { GeolocateControl, Map as MapGL, NavigationControl, ViewStateChangeEvent } from "react-map-gl";
 import useWindowDimensions from "../../hooks/useWindoDimensions";
 import { RestaurantType } from "../../redux/restaurantsSlice";
-import useSuperclaster from "use-supercluster";
 import { useState } from "react";
-import NewMarkers from "../ui/NewMarkers";
+import MapMarkers from "../ui/MapMarkers";
 import Supercluster from "supercluster";
 import ClusterLeavesModal from "../ui/ClusterLeavesModal";
 
@@ -57,7 +55,7 @@ function Map({ darkMode }: MapProps) {
       onZoom={onZoom}
       onDrag={onDrag}
     >
-      <NewMarkers zoom={zoom} setClusterLeaves={setClusterLeaves} bounds={bounds} />
+      <MapMarkers zoom={zoom} setClusterLeaves={setClusterLeaves} bounds={bounds} />
       <ClusterLeavesModal clusterLeaves={clusterLeaves} setClusterLeaves={setClusterLeaves} />
 
       <GeolocateControl

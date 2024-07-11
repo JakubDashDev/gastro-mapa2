@@ -3,7 +3,6 @@ import { RATING_ARRAY, CATEGORY_ARRAY } from "../../../constatns";
 import Rating from "../ui/Rating";
 import useGetRestaurantsLazy from "../../hooks/useGetRestaurantsLazy";
 import { useTransition, animated } from "@react-spring/web";
-import { useAppDispatch } from "../../redux/store";
 import PromiseButton from "../ui/PromiseButton";
 import Loader from "../ui/Loader";
 import { useNavigate } from "react-router-dom";

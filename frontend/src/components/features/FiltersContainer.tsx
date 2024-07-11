@@ -1,6 +1,5 @@
 import React, { Fragment, useState } from "react";
 import { FaArrowLeft, FaFilter } from "react-icons/fa";
-import { useAppSelector } from "../../redux/store";
 import { useTransition, animated } from "@react-spring/web";
 import Filters from "./Filters";
 import getParams from "../../utils/getUrlParams";

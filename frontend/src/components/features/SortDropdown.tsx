@@ -1,7 +1,5 @@
 import React from "react";
 import Select from "./SelectDropdown";
-import { sortRestaurants } from "../../redux/restaurantsSlice";
-import { useAppDispatch } from "../../redux/store";
 import setParams from "../../utils/setUrlParams";
 import { useNavigate } from "react-router-dom";
 import useGetRestaurantsLazy from "../../hooks/useGetRestaurantsLazy";

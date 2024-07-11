@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { useCreateRestaurantsMutation } from "../../services/restaurantsApi";
-import { useAppDispatch, useAppSelector } from "../../redux/store";
-import { RestaurantType, updateRestaurants } from "../../redux/restaurantsSlice";
+import { useAppDispatch } from "../../redux/store";
+import { updateRestaurants } from "../../redux/restaurantsSlice";
 
 interface IaddressState {
   street: string | undefined;

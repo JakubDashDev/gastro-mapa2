@@ -1,6 +1,6 @@
-import React, { useState, MouseEvent, Fragment } from "react";
+import React, { useState, Fragment } from "react";
 import { useAppSelector } from "../../redux/store";
-import { Marker, MarkerEvent, useMap } from "react-map-gl";
+import { Marker, useMap } from "react-map-gl";
 import useSupercluster from "use-supercluster";
 import img from "../../assets/logo.png";
 import MarkerPopup from "./MarkerPopup";
@@ -24,7 +24,7 @@ interface INewMarker {
   >;
 }
 
-function NewMarkers({ zoom, setClusterLeaves }: INewMarker) {
+function MapMarkers({ zoom, setClusterLeaves }: INewMarker) {
   const { restaurants } = useAppSelector((state) => state.restaurants);
   const { width } = useWindowDimensions();
   const { mapMain } = useMap();
@@ -133,4 +133,4 @@ function NewMarkers({ zoom, setClusterLeaves }: INewMarker) {
   });
 }
 
-export default NewMarkers;
+export default MapMarkers;
