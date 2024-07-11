@@ -12,6 +12,7 @@
 - **Add Restaurants**: Admins can add new restaurants to the database.
 - **Edit Restaurants**: Update existing restaurant details to keep information current.
 - **Delete Restaurants**: Remove restaurants from the database when they are no longer relevant.
+![gastromapa-ss-1](https://github.com/user-attachments/assets/56e9ec4a-b329-4034-af56-7511274f94c3)
 
 ## Live Demo
 Check out the live version of the application: [Gastro-Mapa Live](https://gastro-mapa2-frontend.vercel.app/)
