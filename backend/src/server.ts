@@ -52,7 +52,7 @@ app.use(monogoSanitize());
 //CORS
 app.use(
   cors({
-    origin: "https://gastro-mapa2-frontend-3q8xjf7ok-jakubdotdevs-projects.vercel.app/",
+    origin: "https://gastro-mapa2-frontend.vercel.app/",
     methods: ["POST", "GET"],
     credentials: true,
   })
