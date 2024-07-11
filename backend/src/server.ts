@@ -77,13 +77,6 @@ connectDB();
 app.use("/api/restaurants", restaurantRoutes);
 app.use("/api/admin", adminRoutes);
 
-if (process.env.NODE_ENV === "prod") {
-  const __dirname = path.resolve();
-
-  app.use(express.static(path.join(__dirname, "../frontend/dist")));
-  app.get("*", (req, res) => res.sendFile(path.resolve(__dirname, "..", "frontend", "dist", "index.html")));
-}
-
 //Error middleware
 app.use(errorHandler);
 
