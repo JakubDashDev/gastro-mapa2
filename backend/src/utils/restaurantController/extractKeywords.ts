@@ -7,6 +7,6 @@ export const extractKeywords = (req: Request) => {
     keywordQuery
       ?.split(/\s+/)
       .map((kw) => `"${kw}"`)
-      .join(" ") ?? ""
+      .join(" ") ?? undefined
   );
 };
