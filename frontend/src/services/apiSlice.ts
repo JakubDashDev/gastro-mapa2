@@ -12,7 +12,7 @@ interface CustomError {
 }
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "https://gastro-mapa-backend.vercel.app/",
+  baseUrl: BASE_URL,
   credentials: "include",
 });
 
