@@ -13,7 +13,7 @@ function SortDropdown() {
   const { getRestaurants, isLoading, error, isError, isSuccess, isFetching } = useGetRestaurantsLazy();
 
   const handleSort = (event: React.MouseEvent<HTMLButtonElement>) => {
-    const params = setParams("sort", JSON.stringify(event.currentTarget.value));
+    const params = setParams("sort", event.currentTarget.value);
     navigate({ search: params });
 
     getRestaurants(location.search);
@@ -28,7 +28,7 @@ function SortDropdown() {
         </div>
       ) : (
         <Select
-          defaultValue={sort ? JSON.parse(sort) : "Od: najnowszych"}
+          defaultValue={sort ? sort : "Od: najnowszych"}
           className="w-full border border-gray-300 px-1 py-1 rounded-md outline-none"
         >
           <Select.Option value="Alfabetycznie (A-Z)" handleClick={handleSort}>

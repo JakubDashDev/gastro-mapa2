@@ -1,4 +1,5 @@
-export const BASE_URL = "http://localhost:3000";
+export const BASE_URL =
+  process.env.NODE_ENV === "production" ? "https://gastro-mapa-backend.vercel.app/" : "http://localhost:5000";
 
 export const RESTAURANT_URL = "/api/restaurants/";
 
