@@ -1,4 +1,6 @@
 import { Request, Response } from "express";
+import { Rating } from "./generateRatingQuery";
+import { Category } from "./generateCategoryQuery";
 
 export function getFilters(req: Request) {
   const filtersQuery = req.query.filters as string;
@@ -11,8 +13,8 @@ export function getFilters(req: Request) {
     return { ratings: [], categories: [] };
   }
 
-  const ratings = filters?.filter((item: any) => item.hasOwnProperty("$gte")) ?? [];
-  const categories = filters?.filter((item: any) => item.hasOwnProperty("category")) ?? [];
+  const ratings = (filters?.filter((item: any) => item.hasOwnProperty("$gte")) as Rating[]) ?? [];
+  const categories = filters?.filter((item: any) => item.hasOwnProperty("category") as Category[]) ?? [];
 
   return { ratings, categories };
 }
