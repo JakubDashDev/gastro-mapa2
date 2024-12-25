@@ -47,11 +47,20 @@ app.use(express_1.default.json({ limit: "10kb" }));
 //Data sanitization
 app.use((0, express_mongo_sanitize_1.default)());
 //CORS
-app.use((0, cors_1.default)({
-    origin: "https://gastro-mapa2-frontend.vercel.app",
-    methods: ["POST", "GET"],
-    credentials: true,
-}));
+if (process.env.NODE_ENV === "development") {
+    app.use((0, cors_1.default)({
+        origin: "http://localhost:5173",
+        methods: ["POST", "GET"],
+        credentials: true,
+    }));
+}
+else {
+    app.use((0, cors_1.default)({
+        origin: "https://gastro-mapa2-frontend.vercel.app",
+        methods: ["POST", "GET"],
+        credentials: true,
+    }));
+}
 //COOKIES
 app.use((0, cookie_parser_1.default)());
 //Limit request

@@ -50,13 +50,23 @@ app.use(express.json({ limit: "10kb" }));
 app.use(monogoSanitize());
 
 //CORS
-app.use(
-  cors({
-    origin: "https://gastro-mapa2-frontend.vercel.app",
-    methods: ["POST", "GET"],
-    credentials: true,
-  })
-);
+if (process.env.NODE_ENV === "development") {
+  app.use(
+    cors({
+      origin: "http://localhost:5173",
+      methods: ["POST", "GET"],
+      credentials: true,
+    })
+  );
+} else {
+  app.use(
+    cors({
+      origin: "https://gastro-mapa2-frontend.vercel.app",
+      methods: ["POST", "GET"],
+      credentials: true,
+    })
+  );
+}
 
 //COOKIES
 app.use(cookies());
