@@ -1,5 +1,5 @@
 import { test } from "@jest/globals";
-import { getFilters } from "../utils/restaurantController/extractFilters";
+import { extractFilters } from "../utils/restaurantController/extractFilters";
 import { Request } from "express";
 
 test("should return an array of filters", () => {
@@ -11,7 +11,7 @@ test("should return an array of filters", () => {
   } as Partial<Request> as Request;
 
   // Act
-  const filters = getFilters(req);
+  const filters = extractFilters(req);
 
   // Assert
   expect(filters).toEqual({
@@ -27,7 +27,7 @@ test("should return an empty array if no filters are provided", () => {
   } as Partial<Request> as Request;
 
   // Act
-  const filters = getFilters(req);
+  const filters = extractFilters(req);
 
   // Assert
   expect(filters).toEqual({ ratings: [], categories: [] });
@@ -42,7 +42,7 @@ test("should return an empty array if filters are not valid", () => {
   } as Partial<Request> as Request;
 
   // Act
-  const filters = getFilters(req);
+  const filters = extractFilters(req);
 
   // Assert
   expect(filters).toEqual({ ratings: [], categories: [] });

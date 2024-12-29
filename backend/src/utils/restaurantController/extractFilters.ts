@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { Rating } from "./generateRatingQuery";
 import { Category } from "./generateCategoryQuery";
 
-export function getFilters(req: Request) {
+export function extractFilters(req: Request) {
   const filtersQuery = req.query.filters as string;
 
   let filters = [];

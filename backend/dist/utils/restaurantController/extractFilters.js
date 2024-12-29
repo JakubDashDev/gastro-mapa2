@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getFilters = void 0;
-function getFilters(req) {
+exports.extractFilters = void 0;
+function extractFilters(req) {
     var _a, _b;
     const filtersQuery = req.query.filters;
     let filters = [];
@@ -15,4 +15,4 @@ function getFilters(req) {
     const categories = (_b = filters === null || filters === void 0 ? void 0 : filters.filter((item) => item.hasOwnProperty("category"))) !== null && _b !== void 0 ? _b : [];
     return { ratings, categories };
 }
-exports.getFilters = getFilters;
+exports.extractFilters = extractFilters;

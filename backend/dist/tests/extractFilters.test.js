@@ -10,7 +10,7 @@ const extractFilters_1 = require("../utils/restaurantController/extractFilters")
         },
     };
     // Act
-    const filters = (0, extractFilters_1.getFilters)(req);
+    const filters = (0, extractFilters_1.extractFilters)(req);
     // Assert
     expect(filters).toEqual({
         ratings: [{ $gte: 4 }],
@@ -23,7 +23,7 @@ const extractFilters_1 = require("../utils/restaurantController/extractFilters")
         query: {},
     };
     // Act
-    const filters = (0, extractFilters_1.getFilters)(req);
+    const filters = (0, extractFilters_1.extractFilters)(req);
     // Assert
     expect(filters).toEqual({ ratings: [], categories: [] });
 });
@@ -35,7 +35,7 @@ const extractFilters_1 = require("../utils/restaurantController/extractFilters")
         },
     };
     // Act
-    const filters = (0, extractFilters_1.getFilters)(req);
+    const filters = (0, extractFilters_1.extractFilters)(req);
     // Assert
     expect(filters).toEqual({ ratings: [], categories: [] });
 });
