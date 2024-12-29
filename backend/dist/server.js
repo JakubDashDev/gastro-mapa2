@@ -50,14 +50,14 @@ app.use((0, express_mongo_sanitize_1.default)());
 if (process.env.NODE_ENV === "development") {
     app.use((0, cors_1.default)({
         origin: "http://localhost:5173",
-        methods: ["POST", "GET"],
+        methods: ["POST", "GET", "PUT", "DELETE"],
         credentials: true,
     }));
 }
 else {
     app.use((0, cors_1.default)({
         origin: "https://gastro-mapa2-frontend.vercel.app",
-        methods: ["POST", "GET"],
+        methods: ["POST", "GET", "PUT", "DELETE"],
         credentials: true,
     }));
 }

@@ -54,7 +54,7 @@ if (process.env.NODE_ENV === "development") {
   app.use(
     cors({
       origin: "http://localhost:5173",
-      methods: ["POST", "GET"],
+      methods: ["POST", "GET", "PUT", "DELETE"],
       credentials: true,
     })
   );
@@ -62,7 +62,7 @@ if (process.env.NODE_ENV === "development") {
   app.use(
     cors({
       origin: "https://gastro-mapa2-frontend.vercel.app",
-      methods: ["POST", "GET"],
+      methods: ["POST", "GET", "PUT", "DELETE"],
       credentials: true,
     })
   );
