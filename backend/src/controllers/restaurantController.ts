@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import asnycHandler from "../middleware/asyncHandler";
-import Restaurant, { RestaurantType } from "../models/restaurantModel";
-import RestaurantService from "../services/";
+import { RestaurantType } from "../models/restaurantModel";
+import { RestaurantService } from "../services/";
 
 const getAllRestaurants = async (req: Request, res: Response) => {
   const restaurants = await RestaurantService.listRestaurants(req);

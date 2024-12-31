@@ -14,24 +14,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteRestuarant = exports.updateRestaurant = exports.createRestaurant = exports.getAllRestaurants = void 0;
 const asyncHandler_1 = __importDefault(require("../middleware/asyncHandler"));
-const services_1 = __importDefault(require("../services/"));
+const services_1 = require("../services/");
 const getAllRestaurants = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const restaurants = yield services_1.default.listRestaurants(req);
+    const restaurants = yield services_1.RestaurantService.listRestaurants(req);
     res.json(restaurants);
 });
 exports.getAllRestaurants = getAllRestaurants;
 const createRestaurant = (0, asyncHandler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const restaurant = yield services_1.default.createRestaurant(req);
+    const restaurant = yield services_1.RestaurantService.createRestaurant(req);
     res.status(201).json(restaurant);
 }));
 exports.createRestaurant = createRestaurant;
 const updateRestaurant = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const restaurant = yield services_1.default.updateRestaurant(req);
+    const restaurant = yield services_1.RestaurantService.updateRestaurant(req);
     res.status(200).json(restaurant);
 });
 exports.updateRestaurant = updateRestaurant;
 const deleteRestuarant = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const restaurant = yield services_1.default.deleteRestuarant(req);
+    const restaurant = yield services_1.RestaurantService.deleteRestuarant(req);
     if (restaurant.deletedCount > 0)
         res.status(200).json({ message: "Restauracja została usunięta!" });
 });
