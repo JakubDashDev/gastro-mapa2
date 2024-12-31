@@ -1,4 +1,7 @@
+import AdminUser from "../models/adminUserModel";
 import Restaurant from "../models/restaurantModel";
-import RestaurantService from "./restaurantService";
+import AuthServiceFn from "./authService";
+import RestaurantServiceFn from "./restaurantService";
 
-export default RestaurantService(Restaurant);
+export const RestaurantService = RestaurantServiceFn(Restaurant);
+export const AuthService = AuthServiceFn(AdminUser);
