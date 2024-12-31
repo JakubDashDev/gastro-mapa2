@@ -25,14 +25,14 @@ const createRestaurant = (0, asyncHandler_1.default)((req, res) => __awaiter(voi
     res.status(201).json(restaurant);
 }));
 exports.createRestaurant = createRestaurant;
-const updateRestaurant = (0, asyncHandler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const updateRestaurant = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const restaurant = yield services_1.default.updateRestaurant(req);
     res.status(200).json(restaurant);
-}));
+});
 exports.updateRestaurant = updateRestaurant;
-const deleteRestuarant = (0, asyncHandler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const deleteRestuarant = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const restaurant = yield services_1.default.deleteRestuarant(req);
     if (restaurant.deletedCount > 0)
         res.status(200).json({ message: "Restauracja została usunięta!" });
-}));
+});
 exports.deleteRestuarant = deleteRestuarant;

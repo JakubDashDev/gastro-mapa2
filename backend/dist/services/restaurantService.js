@@ -57,7 +57,7 @@ const deleteRestuarant = (Restaurant) => (req) => __awaiter(void 0, void 0, void
     const currentRestaurant = yield Restaurant.findById(req.params.id);
     if (!currentRestaurant)
         throw new Error("Nie znaleziono restauracji");
-    return currentRestaurant.deleteOne({ _id: currentRestaurant.id });
+    return currentRestaurant.deleteOne();
 });
 exports.default = (Restaurant) => {
     return {
